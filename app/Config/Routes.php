@@ -9,14 +9,16 @@ use CodeIgniter\Router\RouteCollection;
 // Public routes
 $routes->get('/', 'User\Home::index', ['as' => 'home']);
 
-$routes->group('hotel', static function ($routes): void {
-    $routes->get('details', 'User\Hoteldetails::details', ['as' => 'hotel.details']);
+$routes->group('hotels', static function ($routes): void {
+    $routes->get('', 'User\HotelDetails::details', ['as' => 'hotel.details']);
+    $routes->get('rooms', 'User\HotelDetails::rooms', ['as' => 'hotel.room.details']);
+    $routes->get('gallery', 'User\HotelGallery::index', ['as' => 'hotel.room.gallery']);
     $routes->get('checkout', 'User\Hotelcheckout::index', ['as' => 'hotel.checkout', 'filter' => 'AuthFilter:user']);
 });
 
 // Auth routes (guest only)
 $routes->group('', ['filter' => 'AuthFilter:auth'], static function ($routes) {
-    
+
     // Google auth 
     $routes->get('auth/google', 'AuthController::redirectToGoogle', ['as' => 'google.login']);
     $routes->get('auth/google-callback', 'AuthController::handleGoogleCallback', ['as' => 'google.callback']);

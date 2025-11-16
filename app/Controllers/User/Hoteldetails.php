@@ -8,9 +8,19 @@ use App\Models\HotelModel;
 use App\Controllers\BaseController;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
-class Hoteldetails extends BaseController
+class HotelDetails extends BaseController
 {
-    public function index($id): string
+    public function details(): string
+    {
+
+
+        $data = [
+            'pageTitle' => 'Hotel Details',
+            'groupHeader' => null,
+        ];
+        return view('fronts/user/Hotel-details', $data);
+    }
+    public function rooms($id = 1): string
     {
 
         $model = new HotelModel();
@@ -23,16 +33,6 @@ class Hoteldetails extends BaseController
             'groupHeader' => null,
             'hotel' => $hotel
         ];
-        return view('fronts/user/Hotel-details', $data);
-    }
-    public function details(): string
-    {
-
-        
-        $data = [
-            'pageTitle' => 'Hotel Details',
-            'groupHeader' => null,
-        ];
-        return view('fronts/user/Hotel-details-new', $data);
+        return view('fronts/user/Room-details', $data);
     }
 }
