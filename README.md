@@ -1,6 +1,13 @@
-<<<<<<< HEAD
-\##Project started
-=======
 ## Project started
->>>>>>> dev
 
+-   Fontend
+-   User auth
+-   Admin panel
+-   Admin auth
+
+# Routes
+-   /
+-   /hotels
+-   /hotels/details
+-   /hotels/gallery
+-   /hotels/checkout

@@ -9,10 +9,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         $data = [
-            'full_name' => 'SAdmin',
-            'email'=>'admin@bdb.com',
-            'phone'=> '0123456789',
-            'password_hash'=> password_hash('123456', PASSWORD_BCRYPT),
+            'email' => 'admin@test.com',
+            'name' => 'admin',
+            'password_hash' => password_hash('123456', PASSWORD_BCRYPT),
+            'is_verified' => true,
         ];
         $this->db->table('users')->insert($data);
     }
