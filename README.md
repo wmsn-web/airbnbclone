@@ -1,4 +1,4 @@
-## Project Started
+## Project started
 
 -   Fontend
 -   User auth
