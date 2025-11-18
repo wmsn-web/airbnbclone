@@ -123,28 +123,28 @@
                                         id="nv-customization">
                                         <li class="hotelCollapsed-nav-item-title d-none">Hotel</li>
                                         <li class="nav-item">
-                                            <a class="nav-link <?= $isActive == 'admin/hotel_listing' ? 'active' : ''; ?>" href="<?= route_to('admin.hotel.listing') ?>">
+                                            <a class="nav-link <?= $isActive == 'admin/hotel_listing' ? 'active' : ''; ?>" href="<?= url(route_to('admin.hotel.listing')) ?>">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Hotel listing</span>
                                                 </div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link <?= (str_starts_with($isActive, 'admin/add-property/info')) ? 'active' : ''; ?>" href="<?= route_to('admin.addProperty'); ?>">
+                                            <a class="nav-link <?= (str_starts_with($isActive, 'admin/add-property/info')) ? 'active' : ''; ?>" href="<?= url(route_to('admin.addProperty')); ?>">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Add property</span>
                                                 </div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link <?= $isActive == 'admin/add_room' ? 'active' : ''; ?>" href="<?= route_to('admin.addRoom') ?>">
+                                            <a class="nav-link <?= $isActive == 'admin/add_room' ? 'active' : ''; ?>" href="<?= url(route_to('admin.addRoom')) ?>">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Add room</span>
                                                 </div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link <?= $isActive == 'admin/room_listing' ? 'active' : ''; ?>" href="<?= route_to('admin.room.listing') ?>">
+                                            <a class="nav-link <?= $isActive == 'admin/room_listing' ? 'active' : ''; ?>" href="<?= url(route_to('admin.room.listing')) ?>">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Room listing</span>
                                                 </div>
@@ -198,7 +198,7 @@
                             </div><!-- parent pages-->
                             <div class="nav-item-wrapper">
                                 <a class="nav-link <?= $isActive == 'admin/members' ? 'active' : '' ?> label-1"
-                                    href="<?= route_to('admin.members') ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    href="<?= url(route_to('admin.members')) ?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
@@ -218,7 +218,7 @@
                             </div>
                             <?php if ($admindata['role'] === 'superadmin'): ?>
                                 <div class="nav-item-wrapper">
-                                    <a class="nav-link <?= $isActive == 'admin/add_admin' ? 'active' : '' ?> label-1" href="<?= route_to('admin.addadmin'); ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <a class="nav-link <?= $isActive == 'admin/add_admin' ? 'active' : '' ?> label-1" href="<?= url(route_to('admin.addadmin')); ?>" role="button" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus">
@@ -236,7 +236,7 @@
                                 </div>
                             <?php endif; ?>
                             <div class="nav-item-wrapper">
-                                <a class="nav-link <?= $isActive == 'admin/forgot_password' ? 'active' : '' ?> label-1" href="<?= route_to('admin.forgot.password'); ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                <a class="nav-link <?= $isActive == 'admin/forgot_password' ? 'active' : '' ?> label-1" href="<?= url(route_to('admin.forgot.password')); ?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock">
@@ -271,11 +271,11 @@
                         data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse"
                         aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span
                             class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-                    <a class="navbar-brand me-1 me-sm-3" href="<?= route_to('admin.home'); ?>">
+                    <a class="navbar-brand me-1 me-sm-3" href="<?= url(route_to('admin.home')); ?>">
                         <div class="d-flex align-items-center">
                             <div class="d-flex align-items-center"><img src="<?= base_url('assets/img/icons/logo.png'); ?>"
                                     alt="phoenix" width="27" />
-                                <h5 class="logo-text ms-2 d-none d-sm-block">Booking</h5>
+                                <h5 class="logo-text ms-2 d-none d-sm-block">firebnb</h5>
                             </div>
                         </div>
                     </a>
@@ -332,7 +332,7 @@
                 </div>
                 <ul class="navbar-nav navbar-nav-icons flex-row">
                     <li class="nav-item">
-                        <a href="<?= route_to('home'); ?>" target="_blank" class="nav-link text-black mb-1" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Back to home">
+                        <a href="<?= url(route_to('home')); ?>" target="_blank" class="nav-link text-black mb-1" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Back to home">
                             <span class="icon" data-feather="home"></span>
                         </a>
                         <div class="theme-control-toggle fa-icon-wait px-2">
@@ -598,7 +598,7 @@
                                                 another account</a></li>
                                     </ul>
                                     <hr />
-                                    <a class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= route_to('admin.logout.handler') ?>">
+                                    <a class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= url(route_to('admin.logout.handler')) ?>">
                                             <span class="me-2" data-feather="log-out"> </span>Sign out</a>
                                     </a>
                                     <div class="my-2 text-center fw-bold fs-10 text-body-quaternary"><a

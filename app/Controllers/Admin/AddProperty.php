@@ -14,7 +14,7 @@ use App\Models\HotelPoliciesModel;
 use App\Libraries\FileUploader;
 use App\Libraries\Slug;
 
-class Addproperty extends BaseController
+class AddProperty extends BaseController
 {
     protected $helpers = ['url', 'form', 'wizard_helper'];
 

@@ -56,28 +56,28 @@ foreach ($hotelRoutes as $route) {
                                 id="nv-customization">
                                 <li class="hotelCollapsed-nav-item-title d-none">Hotel</li>
                                 <li class="nav-item">
-                                    <a class="nav-link <?= $isActive == 'admin/hotel_listing' ? 'active' : ''; ?>" href="<?= route_to('admin.hotel.listing') ?>">
+                                    <a class="nav-link <?= $isActive == 'admin/hotel_listing' ? 'active' : ''; ?>" href="<?= base_url('admin/hotel_listing') ?>">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Hotel listing</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link <?= (str_starts_with($isActive, 'admin/add_property')) ? 'active' : ''; ?>" href="<?= route_to('admin.addProperty'); ?>">
+                                    <a class="nav-link <?= (str_starts_with($isActive, 'admin/add_property')) ? 'active' : ''; ?>" href="<?= base_url('admin/add_property') ?>">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add property</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link <?= $isActive == 'admin/add_room' ? 'active' : ''; ?>" href="<?= route_to('admin.addRoom') ?>">
+                                    <a class="nav-link <?= $isActive == 'admin/add_room' ? 'active' : ''; ?>" href="<?= base_url('admin/add_room') ?>">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Add room</span>
                                         </div>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link <?= $isActive == 'admin/room_listing' ? 'active' : ''; ?>" href="<?= route_to('admin.room.listing') ?>">
+                                    <a class="nav-link <?= $isActive == 'admin/room_listing' ? 'active' : ''; ?>" href="<?= base_url('admin/room_listing') ?>">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-text">Room listing</span>
                                         </div>
@@ -131,7 +131,7 @@ foreach ($hotelRoutes as $route) {
                     </div><!-- parent pages-->
                     <div class="nav-item-wrapper">
                         <a class="nav-link <?= $isActive == 'admin/members' ? 'active' : '' ?> label-1"
-                            href="<?= route_to('admin.members') ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                            href="<?= base_url('admin/members') ?>" role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 <span class="nav-link-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
@@ -151,7 +151,7 @@ foreach ($hotelRoutes as $route) {
                     </div>
                     <?php if ($admindata['role'] === 'superadmin'): ?>
                         <div class="nav-item-wrapper">
-                            <a class="nav-link <?= $isActive == 'admin/add_admin' ? 'active' : '' ?> label-1" href="<?= route_to('admin.addadmin'); ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                            <a class="nav-link <?= $isActive == 'admin/add_admin' ? 'active' : '' ?> label-1" href="<?= base_url('admin/add_admin') ?>" role="button" data-bs-toggle="" aria-expanded="false">
                                 <div class="d-flex align-items-center">
                                     <span class="nav-link-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus">
@@ -169,7 +169,7 @@ foreach ($hotelRoutes as $route) {
                         </div>
                     <?php endif; ?>
                     <div class="nav-item-wrapper">
-                        <a class="nav-link <?= $isActive == 'admin/forgot_password' ? 'active' : '' ?> label-1" href="<?= route_to('admin.forgot.password'); ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                        <a class="nav-link <?= $isActive == 'admin/forgot_password' ? 'active' : '' ?> label-1" href="<?= base_url('admin/forgot_password') ?>" role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 <span class="nav-link-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock">

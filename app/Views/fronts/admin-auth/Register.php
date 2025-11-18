@@ -48,7 +48,7 @@
                     </label>
                 </div>
                 <button class="btn btn-primary w-100 mb-3">Sign up</button>
-                <div class="text-center"><a class="fs-9 fw-bold" href="<?= route_to('user.login') ?>">Sign in to an
+                <div class="text-center"><a class="fs-9 fw-bold" href="<?= url(route_to('user.login')) ?>">Sign in to an
                         existing
                         account</a></div>
             </form>

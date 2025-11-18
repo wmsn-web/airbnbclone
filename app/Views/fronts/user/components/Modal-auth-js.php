@@ -145,7 +145,7 @@
                 resendBtn.disabled = true;
                 resendBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Sending...';
 
-                const data = await postJSON("<?= route_to('user.register.post') ?>", new URLSearchParams({
+                const data = await postJSON("<?= base_url('register') ?>", new URLSearchParams({
                     email,
                     method: 'otp'
                 })).catch(() => null);
@@ -297,7 +297,7 @@
                 fResendBtn.disabled = true;
                 fResendBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Sending...';
 
-                const data = await postJSON("<?= route_to('user.forgot.post') ?>", new URLSearchParams({
+                const data = await postJSON("<?= base_url('user/forgot') ?>", new URLSearchParams({
                     email,
                     method: 'otp'
                 })).catch(() => null);

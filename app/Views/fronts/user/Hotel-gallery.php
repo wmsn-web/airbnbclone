@@ -1,4 +1,4 @@
-<?= $this->extend('fronts\templates\Viewlayout') ?>
+<?= $this->extend('fronts/templates/Viewlayout') ?>
 
 <?= $this->section('pageTitle') ?>
 <?= esc($pageTitle); ?>

@@ -35,14 +35,14 @@ class AuthFilter implements FilterInterface
 
                     // Redirect to login (named route)
                     return redirect()
-                        ->to(route_to('user.login'))
+                        ->to(base_url())
                         ->with('fail', 'Please log in first.');
                 }
             }
             if ($arguments[0] === 'auth') {
                 // Guest mode: user must NOT be logged in
                 if (session()->has('user_id')) {
-                    return redirect()->to(route_to('home'));
+                    return redirect()->to(base_url());
                 }
             }
         }

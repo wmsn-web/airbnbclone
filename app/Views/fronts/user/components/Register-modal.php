@@ -15,7 +15,7 @@
                     <h3 class="mb-2 text-body">on your first booking - Join now!</h3>
                     <p class="mb-4 fs-9">Sign up now to save up to 20% on rooms with our free membership program!</p>
 
-                    <form action="<?= route_to('user.register.post') ?>" method="post" id="registerform">
+                    <form action="<?= base_url('register') ?>" method="post" id="registerform">
                         <?= csrf_field(); ?>
                         <div class="d-flex gap-2 align-items-center mb-4">
                             <input class="form-control" type="email" name="email" placeholder="Your email address" required />
@@ -33,7 +33,7 @@
                     <h3 class="mb-2 text-body">Enter the 6-digit code sent to your email</h3>
                     <p class="mb-4 fs-9" id="timer">Time remaining: 03:00</p>
 
-                    <form action="<?= route_to('user.otp.verify.post') ?>" method="post" id="verifyotp">
+                    <form action="<?= base_url('user/forgot/verify') ?>" method="post" id="verifyotp">
                         <input type="hidden" name="email" value="<?= esc($email ?? '') ?>">
                         <div id="otp" class="otp-inputs d-flex flex-row justify-content-center mt-2">
                             <?php for ($i = 1; $i <= 6; $i++): ?>

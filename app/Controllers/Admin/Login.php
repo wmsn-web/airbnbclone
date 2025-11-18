@@ -70,7 +70,7 @@ class Login extends BaseController
                     'samesite' => 'Lax',
                 ]);
             }
-            $redirectUrl = session('redirect_url') ?? route_to('admin.home');
+            $redirectUrl = session('redirect_url') ?? base_url("admin/home");
             return $this->response->setJSON([
                 'success' => true,
                 'msg'     => 'Welcome back, ' . $admin['full_name'] . '!',

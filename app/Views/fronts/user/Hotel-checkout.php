@@ -1,4 +1,4 @@
-<?= $this->extend('fronts\templates\Viewlayout') ?>
+<?= $this->extend('fronts/templates/Viewlayout') ?>
 
 <?= $this->section('pageTitle') ?>
 <?= esc($pageTitle); ?>
@@ -12,9 +12,9 @@
     <div class="container-medium">
         <nav class="mb-3" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="<?= route_to('home') ?>" class="<?= uri_string() == 'home' ? ' text-decoration-underline text-primary' : 'text-black' ?>">Hotels</a></li>
-                <li class="breadcrumb-item"><a href="<?= route_to('hotelDetails') ?>" class="<?= uri_string() == 'details' ? ' text-decoration-underline text-primary' : 'text-black' ?>">Details</a></li>
-                <li class="breadcrumb-item"><a href="<?= route_to('hotelCheckOut') ?>" class="<?= uri_string() == 'checkout' ? ' text-decoration-underline text-primary' : 'text-black' ?>">Check Out</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url() ?>" class="<?= uri_string() == 'home' ? ' text-decoration-underline text-primary' : 'text-black' ?>">Hotels</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('hotels') ?>" class="<?= uri_string() == 'details' ? ' text-decoration-underline text-primary' : 'text-black' ?>">Details</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('hotels/checkout') ?>" class="<?= uri_string() == 'checkout' ? ' text-decoration-underline text-primary' : 'text-black' ?>">Check Out</a></li>
             </ol>
         </nav>
         <h2 class="mb-5">Check out</h2>

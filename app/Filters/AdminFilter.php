@@ -46,13 +46,13 @@ class AdminFilter implements FilterInterface
             return $request;
         }
         if ($arguments[0] === 'auth' && $isLoggedIn) {
-            return redirect()->to(route_to('admin.home'));
+            return redirect()->to(base_url('admin/home'));
         }
         if ($arguments[0] === 'admin' && !$isLoggedIn) {
             // Authenticated-only routes (e.g., dashboard)
             // optional: go back after login
             $session->set('redirect_url', current_url());
-            return redirect()->to(route_to('admin.login'));
+            return redirect()->to(base_url('admin'));
         }
 
         return $request;

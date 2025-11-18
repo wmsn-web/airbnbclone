@@ -1,4 +1,4 @@
-<?= $this->extend('fronts\templates\Viewlayout') ?>
+<?= $this->extend('fronts/templates/Viewlayout') ?>
 
 <?= $this->section('pageTitle') ?>
 <?= esc($pageTitle); ?>
@@ -54,9 +54,9 @@ function timeConvert($dbTime)
     <div class="container-medium">
         <nav class="mb-3" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="<?= route_to('home') ?>" class="<?= uri_string() == 'home' ? ' text-decoration-underline text-primary' : 'text-black' ?>">Hotels</a></li>
-                <li class="breadcrumb-item"><a href="<?= route_to('hotelDetails') ?>" class="<?= $isDetailsPage ? ' text-decoration-underline text-primary' : 'text-black' ?>">Details</a></li>
-                <li class="breadcrumb-item"><a href="<?= route_to('hotelCheckOut') ?>" class="<?= $isCheckoutPage ? ' text-decoration-underline text-primary' : 'text-black' ?>">Check Out</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url() ?>" class="<?= uri_string() == 'home' ? ' text-decoration-underline text-primary' : 'text-black' ?>">Hotels</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('hotels') ?>" class="<?= $isDetailsPage ? ' text-decoration-underline text-primary' : 'text-black' ?>">Details</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('hotels/checkout') ?>" class="<?= $isCheckoutPage ? ' text-decoration-underline text-primary' : 'text-black' ?>">Check Out</a></li>
             </ol>
         </nav>
         <h2 class="mb-4">Hotel Details</h2>
@@ -125,7 +125,7 @@ function timeConvert($dbTime)
                                 <div class="position-relative rounded-2 overflow-hidden">
                                     <a href="../../../../assets/img/hotels/32.png" data-gallery="hotel-details-gallery"> <img class="w-100 h-md-100 object-fit-cover" src="../../../../assets/img/hotels/32_2.png" alt="" height="43" /></a>
                                     <div class="position-absolute w-100 h-100 left-0 top-0 d-flex flex-center bg-black bg-opacity-50">
-                                        <a class="text-white stretched-link" href="<?= route_to('hotel.room.gallery') ?>">Show all</a>
+                                        <a class="text-white stretched-link" href="<?= base_url('hotels/gallery') ?>">Show all</a>
                                     </div>
                                 </div>
                             </div>
@@ -879,8 +879,8 @@ function timeConvert($dbTime)
                                 <h4 class="text-body">1,756.70</h4>
                             </div>
                         </div>
-                        <a class="btn btn-primary mt-3 w-100" href="<?= route_to('hotel.checkout') ?>">Proceed with booking</a>
-                    </div>  
+                        <a class="btn btn-primary mt-3 w-100" href="<?= base_url('hotels/checkout') ?>">Proceed with booking</a>
+                    </div>
                 </div>
             </div>
         </div>
