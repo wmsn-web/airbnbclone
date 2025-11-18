@@ -11,7 +11,7 @@
                             <span class="fa-solid fa-star text-warning fs-9 me-2"></span>
                             <h6 class="mb-0 text-secondary-lighter fw-semibold">4.8</h6>
                         </div>
-                        <a class="text-white fw-bold fs-7" href="<?= route_to('hotel.details') ?>">Beautiful Frence, Let's Travelling!</a>
+                        <a class="text-white fw-bold fs-7" href="<?= base_url('hotels') ?>">Beautiful Frence, Let's Travelling!</a>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                             <span class="fa-solid fa-star text-warning fs-9 me-2"></span>
                             <h6 class="mb-0 text-secondary-lighter fw-semibold">4.5</h6>
                         </div>
-                        <a class="text-white fw-bold fs-7" href="<?= route_to('hotel.details') ?>">Man Standing on Watching Mountain</a>
+                        <a class="text-white fw-bold fs-7" href="<?= base_url('hotels') ?>">Man Standing on Watching Mountain</a>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                             <span class="text-secondary-lighter me-2" data-feather="calendar"></span>
                             <h6 class="mb-0 fw-semibold text-secondary-lighter pe-3 me-3 border-end">Monday, Nov 05, 2022</h6><span class="fa-solid fa-star text-warning fs-9 me-2"></span>
                             <h6 class="mb-0 text-secondary-lighter fw-semibold">4.2</h6>
-                        </div><a class="text-white fw-bold fs-7" href="<?= route_to('hotel.details') ?>">Beautiful Bali Indonesia, Let's Travelling!</a>
+                        </div><a class="text-white fw-bold fs-7" href="<?= base_url('hotels') ?>">Beautiful Bali Indonesia, Let's Travelling!</a>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                         <div class="d-flex align-items-center mb-2"><span class="text-secondary-lighter me-2" data-feather="calendar"></span>
                             <h6 class="mb-0 fw-semibold text-secondary-lighter pe-3 me-3 border-end">Monday, Nov 04, 2022</h6><span class="fa-solid fa-star text-warning fs-9 me-2"></span>
                             <h6 class="mb-0 text-secondary-lighter fw-semibold">4.5</h6>
-                        </div><a class="text-white fw-bold fs-7" href="<?= route_to('hotel.details') ?>">Chasing sunsets, making memories worldwide.</a>
+                        </div><a class="text-white fw-bold fs-7" href="<?= base_url('hotels') ?>">Chasing sunsets, making memories worldwide.</a>
                     </div>
                 </div>
             </div>

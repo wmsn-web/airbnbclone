@@ -166,7 +166,7 @@ class AuthController extends BaseController
             return $this->response->setJSON([
                 'status' => 'success',
                 'message' => 'Welcome back, ' . esc($user['email']) . '!',
-                'redirect' => route_to('home')
+                'redirect' => base_url()
             ]);
         }
 
@@ -319,7 +319,7 @@ class AuthController extends BaseController
             // Optional: cleanup any expired ones
             $verifyModel->cleanOldRecords($user['id']);
 
-            $redirect = session('redirect_url') ?? route_to('home');
+            $redirect = session('redirect_url') ?? base_url();
             session()->remove('redirect_url');
 
             return $this->response->setJSON([
@@ -339,7 +339,7 @@ class AuthController extends BaseController
     {
         $token = $this->request->getGet('token');
         if (empty($token)) {
-            return redirect()->to(route_to('home'))->with('error', 'Invalid verification link.');
+            return redirect()->to(base_url())->with('error', 'Invalid verification link.');
         }
 
         $verifyModel = new EmailVerificationModel();
@@ -350,14 +350,14 @@ class AuthController extends BaseController
             ->first();
 
         if (!$record) {
-            return redirect()->to(route_to('home'))->with('error', 'Invalid or expired link.');
+            return redirect()->to(base_url())->with('error', 'Invalid or expired link.');
         }
 
         $userModel = new UserModel();
         $user = $userModel->find($record['user_id']);
 
         if (!$user) {
-            return redirect()->to(route_to('home'))->with('error', 'User not found.');
+            return redirect()->to(base_url())->with('error', 'User not found.');
         }
 
         // Mark user verified
@@ -370,7 +370,7 @@ class AuthController extends BaseController
         session()->set('user_id', $user['id']);
 
         // Redirect to target page
-        $redirect = session('redirect_url') ?? route_to('home');
+        $redirect = session('redirect_url') ?? base_url();
         session()->remove('redirect_url');
 
         return redirect()->to($redirect)->with('success', 'Email verified successfully!');
@@ -392,7 +392,7 @@ class AuthController extends BaseController
     {
         $code = $this->request->getVar('code');
         if (!$code) {
-            return redirect()->to(route_to('home'))->with('error', 'Google login failed');
+            return redirect()->to(base_url())->with('error', 'Google login failed');
         }
 
         $client = new GoogleClient();
@@ -402,7 +402,7 @@ class AuthController extends BaseController
 
         $token = $client->fetchAccessTokenWithAuthCode($code);
         if (isset($token['error'])) {
-            return redirect()->to(route_to('home'))->with('fail', 'Google authentication failed');
+            return redirect()->to(base_url())->with('fail', 'Google authentication failed');
         }
 
         $client->setAccessToken($token['access_token']);
@@ -430,7 +430,7 @@ class AuthController extends BaseController
 
         session()->set(['user_id' => $userId]);
 
-        return redirect()->to(route_to('home'))->with('success', 'Welcome, ' . $name);
+        return redirect()->to(base_url())->with('success', 'Welcome, ' . $name);
     }
 
     public function forgotPassword()
@@ -566,6 +566,6 @@ class AuthController extends BaseController
         session()->destroy();
 
         // Redirect to home or login page
-        return redirect()->to(route_to('home'))->with('success', 'You have been logged out successfully.');
+        return redirect()->to(base_url())->with('success', 'You have been logged out successfully.');
     }
 }

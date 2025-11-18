@@ -1,4 +1,4 @@
-<?= $this->extend('fronts\templates\Viewlayout') ?>
+<?= $this->extend('fronts/templates/Viewlayout') ?>
 
 <?= $this->section('pageTitle') ?>
 <?= esc($pageTitle); ?>
@@ -146,7 +146,7 @@
                             <!-- <h6 class="text-primary mb-2 ls-2">SIGNAL</h6> -->
                             <!-- <h3 class="fw-bolder mb-3">Recieve the signals instantly</h3> -->
                             <p class="mb-4 px-md-7 px-lg-0">Hotel Barcelona Center, with 132 rooms, was born with the purpose of becoming a unique reference in its category. Added to its perfect accommodation offer is an excellent offer of rooms to hold events and banquets, all of which with large capacity and with state-of-the-art technology to ensure that every event is a success. Its proximity to the famous Paseo de Gracia and the shopping and financial centre of the city make this hotel an alternative and complementary proposal to Hotel Casa Fuster.</p>
-                            <a class="btn btn-link me-2 p-0 fs-8" href="<?=  route_to('room.details'); ?>" role="button">See Rooms<i class="fa-solid fa-angle-right ms-2"></i></a>
+                            <a class="btn btn-link me-2 p-0 fs-8" href="<?= base_url('hotels/rooms')?>" role="button">See Rooms<i class="fa-solid fa-angle-right ms-2"></i></a>
                         </div>
                     </div>
                     <div class="row my-7 g-0">
@@ -254,7 +254,7 @@
                             <div class="row g-lg-0 gy-3 position-relative justify-content-center py-9 px-3 px-sm-6">
                                 <div class="col-md-4 hotel-promo text-center">
                                     <h1 class="text-white">Exclusive offers</h1>
-                                    <a class="btn" href="<?= route_to('user.register') ?>">SEE ALL OFFERS</a>
+                                    <a class="btn" href="<?= base_url('register') ?>">SEE ALL OFFERS</a>
                                 </div>
                                 <div class="col-md-8 left-border">
                                     <div class="swiper-theme-container">

@@ -150,7 +150,7 @@
                                     </div>
                                     <div class="card-footer p-0 border-top border-translucent">
                                         <div class="px-3 mt-2">
-                                            <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= route_to('user.logout'); ?>"> <span class="me-2" data-feather="log-out"> </span>Sign out</a>
+                                            <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= base_url('logout') ?>"> <span class="me-2" data-feather="log-out"> </span>Sign out</a>
                                         </div>
                                         <div class="my-2 text-center fw-bold fs-10 text-body-quaternary">
                                             <a class="text-body-quaternary me-1" href="#!">Privacy policy</a>&bull;<a class="text-body-quaternary mx-1" href="#!">Terms</a>&bull;<a class="text-body-quaternary ms-1" href="#!">Cookies</a>
@@ -194,7 +194,7 @@
                                 </div>
                                 <div class="card-footer p-0 border-top border-translucent">
                                     <div class="px-3 mt-2">
-                                        <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= route_to('user.logout'); ?>"> <span class="me-2" data-feather="log-out"> </span>Sign out</a>
+                                        <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= base_url('logout') ?> <span class=" me-2" data-feather="log-out"> </span>Sign out</a>
                                     </div>
                                     <div class="my-2 text-center fw-bold fs-10 text-body-quaternary">
                                         <a class="text-body-quaternary me-1" href="#!">Privacy policy</a>&bull;<a class="text-body-quaternary mx-1" href="#!">Terms</a>&bull;<a class="text-body-quaternary ms-1" href="#!">Cookies</a>
@@ -315,7 +315,7 @@
                 href="">
                 <div class="d-flex align-items-center"><img src="<?= base_url() ?>assets/img/icons/logo.png" alt="phoenix"
                         width="27" />
-                    <h5 class="logo-text ms-2">Booking</h5>
+                    <h5 class="logo-text ms-2">firebnb</h5>
                 </div>
             </a>
             <div class="dropdown"><button class="btn btn-sm p-0 d-md-none fs-8" type="button" data-bs-toggle="dropdown"
@@ -343,7 +343,7 @@
             <div class="row g-0 justify-content-between align-items-center h-100">
                 <div class="col-12 col-sm-auto text-center">
                     <p class="mb-0 mt-2 mt-sm-0 text-body">
-                        <br class="d-sm-none" />&copy; <?= date('Y') ?> <a class="mx-1" href="<?= base_url('admin') ?>">Codersketch</a>
+                        <br class="d-sm-none" />&copy; <?= date('Y') ?> <a class="mx-1" href="<?= base_url('admin') ?>">Firebnb</a>
                         <!-- <span class="d-none d-sm-inline-block"></span>
                     <span class="d-none d-sm-inline-block mx-1">|</span> -->
                         All Rights Reserved.

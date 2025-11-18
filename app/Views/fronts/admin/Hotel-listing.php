@@ -10,7 +10,7 @@
         <h2>Hotel Listing</h2>
         <div data-list='{"valueNames":["name","beds","guest","bathRooms","amenities","totalRooms"],"page":8}'>
             <div class="d-md-flex mt-5 mb-4">
-                <a href="<?= route_to('admin.addProperty'); ?>" class="btn btn-primary me-4">
+                <a href="<?= base_url('admin/add-property') ?>" class="btn btn-primary me-4">
                     <span class="fas fa-plus me-2"></span>Create Listing
                 </a>
                 <!-- <button class="btn btn-link text-body me-4 px-0">
@@ -105,46 +105,57 @@
                                     </td>
                                     <td class="align-middle ps-4 amenities">
                                         <div class="d-flex flex-wrap gap-2">
-                                            <?php if (!empty($hotel['amenities'])):
-                                                $hotelAms = json_decode($hotel['amenities'], true);
-                                                if (is_array($hotelAms)):
+                                            <?php if (!empty($hotel['amenities']) && is_array($hotel['amenities'])):
 
-                                                    $visibleAms = array_slice($hotelAms, 0, 5, true);
-                                                    $remainingAms = array_slice($hotelAms, 5, null, true);
+                                                $hotelAms = $hotel['amenities']; // Already an array
+
+                                                $visibleAms   = array_slice($hotelAms, 0, 5, true);
+                                                $remainingAms = array_slice($hotelAms, 5, null, true);
                                             ?>
 
-                                                    <?php foreach ($visibleAms as $key => $hAm): ?>
-                                                        <span class="badge badge-phoenix badge-phoenix-info text-body-highlight py-1 fs-10 border"><?= esc($key); ?></span>
-                                                    <?php endforeach; ?>
+                                                <?php foreach ($visibleAms as $key => $hAm): ?>
+                                                    <span class="badge badge-phoenix badge-phoenix-info text-body-highlight py-1 fs-10 border">
+                                                        <?= esc($key); ?>
+                                                    </span>
+                                                <?php endforeach; ?>
 
-                                                    <?php if (count($remainingAms) > 0): ?>
-                                                        <a class="fw-bold fs-9 text-decoration-underline text-primary" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#allAmenitiesModal<?= $hotel['id'] ?>">
-                                                            +<?= count($remainingAms); ?> More
-                                                        </a>
-                                                    <?php endif; ?>
-                                                    <?php if (!empty($remainingAms)): ?>
-                                                        <div class="modal fade" id="allAmenitiesModal<?= $hotel['id'] ?>" tabindex="-1" aria-labelledby="allAmenitiesLabel<?= $hotel['id'] ?>" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header border-bottom-0">
-                                                                        <h5 class="modal-title fs-8" id="allAmenitiesLabel<?= $hotel['id'] ?>">All Amenities of <?= $hotel['property_name'] ?></h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <?php foreach ($hotelAms as $key => $hAm): ?>
-                                                                            <span class="badge badge-phoenix badge-phoenix-info text-dark fw-semibold m-1 fs-9 "><?= esc($key); ?></span>
-                                                                        <?php endforeach; ?>
-                                                                    </div>
+                                                <?php if (!empty($remainingAms)): ?>
+                                                    <a class="fw-bold fs-9 text-decoration-underline text-primary"
+                                                        href="javascript:void(0)"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#allAmenitiesModal<?= $hotel['id'] ?>">
+                                                        +<?= count($remainingAms); ?> More
+                                                    </a>
+
+                                                    <div class="modal fade"
+                                                        id="allAmenitiesModal<?= $hotel['id'] ?>"
+                                                        tabindex="-1"
+                                                        aria-labelledby="allAmenitiesLabel<?= $hotel['id'] ?>"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header border-bottom-0">
+                                                                    <h5 class="modal-title fs-8" id="allAmenitiesLabel<?= $hotel['id'] ?>">
+                                                                        All Amenities of <?= esc($hotel['property_name']) ?>
+                                                                    </h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <?php foreach ($hotelAms as $key => $hAm): ?>
+                                                                        <span class="badge badge-phoenix badge-phoenix-info text-dark fw-semibold m-1 fs-9">
+                                                                            <?= esc($key); ?>
+                                                                        </span>
+                                                                    <?php endforeach; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    <?php endif; ?>
-                                                <?php else: ?>
-                                                    <h5 class="text-muted">No amenities</h5>
-                                                <?php endif;
-                                            else: ?>
+                                                    </div>
+                                                <?php endif; ?>
+
+                                            <?php else: ?>
                                                 <h5 class="text-muted">No amenities</h5>
                                             <?php endif; ?>
+
                                         </div>
                                     </td>
                                     <td class="align-middle text-center ps-4 totalRooms">

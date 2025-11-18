@@ -1,4 +1,4 @@
-<?= $this->extend('fronts\templates\Viewlayout') ?>
+<?= $this->extend('fronts/templates/Viewlayout') ?>
 
 <?= $this->section('pageTitle') ?>
 <?= esc($pageTitle); ?>
@@ -163,7 +163,7 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-primary key-btn w-50 py-3 fs-8" href="<?= route_to('user.register') ?>">Sign up<span class="fa-solid fa-chevron-right ms-2" data-fa-transform="down-2"></span></a>
+                    <a class="btn btn-primary key-btn w-50 py-3 fs-8" href="">Sign up<span class="fa-solid fa-chevron-right ms-2" data-fa-transform="down-2"></span></a>
                 </div>
             </div>
         </div>

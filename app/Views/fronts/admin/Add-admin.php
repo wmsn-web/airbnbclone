@@ -81,7 +81,7 @@
             </div>
             <button class="btn btn-primary w-100 mb-3">Register Admin</button>
         </form>
-        <div class="text-center"><a class="fs-9 fw-bold" href="<?= route_to('admin.forgot.password') ?>">Forgot Password</a></div>
+        <div class="text-center"><a class="fs-9 fw-bold" href="<?= url(route_to('admin.forgot.password')) ?>">Forgot Password</a></div>
     </div>
 </div>
 

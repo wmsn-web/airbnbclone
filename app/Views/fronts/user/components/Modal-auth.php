@@ -18,14 +18,14 @@
                         <p class="mb-4 fs-9">Sign up now to save up to 20% on rooms with our free membership program!</p>
                         <div class="row flex-center">
                             <div class="col-sm-10 col-md-6">
-                                <a href="<?= base_url(route_to('google.login')) ?>" class="btn btn-phoenix-secondary w-100"><span class="fab fa-google text-danger me-2 fs-9"></span>Sign up with google</a>
+                                <a href="<?= base_url('auth/google') ?>" class="btn btn-phoenix-secondary w-100"><span class="fab fa-google text-danger me-2 fs-9"></span>Sign up with google</a>
                                 <div class="position-relative">
                                     <hr class="bg-body-secondary mt-5 mb-4">
                                     <div class="divider-content-center">or</div>
                                 </div>
                             </div>
                         </div>
-                        <form action="<?= route_to('user.register.post') ?>" method="post" id="registerform">
+                        <form action="<?= base_url('register') ?>" method="post" id="registerform">
                             <?= csrf_field(); ?>
                             <div class="d-flex gap-2 align-items-center mb-4">
                                 <input class="form-control" type="email" name="email" placeholder="Your email address" required />
@@ -46,7 +46,7 @@
                         <h3 class="mb-2 text-body">Enter the 6-digit code sent to your email</h3>
                         <p class="mb-4 fs-9" id="timer">Time remaining: 03:00</p>
 
-                        <form action="<?= route_to('user.otp.verify.post') ?>" method="post" id="verifyotp">
+                        <form action="<?= base_url('user/forgot/verify') ?>" method="post" id="verifyotp">
                             <?= csrf_field(); ?>
                             <input type="hidden" name="email" value="<?= esc($email ?? '') ?>">
                             <div id="otp" class="otp-inputs d-flex flex-row justify-content-center mt-2">
@@ -82,14 +82,14 @@
                         <h1 class="text-success mb-2">Log in</h1>
                         <div class="row flex-center">
                             <div class="col-sm-10 col-md-6">
-                                <a href="<?= base_url(route_to('google.login')) ?>" class="btn btn-phoenix-secondary w-100"><span class="fab fa-google text-danger me-2 fs-9"></span>Continue with google</a>
+                                <a href="<?= base_url('auth/google') ?>" class="btn btn-phoenix-secondary w-100"><span class="fab fa-google text-danger me-2 fs-9"></span>Continue with google</a>
                                 <div class="position-relative">
                                     <hr class="bg-body-secondary mt-5 mb-4">
                                     <div class="divider-content-center">or use email</div>
                                 </div>
                             </div>
                         </div>
-                        <form action="<?= route_to('user.login.post') ?>" method="post" id="loginform">
+                        <form action="<?= base_url('login') ?>" method="post" id="loginform">
                             <div class="row flex-center">
                                 <div class="col-sm-10 col-md-6">
                                     <div class="mb-3 text-start">
@@ -104,7 +104,7 @@
                                         <div class="form-icon-container" data-password="data-password">
                                             <input class="form-control form-icon-input pe-6" name="password" id="password" type="password" placeholder="Password" data-password-input="data-password-input">
                                             <span class="fas fa-key text-body fs-9 form-icon"></span>
-                                            <button class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary" data-password-toggle="data-password-toggle">
+                                            <button class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary" type="button" data-password-toggle="data-password-toggle">
                                                 <span class="uil uil-eye show"></span>
                                                 <span class="uil uil-eye-slash hide"></span>
                                             </button>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="text-center" id="f-user">
                     <h1 class="text-success mb-2">Forgot password</h1>
-                    <form action="<?= route_to('user.forgot.post') ?>" method="post" id="forgotpwdform">
+                    <form action="<?= base_url('user/forgot') ?>" method="post" id="forgotpwdform">
                         <div class="row flex-center">
                             <div class="col-sm-10 col-md-6">
                                 <div class="mb-3 text-start">
@@ -179,7 +179,7 @@
                     <h3 class="mb-2 text-body">Enter the 6-digit code sent to your email</h3>
                     <p class="mb-4 fs-9" id="fptimer">Time remaining: 03:00</p>
 
-                    <form action="<?= route_to('user.otp.verify.post') ?>" method="post" id="f-verify-otp">
+                    <form action="<?= base_url('user/forgot/verify') ?>" method="post" id="f-verify-otp">
                         <?= csrf_field(); ?>
                         <input type="hidden" name="email" value="<?= esc($email ?? '') ?>">
                         <div id="f-otp" class="otp-inputs d-flex flex-row justify-content-center mt-2">
@@ -199,7 +199,7 @@
                 </div>
                 <!-- STEP 2: OTP form (hidden initially) -->
                 <div class="text-center d-none" id="n-pwd-step">
-                    <form action="<?= route_to('user.reset.password') ?>" method="post" id="newpwd">
+                    <form action="<?= base_url('user/reset-password') ?>" method="post" id="newpwd">
                         <div class="row flex-center">
                             <div class="col-sm-10 col-md-6">
                                 <div class="mb-3 text-start">
@@ -207,7 +207,7 @@
                                     <div class="form-icon-container" data-password="data-password">
                                         <input class="form-control form-icon-input pe-6" name="new-password" id="new-password" type="password" placeholder="Password" data-password-input="data-password-input">
                                         <span class="fas fa-key text-body fs-9 form-icon"></span>
-                                        <button class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary" data-password-toggle="data-password-toggle">
+                                        <button class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary" type="button" data-password-toggle="data-password-toggle">
                                             <span class="uil uil-eye show"></span>
                                             <span class="uil uil-eye-slash hide"></span>
                                         </button>
@@ -218,7 +218,7 @@
                                     <div class="form-icon-container" data-password="data-password">
                                         <input class="form-control form-icon-input pe-6" name="re-new-password" id="re-new-password" type="password" placeholder="Password" data-password-input="data-password-input">
                                         <span class="fas fa-key text-body fs-9 form-icon"></span>
-                                        <button class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary" data-password-toggle="data-password-toggle">
+                                        <button class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary" type="button" data-password-toggle="data-password-toggle">
                                             <span class="uil uil-eye show"></span>
                                             <span class="uil uil-eye-slash hide"></span>
                                         </button>
