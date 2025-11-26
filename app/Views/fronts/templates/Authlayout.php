@@ -78,7 +78,7 @@
         }
     </style>
     <?= $this->renderSection('head') ?>
-    <link href="<?= base_url('assets/custom/custom.css'); ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/custom/custom.css') . '?v=' . env('style.hard.reload'); ?>" rel="stylesheet">
 </head>
 
 <body>

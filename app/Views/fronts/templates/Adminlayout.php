@@ -52,7 +52,7 @@
             userLinkRTL.setAttribute('disabled', true);
         }
     </script>
-    <link href="<?= base_url('assets/custom/customadmin.css'); ?>" type="text/css" rel="stylesheet">
+    <link href="<?= base_url('assets/custom/customadmin.css') . '?v=' . env('style.hard.reload'); ?>" type="text/css" rel="stylesheet">
     <?= $this->renderSection('assets') ?>
 </head>
 

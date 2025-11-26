@@ -70,6 +70,12 @@
 
 
 #--------------------------------------------------------------------
+# Uncomment this for hot reload and cache buster
+#--------------------------------------------------------------------
+
+# style.hard.reload = 2.5.0
+
+#--------------------------------------------------------------------
 # Uncomment this for email service and google auth service
 #--------------------------------------------------------------------
 
@@ -86,7 +92,7 @@
 # email.fromName = FormName
 
 
- MAPBOX_ACCESS_TOKEN = pk.eyJ1IjoidGhlbWV3YWdvbiIsImEiOiJjbGhmNW5ybzkxcmoxM2RvN2RmbW1nZW90In0.hGIvQ890TYkZ948MVrsMIQ
+    MAPBOX_ACCESS_TOKEN = pk.eyJ1IjoidGhlbWV3YWdvbiIsImEiOiJjbGhmNW5ybzkxcmoxM2RvN2RmbW1nZW90In0.hGIvQ890TYkZ948MVrsMIQ
 
 #--------------------------------------------------------------------
 # Google authentication setup
