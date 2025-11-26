@@ -67,3 +67,40 @@
 #--------------------------------------------------------------------
 
 # logger.threshold = 4
+
+
+#--------------------------------------------------------------------
+# Uncomment this for hot reload and cache buster
+#--------------------------------------------------------------------
+
+# style.hard.reload = 2.5.0
+
+#--------------------------------------------------------------------
+# Uncomment this for email service and google auth service
+#--------------------------------------------------------------------
+
+#--------------------------------------------------------------------
+# Email setup
+#--------------------------------------------------------------------
+
+# email.SMTPHost = Hostname
+# email.SMTPUser = User
+# email.SMTPPass = Password
+# email.SMTPPort = Port
+# email.SMTPCrypto = tls
+# email.fromEmail = FromEmail
+# email.fromName = FormName
+
+
+    MAPBOX_ACCESS_TOKEN = pk.eyJ1IjoidGhlbWV3YWdvbiIsImEiOiJjbGhmNW5ybzkxcmoxM2RvN2RmbW1nZW90In0.hGIvQ890TYkZ948MVrsMIQ
+
+#--------------------------------------------------------------------
+# Google authentication setup
+#--------------------------------------------------------------------
+# google.client_id = "Clinet it"
+# google.project_id = "Project id"
+# google.auth_uri = "Auth url"
+# google.token_uri = "Token Url"
+# google.auth_provider_x509_cert_url = "Auth provider"
+# google.client_secret = "Your secret"
+# google.redirect_uri = "https://wmsn.in/web/SG/firebnb/auth/google-callback" 

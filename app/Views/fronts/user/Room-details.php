@@ -106,24 +106,24 @@ function timeConvert($dbTime)
                     <!-- 1st col and if 2 hphoto then same as this-->
                     <div class="col-md-6">
                         <a href="<?= base_url('assets/img/hotels/25.png') ?>" data-gallery="hotel-details-gallery">
-                            <img class="img-fluid rounded-2" src="../../../../assets/img/hotels/25_2.png" alt="" />
+                            <img class="img-fluid rounded-2" src="<?= base_url() ?>assets/img/hotels/25_2.png" alt="" />
                         </a>
                     </div>
                     <!-- if 3 hphoto then 1st col and next two-->
                     <div class="col-6 d-none d-md-block">
                         <div class="row g-3">
                             <div class="col-12">
-                                <a href="../../../../assets/img/hotels/26.png" data-gallery="hotel-details-gallery">
-                                    <img class="img-fluid rounded-2" src="../../../../assets/img/hotels/26_2.png" alt="" />
+                                <a href="<?= base_url() ?>assets/img/hotels/26.png" data-gallery="hotel-details-gallery">
+                                    <img class="img-fluid rounded-2" src="<?= base_url() ?>assets/img/hotels/26_2.png" alt="" />
                                 </a>
                             </div>
                             <div class="col-6">
-                                <a href="../../../../assets/img/hotels/27.png" data-gallery="hotel-details-gallery"> <img class="img-fluid rounded-2" src="../../../../assets/img/hotels/27_2.png" alt="" /></a>
+                                <a href="<?= base_url() ?>assets/img/hotels/27.png" data-gallery="hotel-details-gallery"> <img class="img-fluid rounded-2" src="<?= base_url() ?>assets/img/hotels/27_2.png" alt="" /></a>
                             </div>
                             <!-- if 4 and more than 4  -->
                             <div class="col-6">
                                 <div class="position-relative rounded-2 overflow-hidden">
-                                    <a href="../../../../assets/img/hotels/32.png" data-gallery="hotel-details-gallery"> <img class="w-100 h-md-100 object-fit-cover" src="../../../../assets/img/hotels/32_2.png" alt="" height="43" /></a>
+                                    <a href="<?= base_url() ?>assets/img/hotels/32.png" data-gallery="hotel-details-gallery"> <img class="w-100 h-md-100 object-fit-cover" src="<?= base_url() ?>assets/img/hotels/32_2.png" alt="" height="43" /></a>
                                     <div class="position-absolute w-100 h-100 left-0 top-0 d-flex flex-center bg-black bg-opacity-50">
                                         <a class="text-white stretched-link" href="<?= base_url('hotels/gallery') ?>">Show all</a>
                                     </div>
@@ -210,13 +210,13 @@ function timeConvert($dbTime)
                             <div class="col-lg-7">
                                 <div class="row gx-2 h-100">
                                     <div class="col-4">
-                                        <a href="../../../../assets/img/hotels/33.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="../../../../assets/img/hotels/33.png" alt="" /></a>
+                                        <a href="<?= base_url() ?>assets/img/hotels/33.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/33.png" alt="" /></a>
                                     </div>
                                     <div class="col-4">
-                                        <a href="../../../../assets/img/hotels/34.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="../../../../assets/img/hotels/34.png" alt="" /></a>
+                                        <a href="<?= base_url() ?>assets/img/hotels/34.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/34.png" alt="" /></a>
                                     </div>
                                     <div class="col-4">
-                                        <a href="../../../../assets/img/hotels/35.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="../../../../assets/img/hotels/35.png" alt="" /></a>
+                                        <a href="<?= base_url() ?>assets/img/hotels/35.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/35.png" alt="" /></a>
                                     </div>
                                 </div>
                             </div>
@@ -267,13 +267,13 @@ function timeConvert($dbTime)
                             <div class="col-lg-7">
                                 <div class="row gx-2 h-100">
                                     <div class="col-4">
-                                        <a href="../../../../assets/img/hotels/36.png" data-gallery="room-gallery-1"><img class="w-100 h-100 object-fit-cover rounded-2" src="../../../../assets/img/hotels/36.png" alt="" /></a>
+                                        <a href="<?= base_url() ?>assets/img/hotels/36.png" data-gallery="room-gallery-1"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/36.png" alt="" /></a>
                                     </div>
                                     <div class="col-4">
-                                        <a href="../../../../assets/img/hotels/37.png" data-gallery="room-gallery-1"><img class="w-100 h-100 object-fit-cover rounded-2" src="../../../../assets/img/hotels/37.png" alt="" /></a>
+                                        <a href="<?= base_url() ?>assets/img/hotels/37.png" data-gallery="room-gallery-1"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/37.png" alt="" /></a>
                                     </div>
                                     <div class="col-4">
-                                        <a href="../../../../assets/img/hotels/38.png" data-gallery="room-gallery-1"><img class="w-100 h-100 object-fit-cover rounded-2" src="../../../../assets/img/hotels/38.png" alt="" /></a>
+                                        <a href="<?= base_url() ?>assets/img/hotels/38.png" data-gallery="room-gallery-1"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/38.png" alt="" /></a>
                                     </div>
                                 </div>
                             </div>
@@ -693,9 +693,9 @@ function timeConvert($dbTime)
                         <hr class="mt-5 mb-8" />
                         <div class="d-flex align-items-center position-relative gap-2 mb-3">
                             <div class="avatar avatar-s">
-                                <img class="rounded-circle" src="../../../../assets/img/team/59.webp" alt="" />
+                                <img class="rounded-circle" src="<?= base_url() ?>assets/img/team/59.webp" alt="" />
                             </div>
-                            <a class="fw-semibold text-body-emphasis stretched-link" href="#!">Navina Koothrapali</a><img src="../../../../assets/img/country/india.png" alt="" />
+                            <a class="fw-semibold text-body-emphasis stretched-link" href="#!">Navina Koothrapali</a><img src="<?= base_url() ?>assets/img/country/india.png" alt="" />
                         </div>
                         <div class="d-flex align-items-center flex-wrap gap-5 mb-5">
                             <div class="d-flex align-items-center gap-4">
@@ -727,9 +727,9 @@ function timeConvert($dbTime)
                         <hr class="mt-8 mb-8" />
                         <div class="d-flex align-items-center position-relative gap-2 mb-3">
                             <div class="avatar avatar-s">
-                                <img class="rounded-circle" src="../../../../assets/img/team/58.webp" alt="" />
+                                <img class="rounded-circle" src="<?= base_url() ?>assets/img/team/58.webp" alt="" />
                             </div>
-                            <a class="fw-semibold text-body-emphasis stretched-link" href="#!">Weston Ryan</a><img src="../../../../assets/img/country/norway.png" alt="" />
+                            <a class="fw-semibold text-body-emphasis stretched-link" href="#!">Weston Ryan</a><img src="<?= base_url() ?>assets/img/country/norway.png" alt="" />
                         </div>
                         <div class="d-flex align-items-center flex-wrap gap-5 mb-5">
                             <div class="d-flex align-items-center gap-4">
@@ -761,9 +761,9 @@ function timeConvert($dbTime)
                         <hr class="mt-8 mb-8" />
                         <div class="d-flex align-items-center position-relative gap-2 mb-3">
                             <div class="avatar avatar-s">
-                                <img class="rounded-circle" src="../../../../assets/img/team/30.webp" alt="" />
+                                <img class="rounded-circle" src="<?= base_url() ?>assets/img/team/30.webp" alt="" />
                             </div>
-                            <a class="fw-semibold text-body-emphasis stretched-link" href="#!">Travis Adams</a><img src="../../../../assets/img/country/canada.png" alt="" />
+                            <a class="fw-semibold text-body-emphasis stretched-link" href="#!">Travis Adams</a><img src="<?= base_url() ?>assets/img/country/canada.png" alt="" />
                         </div>
                         <div class="d-flex align-items-center flex-wrap gap-5 mb-5">
                             <div class="d-flex align-items-center gap-4">

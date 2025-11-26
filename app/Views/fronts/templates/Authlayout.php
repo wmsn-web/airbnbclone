@@ -36,6 +36,7 @@
     <link href="<?= base_url('assets/css/theme.min.css'); ?>" type="text/css" rel="stylesheet" id="style-default">
     <link href="<?= base_url('assets/css/user-rtl.min.css'); ?>" type="text/css" rel="stylesheet" id="user-style-rtl">
     <link href="<?= base_url('assets/css/user.min.css'); ?>" type="text/css" rel="stylesheet" id="user-style-default">
+    <link rel="stylesheet" href="<?= base_url('vendors/notyf@3/notyf.min.css') ?>">
     <script>
         var phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
@@ -77,7 +78,7 @@
         }
     </style>
     <?= $this->renderSection('head') ?>
-    <link href="<?= base_url('assets/custom/custom.css'); ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/custom/custom.css') . '?v=' . env('style.hard.reload'); ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -89,7 +90,8 @@
     <!-- ===============================================-->
     <main class="main" id="top">
         <?= $this->renderSection('content') ?>
-    </main><!-- ===============================================-->
+    </main>
+    <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
 
@@ -107,6 +109,7 @@
     <script src="<?= base_url('vendors/feather-icons/feather.min.js'); ?>"></script>
     <script src="<?= base_url('vendors/dayjs/dayjs.min.js'); ?>"></script>
     <script src="<?= base_url('assets/js/phoenix.js'); ?>"></script>
+    <script src="<?= base_url('vendors/notyf@3/notyf.min.js') ?>"></script>
     <script>
         window.addEventListener('load', function() {
             const loader = document.getElementById('global-loader');
@@ -115,7 +118,82 @@
                 setTimeout(() => loader.style.display = 'none', 500);
             }
         });
+        const notyf = new Notyf({
+            // duration: 0,
+            duration: 5000,
+            dismissible: true,
+            position: {
+                x: 'right',
+                y: 'top',
+            },
+            types: [{
+                    type: 'success',
+                    background: 'rgba(24, 206, 15, 0.9)',
+                    icon: {
+                        className: 'fa-solid fa-circle-check',
+                        tagName: 'i',
+                        text: '',
+                        color: '#fff'
+                    },
+                },
+                {
+                    type: 'error',
+                    background: 'rgba(255, 54, 54, 0.9)',
+                    icon: {
+                        className: 'fa-solid fa-circle-xmark',
+                        tagName: 'i',
+                        text: '',
+                        color: '#fff'
+                    },
+                },
+                {
+                    type: 'warning',
+                    background: 'rgba(255, 178, 54, 0.9)',
+                    icon: {
+                        className: 'fa-solid fa-triangle-exclamation',
+                        tagName: 'i',
+                        text: '',
+                        color: '#fff'
+                    },
+                },
+                {
+                    type: 'info',
+                    background: 'rgba(44, 168, 255, 0.9)',
+                    icon: {
+                        className: 'fa-solid fa-circle-info',
+                        tagName: 'i',
+                        text: '',
+                        color: '#fff'
+                    },
+                },
+                {
+                    type: 'general',
+                    background: 'rgba(44, 168, 255, 0.9)',
+                    icon: {
+                        className: 'fa-solid fa-bell',
+                        tagName: 'i',
+                        text: '',
+                        color: '#fff'
+                    },
+                },
+            ],
+        });
     </script>
+    <?php if (session()->getFlashdata('success')): ?>
+        <script>
+            notyf.open({
+                type: 'success',
+                message: "<?= esc(session()->getFlashdata('success')) ?>"
+            });
+        </script>
+    <?php elseif (session()->getFlashdata('error')): ?>
+        <script>
+            notyf.open({
+                type: 'error',
+                message: "<?= esc(session()->getFlashdata('error')) ?>"
+            });
+        </script>
+    <?php endif; ?>
     <?= $this->renderSection('script') ?>
 </body>
 

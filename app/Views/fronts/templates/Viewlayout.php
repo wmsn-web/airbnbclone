@@ -84,7 +84,7 @@
     </style>
     <?= $this->renderSection('head') ?>
     <link href="<?= base_url('vendors/swiper/swiper-bundle.min.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/custom/custom.css'); ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/custom/custom.css') . '?v=' . env('style.hard.reload'); ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -114,7 +114,7 @@
                 <ul class="d-none d-md-flex align-items-center gap-5 list-unstyled mb-0">
                     <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+01123581321"> <span class="fa-brands fa-whatsapp me-2"></span>+01 123 456 7890</a></li>
                     <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+01123581321"> <span class="fa fa-phone me-2"></span>+01 123 456 7890</a></li>
-                    <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="mailto:example@gmail.com">Contact</a></li>
+                    <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="<?= base_url('contact') ?>">Contact</a></li>
                     <?php if (session()->has('user_id')): ?>
                         <?php
                         $userModel = new \App\Models\UserModel();
@@ -238,16 +238,7 @@
                             <a class="nav-link" href="#">Destinations</a>
                         </li>
                         <li class="nav-item border-bottom border-translucent border-bottom-lg-0">
-                            <a class="nav-link" href="#">Weddings</a>
-                        </li>
-                        <li class="nav-item border-bottom border-translucent border-bottom-lg-0">
                             <a class="nav-link" href="#">Events</a>
-                        </li>
-                        <li class="nav-item border-bottom border-translucent border-bottom-lg-0">
-                            <a class="nav-link" href="#">Gastronomy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Christmas 2025</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Offers</a>
@@ -288,11 +279,12 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
-                        <h5 class="text-white mb-3">Contact</h5><a class="d-block text-secondary-lighter mb-1 text-nowrap"
-                            href="mailto:example@gmail.com"><span
-                                class="fa-solid fa-envelope me-2 me-lg-1 me-xl-2"></span>example@gmail.com</a><a
-                            class="d-block text-secondary-lighter mb-1" href="tel:+911234567890"><span
-                                class="fa-solid fa-phone me-2 me-lg-1 me-xl-2"> </span>+911234567890</a>
+                        <h5 class="text-white mb-3">Contact</h5>
+                        <a class="d-block text-secondary-lighter mb-1 text-nowrap" href="mailto:example@gmail.com">
+                            <span class="fa-solid fa-envelope me-2 me-lg-1 me-xl-2"></span>example@gmail.com</a>
+                        <a class="d-block text-secondary-lighter mb-1" href="tel:+911234567890">
+                            <span class="fa-solid fa-phone me-2 me-lg-1 me-xl-2"> </span>+911234567890
+                        </a>
                     </div>
                     <div class="col-lg-5">
                         <h2 class="text-white mb-2 fw-semibold">Enjoy your trip to the fullest</h2>
@@ -463,8 +455,8 @@
             });
         </script>
     <?php endif; ?>
-    <!-- <?php if (!session()->has('user_id')): ?> -->
     <?= $this->include('fronts/user/components/Modal-auth-js'); ?>
-    <!-- <?php endif; ?> -->
     <?= $this->renderSection('script') ?>
 </body>
+
+</html>

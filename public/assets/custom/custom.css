@@ -300,6 +300,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .room-box {
     text-align: center;
+
     a.room-title {
         font-size: 30px;
         font-weight: 400;
@@ -323,10 +324,12 @@ input[type="number"]::-webkit-inner-spin-button {
         padding: 0;
         margin: 15px;
     }
-    p{
+
+    p {
         display: block;
     }
 }
+
 .otp-inputs input {
     width: 40px;
     height: 40px
@@ -339,10 +342,12 @@ input[type=number]::-webkit-outer-spin-button {
     appearance: none;
     margin: 0
 }
-input.otp-input[type=number]{
+
+input.otp-input[type=number] {
     padding-left: 10px;
     padding-right: 10px;
 }
+
 .validate {
     border-radius: 20px;
     height: 40px;
@@ -350,9 +355,11 @@ input.otp-input[type=number]{
     border: 1px solid red;
     width: 140px
 }
-.dropdown-menu.show[aria-labelledby="navbarDropdownUser"]{
+
+.dropdown-menu.show[aria-labelledby="navbarDropdownUser"] {
     z-index: 9999;
 }
+
 @media screen and (max-width: 600px) {
     .small-mx {
         margin: 0 5px;

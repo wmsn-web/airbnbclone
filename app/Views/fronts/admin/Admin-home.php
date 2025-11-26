@@ -1,3 +1,21 @@
+<?= $this->extend('fronts/templates/AdminLayout') ?>
+
+<?= $this->section('pageTitle') ?>
+<?= esc($pageTitle); ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('headUtilities') ?>
+<link href="<?= base_url('vendors/mapbox-gl/mapbox-gl.css'); ?>" rel="stylesheet">
+<link href="<?= base_url('vendors/flatpickr/flatpickr.min.css'); ?>" rel="stylesheet">
+<link href="<?= base_url('vendors/dropzone/dropzone.css'); ?>" rel="stylesheet">
+<link href="<?= base_url('vendors/swiper/swiper-bundle.min.css'); ?>" rel="stylesheet">
+<link href="<?= base_url('vendors/nouislider/nouislider.min.css'); ?>" rel="stylesheet">
+<?= $this->endSection() ?>
+
+<?= $this->section('assets') ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('content') ?>
 <div class="row mb-4 mb-xl-6 mb-xxl-4 gy-3 justify-content-between">
     <div class="col-auto">
         <h2 class="mb-0 text-body-emphasis">Travel Agency</h2>
@@ -931,3 +949,15 @@
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('jsUtls') ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+<script src="<?= base_url('vendors/mapbox-gl/mapbox-gl.js'); ?>"></script>
+<script src="<?= base_url('vendors/echarts/echarts.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/travel-agency-dashboard.js'); ?>"></script>
+<script src="<?= base_url('assets/js/turf.min.js'); ?>"></script>
+<script src="<?= base_url('vendors/swiper/swiper-bundle.min.js'); ?>"></script>
+<?= $this->endSection() ?>

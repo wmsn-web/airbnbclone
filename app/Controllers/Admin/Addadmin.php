@@ -15,9 +15,12 @@ class Addadmin extends BaseController
     public function index()
     {
         $admindata = CiAdmin::admin();
+        $model = new AdminModel();
+        $allAdmin = $model->findAll();
         $data = [
-            'pageTitle' => 'members',
+            'pageTitle' => 'Add admin',
             'admindata' => $admindata,
+            'allAdmin' => $allAdmin
         ];
         return view('fronts/admin/Add-admin', $data);
     }
