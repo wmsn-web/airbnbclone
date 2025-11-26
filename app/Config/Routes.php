@@ -15,6 +15,11 @@ $routes->group('hotels', static function ($routes): void {
     $routes->get('gallery', 'User\HotelGallery::index', ['as' => 'hotel.room.gallery']);
     $routes->get('checkout', 'User\Hotelcheckout::index', ['as' => 'hotel.checkout', 'filter' => 'AuthFilter:user']);
 });
+$routes->get('hotel', 'User\FindHotel::index', ['as' => 'find.hotel']);
+$routes->group('contact', static function ($routes): void {
+    $routes->get('', 'User\Contact::index', ['as' => 'contact']);
+    $routes->post('get', 'User\Contact::getContact', ['as' => 'get.contact']);
+});
 
 // Auth routes (guest only)
 $routes->group('', ['filter' => 'AuthFilter:auth'], static function ($routes) {
@@ -52,8 +57,10 @@ $routes->group('admin', ['filter' => 'AdminFilter:auth'], static function ($rout
 });
 
 // Admin Dashboard and other admin routes - accessible only if logged in as admin
-$routes->group('admin', ['filter' => 'AdminFilter:admin'], static function ($routes) {
+// Logged-in (all roles allowed)
+$routes->group('admin', ['filter' => 'AdminFilter:login'], static function ($routes) {
     $routes->get('home', 'Admin\Home::index', ['as' => 'admin.home']);
+    $routes->get('test', 'Admin\Home::test');
 
     $routes->group('add-property', static function ($routes) {
         $routes->get('info', 'Admin\AddProperty::info', ['as' => 'admin.addProperty']);
@@ -82,11 +89,16 @@ $routes->group('admin', ['filter' => 'AdminFilter:admin'], static function ($rou
     $routes->get('hotel_listing', 'Admin\Hotellisting::index', ['as' => 'admin.hotel.listing']);
     $routes->get('add_room', 'Admin\Addroom::index', ['as' => 'admin.addRoom']);
     $routes->get('members', 'Admin\Members::index', ['as' => 'admin.members']);
-    $routes->get('add_admin', 'Admin\Addadmin::index', ['as' => 'admin.addadmin']);
-    $routes->post('add_admin', 'Admin\Addadmin::registerHandler', ['as' => 'admin.addadmin.handler']);
+
+    // Super Admin Only
+    $routes->group('', ['filter' => 'AdminFilter:superadmin'], static function ($routes) {
+        $routes->get('add_admin', 'Admin\Addadmin::index', ['as' => 'admin.addadmin']);
+        $routes->post('add_admin', 'Admin\Addadmin::registerHandler', ['as' => 'admin.addadmin.handler']);
+        $routes->get('forgot_password', 'Admin\Forgotpassword::index', ['as' => 'admin.forgot.password']);
+        $routes->post('forgot_password', 'Admin\Forgotpassword::forgotPasswordHandler', ['as' => 'admin.forgot.password.handler']);
+    });
+
     $routes->get('logout', 'Admin\Logout::logoutHandler', ['as' => 'admin.logout.handler']);
-    $routes->get('forgot_password', 'Admin\Forgotpassword::index', ['as' => 'admin.forgot.password']);
-    $routes->post('forgot_password', 'Admin\Forgotpassword::forgotPasswordHandler', ['as' => 'admin.forgot.password.handler']);
 });
 
 // API

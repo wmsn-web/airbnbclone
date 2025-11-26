@@ -16,12 +16,12 @@ class Home extends BaseController
             'pageTitle' => 'Home',
             'admindata' => $admindata,
         ];
-        return view('fronts/admin/templates/Layout', $data)
-            . view('fronts/admin/templates/Vertical-nav')
-            . view('fronts/admin/templates/Top-nav')
-            . view('fronts/admin/templates/Page-js')
-            . view('fronts/admin/Admin-home')
-            . view('fronts/admin/templates/Footer')
-            . view('fronts/admin/templates/Jsmain');
+        return view('fronts/admin/Admin-home', $data);
+    }
+    public function test(){
+        $data = [
+            'pageTitle' => 'test',
+        ];
+        return view('fronts/admin/test', $data);
     }
 }

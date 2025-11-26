@@ -29,30 +29,60 @@ class AdminFilter implements FilterInterface
     {
         $session = session();
         $isLoggedIn = CiAdmin::check();
-        // Handle "Remember Me" functionality if user is not already logged in
+
+        // ---------------------------
+        // Remember Me Auto Login
+        // ---------------------------
         if (!$session->has('admindata') && isset($_COOKIE['remember_token'])) {
             $adminModel = new AdminModel();
             $adminInfo = $adminModel->where('remember_token', $_COOKIE['remember_token'])->first();
 
-            // ⚠️ Optional: Match hashed token instead of plain text for security
             if ($adminInfo && hash_equals($adminInfo['remember_token'], $_COOKIE['remember_token'])) {
                 CiAdmin::setCiAdmin($adminInfo);
+                $isLoggedIn = true;
             }
         }
 
 
-        if (!isset($arguments[0])) {
-            // No condition to enforce, allow access
+        // ---------------------------
+        // 1) Guest-only routes
+        // filter: AdminFilter:auth
+        // ---------------------------
+        if (in_array('auth', $arguments ?? [])) {
+            if ($isLoggedIn) {
+                return redirect()->to('admin/home');
+            }
             return $request;
         }
-        if ($arguments[0] === 'auth' && $isLoggedIn) {
-            return redirect()->to(base_url('admin/home'));
+
+        // ---------------------------
+        // 2) Login required ONLY
+        // filter: AdminFilter:login
+        // ---------------------------
+        if (in_array('login', $arguments ?? [])) {
+            if (!$isLoggedIn) {
+                $session->set('redirect_url', current_url());
+                return redirect()->to('admin');
+            }
+            return $request;
         }
-        if ($arguments[0] === 'admin' && !$isLoggedIn) {
-            // Authenticated-only routes (e.g., dashboard)
-            // optional: go back after login
-            $session->set('redirect_url', current_url());
-            return redirect()->to(base_url('admin'));
+
+        // ---------------------------
+        // 3) Role-based restriction
+        // Example:
+        // AdminFilter:superadmin
+        // AdminFilter:admin,superadmin
+        // AdminFilter:editor,admin
+        // ---------------------------
+        if ($arguments) {
+            $admin = CiAdmin::admin();
+            $role = $admin['role'] ?? null;
+
+            if (!in_array($role, $arguments)) {
+                return redirect()
+                    ->to('admin/home')
+                    ->with('error', 'You are not allowed to access this page.');
+            }
         }
 
         return $request;

@@ -20,81 +20,89 @@
     <div class="container-medium position-relative z-5">
         <h2 class="text-center text-secondary-lighter fs-5 fs-md-3 fw-normal mb-3">Hotel Barcelona Center</h2>
         <h1 class="text-center fs-4 fs-md-1 text-white fw-normal mb-6 overflow-hidden">NEXT <span class="typed-text text-primary" data-typed-text="[&quot;&lt;span class=text-primary&gt;TRIP!&lt;/span&gt;&quot;,&quot;&lt;span class=text-warning&gt;TOUR?&lt;/span&gt;&quot;, &quot;&lt;span class=text-info&gt;SOJOURN?&lt;/span&gt;&quot;, &quot;&lt;span class=text-success&gt;VACAY?&lt;/span&gt;&quot;]"></span></h1>
-        <div class="row gx-0 gy-3 gy-md-0 align-items-center mx-auto p-3 bg-body-emphasis rounded-5 rounded-md-pill position-relative border w-lg-75">
-            <div class="col-12 col-md">
-                <div class="form-icon-container border-bottom border-bottom-md-0 border-translucent pb-3 pb-md-0">
-                    <input class="form-control form-icon-input border-0 py-0 shadow-none fs-8" type="text" placeholder="Pick a place" />
-                    <span class="fa-solid fa-map-marker-alt form-icon text-body-tertiary top-0" data-fa-transform="down-2"></span>
-                </div>
-            </div>
-            <div class="col-6 col-md">
-                <div class="form-icon-container flatpickr-input-container">
-                    <input class="form-control datetimepicker form-icon-input border-y-0 border-start-0 border-start-md py-0 shadow-none border-translucent fs-8 rounded-0" type="text" placeholder="Pick a date" data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true}' />
-                    <span class="fa-solid fa-calendar form-icon top-0 text-body-tertiary" data-fa-transform="down-2"></span>
-                </div>
-            </div>
-            <div class="col-6 col-md">
-                <button class="btn px-3 fs-8 fw-semibold text-body-tertiary" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside">
-                    <span class="fa-solid fa-user me-2"></span>1 adult</button>
-                <div class="dropdown-menu dropdown-menu-start p-4" style="max-width: 320px">
-                    <div class="row align-items-center g-0 pb-3 border-bottom border-translucent">
-                        <div class="col-5">
-                            <h5 class="mb-0 text-body">Adults</h5>
-                        </div>
-                        <div class="col-7">
-                            <div class="input-group gap-2" data-quantity="data-quantity"><button
-                                    class="btn btn-phoenix-primary px-2 rounded" data-type="minus"><span
-                                        class="fa-solid fa-minus px-1"></span></button><input
-                                    class="form-control border-translucent input-spin-none text-center rounded"
-                                    id="adults" type="number" value="2" /><button
-                                    class="btn btn-phoenix-primary px-2 rounded" data-type="plus"><span
-                                        class="fa-solid fa-plus px-1"></span></button></div>
-                        </div>
+        <form action="<?= base_url('hotel') ?>" method="get" id="getHotel">
+            <div class="row gx-0 gy-3 gy-md-0 align-items-center mx-auto p-3 bg-body-emphasis rounded-5 rounded-md-pill position-relative border w-lg-75">
+                <?= csrf_field(); ?>
+                <div class="col-12 col-md">
+                    <div class="form-icon-container border-bottom border-bottom-md-0 border-translucent pb-3 pb-md-0">
+                        <input class="form-control form-icon-input border-0 py-0 shadow-none fs-8" type="text" placeholder="Pick a place" name="place" />
+                        <span class="fa-solid fa-map-marker-alt form-icon text-body-tertiary top-0" data-fa-transform="down-2"></span>
                     </div>
-                    <div class="row align-items-center g-0 py-3 border-bottom border-translucent">
-                        <div class="col-5">
-                            <h5 class="mb-0 text-body">Infants</h5>
-                        </div>
-                        <div class="col-7">
-                            <div class="input-group gap-2" data-quantity="data-quantity"><button
-                                    class="btn btn-phoenix-primary px-2 rounded" data-type="minus"><span
-                                        class="fa-solid fa-minus px-1"></span></button><input
-                                    class="form-control border-translucent input-spin-none text-center rounded"
-                                    id="infants" type="number" value="2" /><button
-                                    class="btn btn-phoenix-primary px-2 rounded" data-type="plus"><span
-                                        class="fa-solid fa-plus px-1"></span></button></div>
-                        </div>
+                </div>
+                <div class="col-6 col-md">
+                    <div class="form-icon-container flatpickr-input-container">
+                        <input class="form-control datetimepicker form-icon-input border-y-0 border-start-0 border-start-md py-0 shadow-none border-translucent fs-8 rounded-0" type="text" placeholder="Pick a date" data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true}' name="date" />
+                        <span class="fa-solid fa-calendar form-icon top-0 text-body-tertiary" data-fa-transform="down-2"></span>
                     </div>
-                    <div class="row align-items-center g-0 pt-3">
-                        <div class="col-5">
-                            <h5 class="mb-0 text-body">Children</h5>
+                </div>
+                <div class="col-6 col-md">
+                    <button class="btn px-3 fs-8 fw-semibold text-body-tertiary" type="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        data-bs-auto-close="outside">
+                        <span class="fa-solid fa-user me-2"></span>
+                        Guests
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-start p-4" style="max-width: 320px">
+                        <div class="row align-items-center g-0 pb-3 border-bottom border-translucent">
+                            <div class="col-5">
+                                <h5 class="mb-0 text-body">Adults</h5>
+                            </div>
+                            <div class="col-7">
+                                <div class="input-group gap-2">
+                                    <button class="btn btn-phoenix-primary px-2 rounded" data-type="minus">
+                                        <span class="fa-solid fa-minus px-1"></span>
+                                    </button>
+                                    <input class="form-control text-center"
+                                        id="adults" name="adults" type="number" value="2">
+                                    <button class="btn btn-phoenix-primary px-2 rounded" data-type="plus">
+                                        <span class="fa-solid fa-plus px-1"></span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-7">
-                            <div class="input-group gap-2" data-quantity="data-quantity">
-                                <button
-                                    class="btn btn-phoenix-primary px-2 rounded" data-type="minus">
-                                    <span
-                                        class="fa-solid fa-minus px-1"></span>
-                                </button>
-                                <input
-                                    class="form-control border-translucent input-spin-none text-center rounded"
-                                    id="children" type="number" value="2" />
-                                <button
-                                    class="btn btn-phoenix-primary px-2 rounded" data-type="plus">
-                                    <span
-                                        class="fa-solid fa-plus px-1"></span>
-                                </button>
+                        <div class="row align-items-center g-0 py-3 border-bottom border-translucent">
+                            <div class="col-5">
+                                <h5 class="mb-0 text-body">Infants</h5>
+                            </div>
+                            <div class="col-7">
+                                <div class="input-group gap-2">
+                                    <button class="btn btn-phoenix-primary px-2 rounded" data-type="minus">
+                                        <span class="fa-solid fa-minus px-1"></span>
+                                    </button>
+                                    <input class="form-control text-center"
+                                        id="infants" name="infants" type="number" value="0">
+                                    <button class="btn btn-phoenix-primary px-2 rounded" data-type="plus">
+                                        <span class="fa-solid fa-plus px-1"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-center g-0 pt-3">
+                            <div class="col-5">
+                                <h5 class="mb-0 text-body">Children</h5>
+                            </div>
+                            <div class="col-7">
+                                <div class="input-group gap-2">
+                                    <button class="btn btn-phoenix-primary px-2 rounded" data-type="minus">
+                                        <span class="fa-solid fa-minus px-1"></span>
+                                    </button>
+                                    <input class="form-control text-center"
+                                        id="children" name="children" type="number" value="0">
+                                    <button class="btn btn-phoenix-primary px-2 rounded" data-type="plus">
+                                        <span class="fa-solid fa-plus px-1"></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-md-auto">
+                    <button class="btn btn-lg btn-phoenix-primary rounded-pill w-100" type="submit">
+                        <span class="fa-solid fa-search me-2"></span>Search
+                    </button>
+                </div>
             </div>
-            <div class="col-12 col-md-auto">
-                <button class="btn btn-lg btn-phoenix-primary rounded-pill w-100">
-                    <span class="fa-solid fa-search me-2"></span>Search
-                </button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -312,6 +320,14 @@
 <?= $this->section('script') ?>
 <script src="<?= base_url('vendors/glightbox/glightbox.min.js') ?>"> </script>
 
+<script>
+    // const getHotel = document.querySelector('#getHotel');
+    // getHotel.addEventListener('submit',(e)=>{
+    //     e.preventDefault();
+    //     const formData = new FormData(getHotel);
+    //     console.log(formData);
 
+    // })
+</script>
 
 <?= $this->endSection() ?>

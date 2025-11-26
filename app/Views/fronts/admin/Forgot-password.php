@@ -1,4 +1,4 @@
-<?= $this->extend('fronts\templates\Adminlayout') ?>
+<?= $this->extend('fronts/templates/Adminlayout') ?>
 
 <?= $this->section('pageTitle') ?>
 <?= esc($pageTitle); ?>
@@ -8,20 +8,6 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<div class="c-err d-none" id="erral">
-    <div class="alert alert-outline-danger d-flex align-items-center gap-2" role="alert">
-        <span class="fas fa-times-circle text-danger fs-6"></span>
-        <span class="mb-0 flex-1" id="erralmsg"></span>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-<div class="c-err d-none" id="succal">
-    <div class="alert alert-subtle-success d-flex align-items-center gap-2" role="alert">
-        <span class="fas fa-check-circle text-success fs-6"></span>
-        <span class="mb-0 flex-1" id="succalmsg"></span>
-        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
 <div class="row flex-center">
     <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
         <h2 class="text-bold text-body-emphasis mb-5">Forgot Password</h2>
@@ -36,7 +22,6 @@
                             value="" placeholder="name@example.com">
                         <span class="fas fa-user text-body fs-9 form-icon"></span>
                     </div>
-                    <p class="ntv d-none" id="emerr"></p>
                 </div>
                 <div class="col-md-8 mb-3 text-start">
                     <label class="form-label" for="password">Current Password</label>
@@ -52,7 +37,6 @@
                             <span class="far fa-eye-slash hide"></span>
                         </button>
                     </div>
-                    <p class="ntv d-none" id="oldpwd"></p>
                 </div>
                 <div class="col-6">
                     <button class="btn btn-primary mb-3" type="submit">Next</button>
@@ -87,7 +71,6 @@
                             <span class="far fa-eye-slash hide"></span>
                         </button>
                     </div>
-                    <p class="ntv d-none" id="newrepwd"></p>
                 </div>
                 <div class="col-6">
                     <button class="btn btn-primary mb-3" type="submit">Update Password</button>
@@ -104,72 +87,43 @@
         const form = document.querySelector("#forgotpwd");
         const newupdate = document.querySelector("#newupdate");
         const step = document.querySelector("#step");
-
-
         if (form) {
-            form.addEventListener("submit", function(e) {
+            form.addEventListener("submit", async function(e) {
                 e.preventDefault();
                 const formData = new FormData(form);
-                fetch("<?= base_url('admin/forgot_password') ?>", {
+                try {
+                    const spw = await fetch("<?= base_url('admin/forgot_password') ?>", {
                         method: "POST",
                         headers: {
                             "X-Requested-With": "XMLHttpRequest"
                         },
                         body: formData
-                    })
-                    .then(resp => resp.json())
-                    .then(data => {
-                        console.log(data);
-                        if (data.error) {
-                            document.querySelector("#succal")?.classList.add("d-none");
-                            document.querySelector("#erral")?.classList.add("d-none");
-                            document.querySelector("#emerr")?.classList.add("d-none");
-                            document.querySelector("#oldpwd")?.classList.add("d-none");
-                            document.querySelector("#newrepwd")?.classList.add("d-none");
-                            switch (data.type) {
-                                case 'email':
-                                    const emerr = document.querySelector("#emerr");
-                                    if (emerr) {
-                                        emerr.innerText = data.msg;
-                                        emerr.classList.remove("d-none");
-                                    }
-                                    break;
-                                case 'pwd':
-                                    const oldpwd = document.querySelector("#oldpwd");
-                                    if (oldpwd) {
-                                        oldpwd.innerText = data.msg;
-                                        oldpwd.classList.remove("d-none");
-                                    }
-                                    break;
-                                case 'newrepwd':
-                                    const newrepwd = document.querySelector("#newrepwd");
-                                    if (newrepwd) {
-                                        newrepwd.innerText = data.msg;
-                                        newrepwd.classList.remove("d-none");
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        if (data.success && data.redirect) {
-                            const succalmsg = document.querySelector("#succalmsg");
-                            const succal = document.querySelector("#succal");
-                            if (succalmsg && succal) {
-                                succalmsg.innerText = data.msg;
-                                succal.classList.remove("d-none");
-                            }
-                            setTimeout(() => {
-                                window.location.href = data.redirect;
-                            }, 2000);   
-                        }
+                    });
+                    const resp = await spw.json();
+                    if (!resp) return notyf.open({
+                        type: 'error',
+                        message: 'Network error, try again.'
+                    });
+                    if (resp.success) {
+                        notyf.open({
+                            type: 'success',
+                            message: resp.msg
+                        });
+                        setTimeout(() => {
+                            window.location.href = resp.redirect;
+                        }, 1000);
+                        console.log(resp);
+                    } else {
+                        console.log(resp);
+                        notyf.open({
+                            type: 'error',
+                            message: resp.msg
+                        });
+                    }
+                } catch (error) {
+                    console.log(`Error : ${error}`);
 
-                    })
-                    .catch(err => {
-                        console.error("error:", err);
-                        document.querySelector("#erralmsg").innerText = "Something went wrong!";
-                        document.querySelector("#erral").classList.remove("d-none");
-                    })
+                }
             });
         }
     });

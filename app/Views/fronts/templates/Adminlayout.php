@@ -123,28 +123,28 @@
                                         id="nv-customization">
                                         <li class="hotelCollapsed-nav-item-title d-none">Hotel</li>
                                         <li class="nav-item">
-                                            <a class="nav-link <?= $isActive == 'admin/hotel_listing' ? 'active' : ''; ?>" href="<?= url(route_to('admin.hotel.listing')) ?>">
+                                            <a class="nav-link <?= $isActive == 'admin/hotel_listing' ? 'active' : ''; ?>" href="<?= base_url('admin/hotel_listing') ?>">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Hotel listing</span>
                                                 </div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link <?= (str_starts_with($isActive, 'admin/add-property/info')) ? 'active' : ''; ?>" href="<?= url(route_to('admin.addProperty')); ?>">
+                                            <a class="nav-link <?= (str_starts_with($isActive, 'admin/add-property/info')) ? 'active' : ''; ?>" href="<?= base_url('admin/add-property/info')  ?>">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Add property</span>
                                                 </div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link <?= $isActive == 'admin/add_room' ? 'active' : ''; ?>" href="<?= url(route_to('admin.addRoom')) ?>">
+                                            <a class="nav-link <?= $isActive == 'admin/add_room' ? 'active' : ''; ?>" href="<?= base_url('admin/add_room')  ?>">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Add room</span>
                                                 </div>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link <?= $isActive == 'admin/room_listing' ? 'active' : ''; ?>" href="<?= url(route_to('admin.room.listing')) ?>">
+                                            <a class="nav-link <?= $isActive == 'admin/room_listing' ? 'active' : ''; ?>" href="<?= base_url('admin/room_listing')  ?>">
                                                 <div class="d-flex align-items-center">
                                                     <span class="nav-link-text">Room listing</span>
                                                 </div>
@@ -198,7 +198,7 @@
                             </div><!-- parent pages-->
                             <div class="nav-item-wrapper">
                                 <a class="nav-link <?= $isActive == 'admin/members' ? 'active' : '' ?> label-1"
-                                    href="<?= url(route_to('admin.members')) ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    href="<?= base_url('admin/members') ?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
@@ -218,7 +218,7 @@
                             </div>
                             <?php if ($admindata['role'] === 'superadmin'): ?>
                                 <div class="nav-item-wrapper">
-                                    <a class="nav-link <?= $isActive == 'admin/add_admin' ? 'active' : '' ?> label-1" href="<?= url(route_to('admin.addadmin')); ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                    <a class="nav-link <?= $isActive == 'admin/add_admin' ? 'active' : '' ?> label-1" href="<?= base_url('admin/add_admin')  ?>" role="button" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus">
@@ -236,7 +236,7 @@
                                 </div>
                             <?php endif; ?>
                             <div class="nav-item-wrapper">
-                                <a class="nav-link <?= $isActive == 'admin/forgot_password' ? 'active' : '' ?> label-1" href="<?= url(route_to('admin.forgot.password')); ?>" role="button" data-bs-toggle="" aria-expanded="false">
+                                <a class="nav-link <?= $isActive == 'admin/forgot_password' ? 'active' : '' ?> label-1" href="<?= base_url('admin/forgot_password') ?>" role="button" data-bs-toggle="" aria-expanded="false">
                                     <div class="d-flex align-items-center">
                                         <span class="nav-link-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock">
@@ -271,7 +271,7 @@
                         data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse"
                         aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span
                             class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-                    <a class="navbar-brand me-1 me-sm-3" href="<?= url(route_to('admin.home')); ?>">
+                    <a class="navbar-brand me-1 me-sm-3" href="<?= base_url('admin/home'); ?>">
                         <div class="d-flex align-items-center">
                             <div class="d-flex align-items-center"><img src="<?= base_url('assets/img/icons/logo.png'); ?>"
                                     alt="phoenix" width="27" />
@@ -332,7 +332,7 @@
                 </div>
                 <ul class="navbar-nav navbar-nav-icons flex-row">
                     <li class="nav-item">
-                        <a href="<?= url(route_to('home')); ?>" target="_blank" class="nav-link text-black mb-1" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Back to home">
+                        <a href="<?= base_url() ?>" target="_blank" class="nav-link text-black mb-1" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Back to home">
                             <span class="icon" data-feather="home"></span>
                         </a>
                         <div class="theme-control-toggle fa-icon-wait px-2">
@@ -598,7 +598,7 @@
                                                 another account</a></li>
                                     </ul>
                                     <hr />
-                                    <a class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= url(route_to('admin.logout.handler')) ?>">
+                                    <a class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= base_url('admin/logout') ?>">
                                             <span class="me-2" data-feather="log-out"> </span>Sign out</a>
                                     </a>
                                     <div class="my-2 text-center fw-bold fs-10 text-body-quaternary"><a
@@ -723,7 +723,7 @@
                         </p>
                     </div>
                     <div class="col-12 col-sm-auto text-center">
-                        <p class="mb-0 text-body-tertiary text-opacity-85">v1.0.0</p>
+                        <p class="mb-0 text-body-tertiary text-opacity-85">v2.5.6</p>
                     </div>
                 </div>
             </footer>
@@ -985,6 +985,21 @@
         //     message: 'general notification'
         // });
     </script>
+    <?php if (session()->getFlashdata('success')): ?>
+        <script>
+            notyf.open({
+                type: 'success',
+                message: "<?= esc(session()->getFlashdata('success')) ?>"
+            });
+        </script>
+    <?php elseif (session()->getFlashdata('error')): ?>
+        <script>
+            notyf.open({
+                type: 'error',
+                message: "<?= esc(session()->getFlashdata('error')) ?>"
+            });
+        </script>
+    <?php endif; ?>
     <?= $this->renderSection('script'); ?>
 
 </body>

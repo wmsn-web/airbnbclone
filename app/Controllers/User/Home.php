@@ -11,7 +11,6 @@ class Home extends BaseController
     {
         $data = [
             'pageTitle' => 'Home',
-            'groupHeader' => null,
         ];
         return view('fronts/user/Home', $data);
     }

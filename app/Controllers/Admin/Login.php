@@ -30,14 +30,14 @@ class Login extends BaseController
 
             if (empty($loginID)) {
                 return $this->response->setJSON([
-                    'err' => true,
+                    'error' => true,
                     'type' => 'loginid',
                     'msg'  => 'Email or Username required.'
                 ]);
             }
             if (empty($password)) {
                 return $this->response->setJSON([
-                    'err' => true,
+                    'error' => true,
                     'type' => 'password',
                     'msg'  => 'Password is required.'
                 ]);
@@ -46,14 +46,14 @@ class Login extends BaseController
             $admin = $adminModel->where($fieldType, $loginID)->first();
             if (!$admin) {
                 return $this->response->setJSON([
-                    'err' => true,
+                    'error' => true,
                     'type' => 'loginid',
                     'msg'  => $fieldType. " doesn't exist."
                 ]);
             }
             if (!Hash::check($password, $admin['password'])) {
                 return $this->response->setJSON([
-                    'err' => true,
+                    'error' => true,
                     'type' => 'password',
                     'msg'  => 'Invalid password.'
                 ]);
@@ -79,7 +79,7 @@ class Login extends BaseController
         } else {
             // Fallback if accessed normally (non-AJAX)
             return $this->response->setJSON([
-                'err' => true,
+                'error' => true,
                 'msg' => 'Invalid request type.'
             ]);
         }

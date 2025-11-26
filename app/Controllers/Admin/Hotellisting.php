@@ -16,18 +16,12 @@ class Hotellisting extends BaseController
         $hotels = $hotelModel->getHotelFullListing();
         // $singleHotel = $hotelModel->getSingleHotel(4);
         $data = [
-            'pageTitle' => 'Room-listing',
+            'pageTitle' => 'Hotel Listing',
             'admindata' => $admindata,
             'hotels'    => $hotels,
             // 'hotel'    => $singleHotel,
 
         ];
-        return view('fronts/admin/templates/Layout', $data)
-            . view('fronts/admin/templates/Vertical-nav')
-            . view('fronts/admin/templates/Top-nav')
-            . view('fronts/admin/templates/Page-js')
-            . view('fronts/admin/Hotel-listing')
-            . view('fronts/admin/templates/Footer')
-            . view('fronts/admin/templates/Jsmain');
+        return view('fronts/admin/Hotel-listing', $data);
     }
 }
