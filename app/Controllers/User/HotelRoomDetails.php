@@ -6,9 +6,10 @@ use App\Models\HotelModel;
 
 
 use App\Controllers\BaseController;
+use App\Models\RoomModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
-class HotelDetails extends BaseController
+class HotelRoomDetails extends BaseController
 {
     public function details(): string
     {
@@ -28,11 +29,14 @@ class HotelDetails extends BaseController
         // if (empty($hotel)) {
         //     throw PageNotFoundException::forPageNotFound("Hotel not found");
         // }
+        $roomModel = new RoomModel();
+        $rooms = $roomModel->where('hotel_id', $id)->findAll();
         $data = [
             'pageTitle' => 'Hotel Details',
             'groupHeader' => null,
-            'hotel' => $hotel
+            'hotel' => $hotel,
+            'rooms' => $rooms
         ];
-        return view('fronts/user/Room-details', $data);
+        return view('fronts/user/Hotel-Room-Details', $data);
     }
 }

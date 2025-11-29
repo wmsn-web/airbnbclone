@@ -10,12 +10,17 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'User\Home::index', ['as' => 'home']);
 
 $routes->group('hotels', static function ($routes): void {
-    $routes->get('', 'User\HotelDetails::details', ['as' => 'hotel.details']);
-    $routes->get('rooms', 'User\HotelDetails::rooms', ['as' => 'hotel.room.details']);
+    $routes->get('', 'User\HotelRoomDetails::details', ['as' => 'hotel.details']);
+    $routes->get('rooms', 'User\HotelRoomDetails::rooms', ['as' => 'hotel.room.details']);
     $routes->get('gallery', 'User\HotelGallery::index', ['as' => 'hotel.room.gallery']);
     $routes->get('checkout', 'User\Hotelcheckout::index', ['as' => 'hotel.checkout', 'filter' => 'AuthFilter:user']);
 });
-$routes->get('hotel', 'User\FindHotel::index', ['as' => 'find.hotel']);
+$routes->get('hotel/(:segment)', 'User\FindHotel::index/$1', ['as' => 'find.hotel']);
+
+$routes->post('cart/addRoom', 'User\Cart::addRoom');
+$routes->get('cart/getRooms', 'User\Cart::getRooms');
+$routes->post('cart/removeRoom', 'User\Cart::removeRoom');
+
 $routes->group('contact', static function ($routes): void {
     $routes->get('', 'User\Contact::index', ['as' => 'contact']);
     $routes->post('get', 'User\Contact::getContact', ['as' => 'get.contact']);
@@ -87,7 +92,11 @@ $routes->group('admin', ['filter' => 'AdminFilter:login'], static function ($rou
 
     $routes->get('room_listing', 'Admin\Roomlisting::index', ['as' => 'admin.room.listing']);
     $routes->get('hotel_listing', 'Admin\Hotellisting::index', ['as' => 'admin.hotel.listing']);
-    $routes->get('add_room', 'Admin\Addroom::index', ['as' => 'admin.addRoom']);
+    $routes->group('add_room', static function ($routes) {
+        $routes->get('', 'Admin\Addroom::index', ['as' => 'admin.addRoom']);
+        $routes->post('add-room-type', 'Admin\Addroom::addRoomCatagory');
+        $routes->post('add-room-details', 'Admin\Addroom::addRoomDetails');
+    });
     $routes->get('members', 'Admin\Members::index', ['as' => 'admin.members']);
 
     // Super Admin Only

@@ -9,7 +9,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Booking - <?= $this->renderSection('pageTitle') ?></title>
+    <title>Firebnb - <?= $this->renderSection('pageTitle') ?></title>
 
     <!-- ===============================================-->
     <!--    Favicons-->

@@ -14,12 +14,6 @@ class Members extends BaseController
             'pageTitle' => 'members',
             'admindata' => $admindata,
         ];
-        return view('fronts/admin/templates/Layout', $data)
-            . view('fronts/admin/templates/Vertical-nav')
-            . view('fronts/admin/templates/Top-nav')
-            . view('fronts/admin/templates/Page-js')
-            . view('fronts/admin/Members')
-            . view('fronts/admin/templates/Footer')
-            . view('fronts/admin/templates/Jsmain');
+        return view('fronts/admin/Members', $data);
     }
 }

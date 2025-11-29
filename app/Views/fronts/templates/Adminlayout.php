@@ -11,7 +11,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Booking - Admin | <?= $this->renderSection('pageTitle') ?></title>
+    <title>Firebnb - Admin | <?= $this->renderSection('pageTitle') ?></title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
