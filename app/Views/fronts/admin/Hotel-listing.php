@@ -23,7 +23,7 @@
         <h2>Hotel Listing</h2>
         <div data-list='{"valueNames":["name","beds","guest","bathRooms","amenities","totalRooms"],"page":8}'>
             <div class="d-md-flex mt-5 mb-4">
-                <a href="<?= base_url('admin/add-property') ?>" class="btn btn-primary me-4">
+                <a href="<?= base_url('admin/add-property/info') ?>" class="btn btn-primary me-4">
                     <span class="fas fa-plus me-2"></span>Create Listing
                 </a>
                 <!-- <button class="btn btn-link text-body me-4 px-0">
@@ -181,6 +181,8 @@
                                                 <!-- <span class="fas fa-ellipsis-h fs-11"></span> -->
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-end py-2">
+                                                <a class="dropdown-item" href="<?= base_url('admin/add_room/' . $hotel['id']) ?>">Add room</a>
+                                                <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="javascript:void(0)">View</a>
                                                 <a class="dropdown-item" href="<?= base_url('admin/add_property/tab7/' . $hotel['id']) ?>">Edit</a>
                                                 <div class="dropdown-divider"></div>

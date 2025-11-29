@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title><?= $this->renderSection('pageTitle') ?></title>
+    <title>Firebnb - <?= $this->renderSection('pageTitle') ?></title>
 
     <!-- ===============================================-->
     <!--    Favicons-->

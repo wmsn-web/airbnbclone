@@ -1,3 +1,16 @@
+<?= $this->extend('fronts/templates/AdminLayout') ?>
+
+<?= $this->section('pageTitle') ?>
+<?= esc($pageTitle); ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('headUtilities') ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('assets') ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('content') ?>
 <div class="content pt-0">
     <nav class="mb-3" aria-label="breadcrumb">
         <ol class="breadcrumb mb-0">
@@ -540,3 +553,11 @@
         </div>
     </footer>
 </div>
+
+<?= $this->endSection() ?>
+
+<?= $this->section('jsUtls') ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+<?= $this->endSection() ?>

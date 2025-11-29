@@ -12,10 +12,6 @@
 
 <?= $this->section('content') ?>
 <?php
-$currentUri = uri_string();
-$isDetailsPage = (strpos($currentUri, 'hotel/details') === 0);
-$isCheckoutPage = (strpos($currentUri, 'hotel/checkout') === 0);
-
 $addressParts = [
     $hotel['street_name'] ?? '',
     $hotel['city'] ?? '',
@@ -52,13 +48,7 @@ function timeConvert($dbTime)
 ?>
 <section class="pt-4 pb-9">
     <div class="container-medium">
-        <nav class="mb-3" aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="<?= base_url() ?>" class="<?= uri_string() == 'home' ? ' text-decoration-underline text-primary' : 'text-black' ?>">Hotels</a></li>
-                <li class="breadcrumb-item"><a href="<?= base_url('hotels') ?>" class="<?= $isDetailsPage ? ' text-decoration-underline text-primary' : 'text-black' ?>">Details</a></li>
-                <li class="breadcrumb-item"><a href="<?= base_url('hotels/checkout') ?>" class="<?= $isCheckoutPage ? ' text-decoration-underline text-primary' : 'text-black' ?>">Check Out</a></li>
-            </ol>
-        </nav>
+
         <h2 class="mb-4">Hotel Details</h2>
         <div class="row g-4 flex-between-end mb-5">
             <div class="col-md-8 col-lg-9">
@@ -101,7 +91,7 @@ function timeConvert($dbTime)
         </div>
 
         <div class="row g-3">
-            <div class="col-xl-8">
+            <div class="col-12">
                 <div class="row g-3 mb-3">
                     <!-- 1st col and if 2 hphoto then same as this-->
                     <div class="col-md-6">
@@ -158,14 +148,14 @@ function timeConvert($dbTime)
                                     <div class="col-sm-6 col-lg-3">
                                         <label class="fw-bold text-body-tertiary mb-1" for="checkIn">Check in</label>
                                         <div class="form-icon-container flatpickr-input-container">
-                                            <input class="form-control form-icon-input datetimepicker" id="checkIn" type="text" placeholder="26 Jan, 2023" data-options='{"disableMobile":true}' />
+                                            <input class="form-control form-icon-input datetimepicker" id="checkIn" type="text" name="startDate" placeholder="<?= date('d/m/Y') ?>" />
                                             <span class="fa-solid fa-calendar text-body fs-9 form-icon"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-lg-3">
                                         <label class="fw-bold text-body-tertiary mb-1" for="checkOut">Check out</label>
                                         <div class="form-icon-container flatpickr-input-container">
-                                            <input class="form-control form-icon-input datetimepicker" id="checkOut" type="text" placeholder="26 Jan, 2023" data-options='{"disableMobile":true}' />
+                                            <input class="form-control form-icon-input datetimepicker" id="checkOut" type="text" name="endDate" placeholder="<?= date('d/m/Y') ?>" />
                                             <span class="fa-solid fa-calendar text-body fs-9 form-icon"></span>
                                         </div>
                                     </div>
@@ -181,119 +171,70 @@ function timeConvert($dbTime)
                                 </div>
                             </div>
                         </div>
-                        <hr class="my-6" />
-                        <div class="row g-3 mb-4">
-                            <div class="col-lg-8 col-xxl-7">
-                                <div class="row flex-lg-nowrap g-3 mb-2">
-                                    <div class="col-md-auto">
-                                        <h4 class="mb-0 fw-semibold"><span class="fa-solid fa-circle fs-9 text-body-quaternary me-2" data-fa-transform="up-1"></span>Standard double queen</h4>
+                        <?php if (!empty($rooms)): ?>
+                            <?php foreach ($rooms as $room): ?>
+                                <hr class="my-6" />
+                                <div class="row g-3 mb-4">
+                                    <div class="col-lg-8 col-xxl-7">
+                                        <div class="row flex-lg-nowrap g-3 mb-2">
+                                            <div class="col-md-auto">
+                                                <h4 class="mb-0 fw-semibold"><span class="fa-solid fa-circle fs-9 text-body-quaternary me-2" data-fa-transform="up-1"></span><?= $room['room_name'] ?></h4>
+                                            </div>
+                                            <div class="col-md-auto d-flex align-items-center">
+                                                <div class="vr bg-body-secondary me-3 d-none d-md-block"></div>
+                                                <span class="fa-solid fa-bed text-primary fs-9 me-1"></span><span class="fa-solid fa-bed text-primary fs-9"></span>
+                                                <div class="vr bg-body-secondary mx-3"></div>
+                                                <span class="fa-solid fa-user text-primary fs-9 me-1"></span><span class="fa-solid fa-user text-primary fs-9"></span>
+                                                <div class="vr bg-body-secondary mx-3"></div>
+                                                <span class="fa-solid fa-mug-saucer text-primary fs-9"></span>
+                                                <div class="vr bg-body-secondary mx-3"></div>
+                                                <span class="badge badge-phoenix badge-phoenix-info">10% OFF</span>
+                                            </div>
+                                        </div>
+                                        <p class="mb-0"><?= $room['description'] ?></p>
                                     </div>
-                                    <div class="col-md-auto d-flex align-items-center">
-                                        <div class="vr bg-body-secondary me-3 d-none d-md-block"></div>
-                                        <span class="fa-solid fa-bed text-primary fs-9 me-1"></span><span class="fa-solid fa-bed text-primary fs-9"></span>
-                                        <div class="vr bg-body-secondary mx-3"></div>
-                                        <span class="fa-solid fa-user text-primary fs-9 me-1"></span><span class="fa-solid fa-user text-primary fs-9"></span>
-                                        <div class="vr bg-body-secondary mx-3"></div>
-                                        <span class="fa-solid fa-mug-saucer text-primary fs-9"></span>
-                                        <div class="vr bg-body-secondary mx-3"></div>
-                                        <span class="badge badge-phoenix badge-phoenix-info">10% OFF</span>
-                                    </div>
-                                </div>
-                                <p class="mb-0">A standard double queen room has two queen-sized beds and may accept up to two people for a convenient and comfortable stay.</p>
-                            </div>
-                            <div class="col-lg-4 col-xxl-5">
-                                <h3 class="mb-2 d-flex align-items-center justify-content-lg-end gap-2"><span class="fs-9 text-body-quaternary fw-normal text-decoration-line-through">$1,456.65</span>$1,256.65</h3>
-                                <h5 class="text-body text-lg-end fw-normal">+$123 for tax and fees</h5>
-                            </div>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-lg-7">
-                                <div class="row gx-2 h-100">
-                                    <div class="col-4">
-                                        <a href="<?= base_url() ?>assets/img/hotels/33.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/33.png" alt="" /></a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="<?= base_url() ?>assets/img/hotels/34.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/34.png" alt="" /></a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="<?= base_url() ?>assets/img/hotels/35.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/35.png" alt="" /></a>
+                                    <div class="col-lg-4 col-xxl-5">
+                                        <h3 class="mb-2 d-flex align-items-center justify-content-lg-end gap-2"><span class="fs-9 text-body-quaternary fw-normal text-decoration-line-through">$1,456.65</span>$<?= $room['price'] ?></h3>
+                                        <h5 class="text-body text-lg-end fw-normal">+$123 for tax and fees</h5>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4 col-xl-5 col-xxl-4 ms-auto">
-                                <div class="card bg-body-highlight">
-                                    <div class="card-body">
-                                        <ul class="mb-2 list-unstyled d-flex list flex-wrap gap-2">
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>wifi</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>tv</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>common area</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>bathtub</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>Heating</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>Telephone</li>
-                                        </ul>
-                                        <a class="fw-bold fs-9" href="#!">Show other amenities </a>
+                                <div class="row g-3">
+                                    <div class="col-lg-7">
+                                        <div class="row gx-2 h-100">
+                                            <div class="col-4">
+                                                <a href="<?= base_url() ?>assets/img/hotels/33.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/33.png" alt="" /></a>
+                                            </div>
+                                            <div class="col-4">
+                                                <a href="<?= base_url() ?>assets/img/hotels/34.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/34.png" alt="" /></a>
+                                            </div>
+                                            <div class="col-4">
+                                                <a href="<?= base_url() ?>assets/img/hotels/35.png" data-gallery="room-gallery-0"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/35.png" alt="" /></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-xl-5 col-xxl-4 ms-auto">
+                                        <div class="card bg-body-highlight">
+                                            <div class="card-body">
+                                                <ul class="mb-2 list-unstyled d-flex list flex-wrap gap-2">
+                                                    <?php
+                                                    $roomAms = json_decode($room['amenities']);
+                                                    foreach ($roomAms as $value): ?>
+                                                        <li class="text-body-highlight fs-9 me-1 mb-0 lh-1">
+                                                            <span class="fa-solid fa-check text-success me-1"></span><?= $value ?>
+                                                        </li>
+                                                    <?php endforeach; ?>
+
+                                                </ul>
+                                                <a class="fw-bold fs-9" href="#!">Show other amenities </a>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-outline-primary w-100 mt-3 add-room-btn" data-room-id="<?= $room['id']; ?>"
+                                            data-room-name="<?= esc($room['room_name']); ?>"
+                                            data-room-price="<?= $room['price']; ?>">Add room</button>
                                     </div>
                                 </div>
-                                <button class="btn btn-outline-primary w-100 mt-3">Add room</button>
-                            </div>
-                        </div>
-                        <hr class="my-6" />
-                        <div class="row g-3 mb-4">
-                            <div class="col-lg-8 col-xxl-7">
-                                <div class="row flex-lg-nowrap g-3 mb-2">
-                                    <div class="col-md-auto">
-                                        <h4 class="mb-0 fw-semibold"><span class="fa-solid fa-circle fs-9 text-body-quaternary me-2" data-fa-transform="up-1"></span>Standard double king</h4>
-                                    </div>
-                                    <div class="col-md-auto d-flex align-items-center">
-                                        <div class="vr bg-body-secondary me-3 d-none d-md-block"></div>
-                                        <span class="fa-solid fa-bed text-primary fs-9 me-1"></span><span class="fa-solid fa-bed text-primary fs-9"></span>
-                                        <div class="vr bg-body-secondary mx-3"></div>
-                                        <span class="fa-solid fa-user text-primary fs-9 me-1"></span><span class="fa-solid fa-user text-primary fs-9 me-1"></span><span class="fa-solid fa-user text-primary fs-9 me-1"></span>
-                                        <span class="fa-solid fa-user text-primary fs-9"></span>
-                                        <div class="vr bg-body-secondary mx-3"></div>
-                                        <span class="fa-solid fa-mug-saucer text-primary fs-9"></span>
-                                        <div class="vr bg-body-secondary mx-3"></div>
-                                        <span class="badge badge-phoenix badge-phoenix-info">15% OFF</span>
-                                    </div>
-                                </div>
-                                <p class="mb-0">A standard double king room is a hotel room with two king-size beds that can comfortably fit up to four guests.</p>
-                            </div>
-                            <div class="col-lg-4 col-xxl-5">
-                                <h3 class="mb-2 d-flex align-items-center justify-content-lg-end gap-2"><span class="fs-9 text-body-quaternary fw-normal text-decoration-line-through">$1,456.65</span>$1,856.65</h3>
-                                <h5 class="text-body text-lg-end fw-normal">+$155 for tax and fees</h5>
-                            </div>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-lg-7">
-                                <div class="row gx-2 h-100">
-                                    <div class="col-4">
-                                        <a href="<?= base_url() ?>assets/img/hotels/36.png" data-gallery="room-gallery-1"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/36.png" alt="" /></a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="<?= base_url() ?>assets/img/hotels/37.png" data-gallery="room-gallery-1"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/37.png" alt="" /></a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="<?= base_url() ?>assets/img/hotels/38.png" data-gallery="room-gallery-1"><img class="w-100 h-100 object-fit-cover rounded-2" src="<?= base_url() ?>assets/img/hotels/38.png" alt="" /></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-xl-5 col-xxl-4 ms-auto">
-                                <div class="card bg-body-highlight">
-                                    <div class="card-body">
-                                        <ul class="mb-2 list-unstyled d-flex list flex-wrap gap-2">
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>wifi</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>tv</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>common area</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>bathtub</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>Heating</li>
-                                            <li class="text-body-highlight fs-9 me-1 mb-0 lh-1"><span class="fa-solid fa-check text-success me-1"> </span>Telephone</li>
-                                        </ul>
-                                        <a class="fw-bold fs-9" href="#!">Show other amenities </a>
-                                    </div>
-                                </div>
-                                <button class="btn btn-outline-primary w-100 mt-3">Add room</button>
-                            </div>
-                        </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                     <div class="tab-pane fade" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab" tabindex="0">
                         <?php if ($hotel['description']): ?>
@@ -693,7 +634,7 @@ function timeConvert($dbTime)
                         <hr class="mt-5 mb-8" />
                         <div class="d-flex align-items-center position-relative gap-2 mb-3">
                             <div class="avatar avatar-s">
-                                <img class="rounded-circle" src="<?= base_url() ?>assets/img/team/59.webp" alt="" />
+                                <!-- <img class="rounded-circle" src="<?= base_url() ?>assets/img/team/59.webp" alt="" /> -->
                             </div>
                             <a class="fw-semibold text-body-emphasis stretched-link" href="#!">Navina Koothrapali</a><img src="<?= base_url() ?>assets/img/country/india.png" alt="" />
                         </div>
@@ -727,7 +668,7 @@ function timeConvert($dbTime)
                         <hr class="mt-8 mb-8" />
                         <div class="d-flex align-items-center position-relative gap-2 mb-3">
                             <div class="avatar avatar-s">
-                                <img class="rounded-circle" src="<?= base_url() ?>assets/img/team/58.webp" alt="" />
+                                <!-- <img class="rounded-circle" src="<?= base_url() ?>assets/img/team/58.webp" alt="" /> -->
                             </div>
                             <a class="fw-semibold text-body-emphasis stretched-link" href="#!">Weston Ryan</a><img src="<?= base_url() ?>assets/img/country/norway.png" alt="" />
                         </div>
@@ -797,92 +738,6 @@ function timeConvert($dbTime)
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4">
-                <div class="card mt-3 mt-xl-0">
-                    <div class="card-body">
-                        <h5 class="mb-3">Summary</h5>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <button class="btn p-0 position-absolute end-0 fs-8 mt-n5 me-n2 text-body-tertiary"><span class="fa-solid fa-circle-xmark"></span></button>
-                                <div class="d-flex justify-content-between gap-3 mb-4">
-                                    <div>
-                                        <h5 class="text-body-highlight">Room 1</h5>
-                                        <p class="mb-0 text-body-tertiary">King-Super deluxe</p>
-                                    </div>
-                                    <h4 class="mb-0">$2,056.75</h4>
-                                </div>
-                                <div class="row align-items-center g-0">
-                                    <div class="col-3">
-                                        <h5 class="text-body text-nowrap mb-0">Check in</h5>
-                                    </div>
-                                    <div class="col-auto"><span class="px-2">:</span></div>
-                                    <div class="col-auto"><span>25 January, 2023</span></div>
-                                </div>
-                                <div class="row align-items-center g-0 mb-4">
-                                    <div class="col-3">
-                                        <h5 class="text-body text-nowrap mb-0">Check out</h5>
-                                    </div>
-                                    <div class="col-auto"><span class="px-2">:</span></div>
-                                    <div class="col-auto"><span>27 January, 2023</span></div>
-                                </div>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <span class="badge badge-phoenix badge-phoenix-secondary py-1 border-0 text-capitalize"><span class="fa-solid fa-bed fs-9 me-2"></span><span>Double bed</span></span>
-                                    <span class="badge badge-phoenix badge-phoenix-secondary py-1 border-0 text-capitalize"><span class="fa-solid fa-user fs-9 me-2"></span><span>2 Adults</span></span>
-                                    <span class="badge badge-phoenix badge-phoenix-secondary py-1 border-0 text-capitalize"><span class="fa-solid fa-moon fs-9 me-2"></span><span>2 Nights</span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <button class="btn p-0 position-absolute end-0 fs-8 mt-n5 me-n2 text-body-tertiary"><span class="fa-solid fa-circle-xmark"></span></button>
-                                <div class="d-flex justify-content-between gap-3 mb-4">
-                                    <div>
-                                        <h5 class="text-body-highlight">Room 2</h5>
-                                        <p class="mb-0 text-body-tertiary">Standard double queen</p>
-                                    </div>
-                                    <h4 class="mb-0">$1,456.65</h4>
-                                </div>
-                                <div class="row align-items-center g-0">
-                                    <div class="col-3">
-                                        <h5 class="text-body text-nowrap mb-0">Check in</h5>
-                                    </div>
-                                    <div class="col-auto"><span class="px-2">:</span></div>
-                                    <div class="col-auto"><span>25 January, 2023</span></div>
-                                </div>
-                                <div class="row align-items-center g-0 mb-4">
-                                    <div class="col-3">
-                                        <h5 class="text-body text-nowrap mb-0">Check out</h5>
-                                    </div>
-                                    <div class="col-auto"><span class="px-2">:</span></div>
-                                    <div class="col-auto"><span>28 January, 2023</span></div>
-                                </div>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <span class="badge badge-phoenix badge-phoenix-secondary py-1 border-0 text-capitalize"><span class="fa-solid fa-bed fs-9 me-2"></span><span>Double bed</span></span>
-                                    <span class="badge badge-phoenix badge-phoenix-secondary py-1 border-0 text-capitalize"><span class="fa-solid fa-user fs-9 me-2"></span><span>2 Adults</span></span>
-                                    <span class="badge badge-phoenix badge-phoenix-secondary py-1 border-0 text-capitalize"><span class="fa-solid fa-baby fs-9 me-2"></span><span>1 Childs</span></span>
-                                    <span class="badge badge-phoenix badge-phoenix-secondary py-1 border-0 text-capitalize"><span class="fa-solid fa-moon fs-9 me-2"></span><span>3 Nights</span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="px-4 py-3 bg-body-highlight rounded-2">
-                            <div class="d-flex flex-between-center mb-2">
-                                <h6 class="text-body-tertiary fw-semibold">Sub-total</h6>
-                                <h6 class="text-body-highlight fw-semibold">$3,513.40</h6>
-                            </div>
-                            <div class="d-flex flex-between-center">
-                                <h6 class="text-body-tertiary fw-semibold">Discount</h6>
-                                <h6 class="text-body-tertiary fw-semibold">-$50</h6>
-                            </div>
-                            <hr />
-                            <div class="d-flex flex-between-center">
-                                <h4 class="text-body">Total</h4>
-                                <h4 class="text-body">1,756.70</h4>
-                            </div>
-                        </div>
-                        <a class="btn btn-primary mt-3 w-100" href="<?= base_url('hotels/checkout') ?>">Proceed with booking</a>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
@@ -893,4 +748,73 @@ function timeConvert($dbTime)
 <script src="<?= base_url('vendors/glightbox/glightbox.min.js'); ?>"> </script>
 <script src="<?= base_url('vendors/mapbox-gl/mapbox-gl.js'); ?>"></script>
 <script src="<?= base_url('vendors/swiper/swiper-bundle.min.js'); ?>"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        flatpickr('.datetimepicker', {
+            mode: "single",
+            dateFormat: "d/m/Y",
+            disableMobile: true,
+            minDate: "today",
+            maxDate: new Date().fp_incr(180),
+            monthSelectorType: "static",
+            yearSelectorType: "static"
+        });
+        document.addEventListener("click", async function(e) {
+            const btn = e.target.closest(".add-room-btn");
+            if (!btn) return;
+
+            // Read room properties
+            const roomId = btn.dataset.roomId;
+            const roomName = btn.dataset.roomName;
+            const roomPrice = btn.dataset.roomPrice;
+
+            // Read current selected availability
+            const startDate = document.getElementById("checkIn").value;
+            const endDate = document.getElementById("checkOut").value;
+            const adults = document.getElementById("adult").value;
+
+            // Validate
+            if (!startDate || !endDate) {
+                notyf.open({
+                    type: 'error',
+                    message: "Please select check-in and check-out date."
+                });
+                return;
+            }
+
+            // Send to cart
+            const response = await fetch("<?= base_url('cart/addRoom'); ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    id: roomId,
+                    name: roomName,
+                    price: roomPrice,
+                    startDate: startDate,
+                    endDate: endDate,
+                    adults: adults
+                })
+            });
+
+            const data = await response.json();
+
+            // Optional: show success
+            // alert("Room added to cart!");
+            if (data.status == 'success' && data.rooms) {
+                notyf.open({
+                    type: 'success',
+                    message: "Room added to cart!"
+                });
+            } else {
+                notyf.open({
+                    type: 'error',
+                    message: "Failed room added to cart !"
+                });
+            }
+        });
+    });
+</script>
+
 <?= $this->endSection() ?>

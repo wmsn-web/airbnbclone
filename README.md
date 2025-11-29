@@ -5,9 +5,4 @@
 -   Admin panel
 -   Admin auth
 
-# Routes
--   /
--   /hotels
--   /hotels/details
--   /hotels/gallery
--   /hotels/checkout
+

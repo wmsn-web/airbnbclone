@@ -1,3 +1,16 @@
+<?= $this->extend('fronts/templates/AdminLayout') ?>
+
+<?= $this->section('pageTitle') ?>
+<?= esc($pageTitle); ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('headUtilities') ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('assets') ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('content') ?>
 
 <h2 class="text-bold text-body-emphasis mb-5">Members</h2>
 <div id="members"
@@ -339,3 +352,11 @@
         </div>
     </div>
 </div>
+
+<?= $this->endSection() ?>
+
+<?= $this->section('jsUtls') ?>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+<?= $this->endSection() ?>
