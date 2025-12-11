@@ -5,7 +5,7 @@ namespace App\Database\Seeds;
 use CodeIgniter\Database\Seeder;
 use App\Models\RoomModel;
 
-class NRoomsSeeder extends Seeder
+class RoomsSeeder extends Seeder
 {
     public function run()
     {
@@ -13,10 +13,10 @@ class NRoomsSeeder extends Seeder
 
         $rooms = [];
 
-        for ($hotelId = 1; $hotelId <= 20; $hotelId++) {
+        for ($hotelId = 1; $hotelId <= 10; $hotelId++) {
             $rooms[] = [
-                'room_name' => 'Standard Room',
-                'room_slug' => 'standard-room-h' . $hotelId,
+                'room_name' => 'King room',
+                'room_slug' => 'king-room',
                 'price' => rand(2500, 6000),
                 'hotel_id' => $hotelId,
                 'amenities' => json_encode([
@@ -29,8 +29,8 @@ class NRoomsSeeder extends Seeder
             ];
 
             $rooms[] = [
-                'room_name' => 'Deluxe Room',
-                'room_slug' => 'deluxe-room-h' . $hotelId,
+                'room_name' => 'Twin room',
+                'room_slug' => 'twin-room',
                 'price' => rand(5000, 12000),
                 'hotel_id' => $hotelId,
                 'amenities' => json_encode([

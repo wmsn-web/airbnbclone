@@ -8,52 +8,82 @@ use CodeIgniter\Router\RouteCollection;
 
 // Public routes
 $routes->get('/', 'User\Home::index', ['as' => 'home']);
-
-$routes->group('hotels', static function ($routes): void {
-    $routes->get('', 'User\HotelRoomDetails::details', ['as' => 'hotel.details']);
-    $routes->get('rooms', 'User\HotelRoomDetails::rooms', ['as' => 'hotel.room.details']);
-    $routes->get('gallery', 'User\HotelGallery::index', ['as' => 'hotel.room.gallery']);
-    $routes->get('checkout', 'User\Hotelcheckout::index', ['as' => 'hotel.checkout', 'filter' => 'AuthFilter:user']);
+$routes->get('bookings', 'User\Bookings::index');
+$routes->get('destinations', 'User\Destinations::index');
+$routes->get('events', function () {
+    echo "Coming soon";
 });
-$routes->get('hotel/(:segment)', 'User\FindHotel::index/$1', ['as' => 'find.hotel']);
+$routes->get('offers', function () {
+    echo "Coming soon";
+});
 
+// Public hotel pages
+$routes->get('hotel/(:segment)', 'User\HotelRoomDetails::details/$1');
+$routes->get('hotel/(:segment)/rooms', 'User\HotelRoomDetails::rooms/$1');
+$routes->get('hotels/(:segment)', 'User\FindHotel::index/$1');
+$routes->get('hotel/gallery/(:num)', 'User\HotelGallery::index/$1');
+
+// Custom route for uploded images(uri)
+$routes->get('image/hotel_thumbnail/(:num)/(:segment)', 'User\ImageController::hotelThumbnail/$1/$2');
+$routes->get('image/hotel_gallery/(:num)/(:segment)', 'User\ImageController::hotelGallery/$1/$2');
+
+// Guest-only: login/register/forgot
+$routes->group('', ['filter' => 'AuthFilter:auth'], function ($routes) {
+
+    // Google Login
+    $routes->get('auth/google', 'AuthController::redirectToGoogle');
+    $routes->get('auth/google-callback', 'AuthController::handleGoogleCallback');
+
+    // Manual Login/Register
+    $routes->post('register', 'AuthController::register');
+    $routes->post('verify-otp', 'AuthController::verifyOTP');
+    $routes->post('login', 'AuthController::login');
+    $routes->post('user/forgot', 'AuthController::forgotPassword');
+    $routes->post('user/forgot/verify', 'AuthController::verifyForgotOtp');
+    $routes->post('user/reset-password', 'AuthController::resetPassword');
+
+    // Magic link
+    $routes->get('auth/verify-magic', 'AuthController::verifyMagicLink');
+});
+
+// User-only protected routes
+$routes->group('', ['filter' => 'AuthFilter:user'], function ($routes) {
+
+    // User Checkout Process
+    $routes->get('hotel/(:segment)/checkout', 'User\Hotelcheckout::checkout/$1');
+    $routes->get('hotel/(:segment)/payment', 'User\Hotelcheckout::payment/$1');
+
+    // Stripe Payment
+    $routes->post('create-intent', 'User\PaymentController::crateIntent');
+    $routes->match(['GET', 'POST'], 'confirm-payment', 'User\PaymentController::confirmPayment');
+
+    // Booking pages
+    $routes->get('booking-confirmation/(:any)', 'User\PaymentController::confirmation/$1');
+    $routes->get('download-invoice/(:any)', 'User\PaymentController::invoicePDF/$1');
+
+    // Contact form (only logged in users)
+    $routes->post('contact/post', 'User\Contact::getContact');
+
+    // Logout
+    $routes->get('logout', 'AuthController::logout');
+});
+// Cart
+$routes->get('cart', 'User\Cart::index');
 $routes->post('cart/addRoom', 'User\Cart::addRoom');
 $routes->get('cart/getRooms', 'User\Cart::getRooms');
 $routes->post('cart/removeRoom', 'User\Cart::removeRoom');
+$routes->post('cart/addroom/(:segment)', 'User\Cart::addRoomId/$1');
+$routes->post('cart/remove/(:segment)', 'User\Cart::removeRoomId/$1');
 
-$routes->group('contact', static function ($routes): void {
-    $routes->get('', 'User\Contact::index', ['as' => 'contact']);
-    $routes->post('get', 'User\Contact::getContact', ['as' => 'get.contact']);
-});
+// Public view pages
+$routes->get('contact', 'User\Contact::index');
 
-// Auth routes (guest only)
-$routes->group('', ['filter' => 'AuthFilter:auth'], static function ($routes) {
-
-    // Google auth 
-    $routes->get('auth/google', 'AuthController::redirectToGoogle', ['as' => 'google.login']);
-    $routes->get('auth/google-callback', 'AuthController::handleGoogleCallback', ['as' => 'google.callback']);
-
-    // Manual auth with verification
-    $routes->post('register', 'AuthController::register', ['as' => 'user.register.post']);
-    $routes->post('login', 'AuthController::login', ['as' => 'user.login.post']);
-    $routes->post('user/forgot', 'AuthController::forgotPassword', ['as' => 'user.forgot.post']);
-    $routes->post('user/forgot/verify', 'AuthController::verifyForgotOtp', ['as' => 'user.otp.verify.post']);
-    $routes->post('user/reset-password', 'AuthController::resetPassword', ['as' => 'user.reset.password']);
-    $routes->post('verify-otp', 'AuthController::verifyOTP', ['as' => 'user.otp.verify.post']);
-    $routes->get('auth/verify-magic', 'AuthController::verifyMagicLink', ['as' => 'user.magic.verify']);
-});
-
-// Authenticated users only
-$routes->group('', ['filter' => 'AuthFilter:user'], static function ($routes) {
-    $routes->get('logout', 'AuthController::logout', ['as' => 'user.logout']);
-});
 
 
 
 // ---------------------------------------------- Admin routes -------------------------------------------------
-// Custom route for uploded images(uri)
-$routes->get('image/hotel_thumbnail/(:num)/(:segment)', 'Admin\ImageController::hotelThumbnail/$1/$2');
-$routes->get('image/hotel_gallery/(:num)/(:segment)', 'Admin\ImageController::hotelGallery/$1/$2');
+
+
 
 // Admin Authentication routes - accessible only if NOT logged in
 $routes->group('admin', ['filter' => 'AdminFilter:auth'], static function ($routes) {

@@ -20,7 +20,7 @@
     <div class="container-medium position-relative z-5">
         <h2 class="text-center text-secondary-lighter fs-5 fs-md-3 fw-normal mb-3">Hotel Barcelona Center</h2>
         <h1 class="text-center fs-4 fs-md-1 text-white fw-normal mb-6 overflow-hidden">NEXT <span class="typed-text text-primary" data-typed-text="[&quot;&lt;span class=text-primary&gt;TRIP!&lt;/span&gt;&quot;,&quot;&lt;span class=text-warning&gt;TOUR?&lt;/span&gt;&quot;, &quot;&lt;span class=text-info&gt;SOJOURN?&lt;/span&gt;&quot;, &quot;&lt;span class=text-success&gt;VACAY?&lt;/span&gt;&quot;]"></span></h1>
-        <?= $this->include('fronts/user/components/Find-hotel-temp'); ?>
+        <?= $this->include('fronts/user/components/Find-hotel-search-bar'); ?>
     </div>
 </div>
 
@@ -89,100 +89,192 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-primary key-btn w-50 py-3 fs-8" href="">Sign up<span class="fa-solid fa-chevron-right ms-2" data-fa-transform="down-2"></span></a>
+                    <?php if (!session()->has('user_id')): ?>
+                        <a class="btn btn-primary key-btn w-50 py-3 fs-8" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#registerModal">Sign up<span class="fa-solid fa-chevron-right ms-2" data-fa-transform="down-2"></span></a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </div><!-- end of .container-->
 </section>
-<div class="bg-primary-subtle border-y border-translucent py-4 sticky-top">
-    <div class=" container-medium d-flex flex-between-center justify-content-center">
-        <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8 active" id="barcelona-tab" data-bs-toggle="tab" href="#tab-barcelona" role="tab" aria-controls="tab-barcelona" aria-selected="true">Barcelona</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="granada-tab" data-bs-toggle="tab" href="#tab-granada" role="tab" aria-controls="tab-granada" aria-selected="false">Granada</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="cordoba-tab" data-bs-toggle="tab" href="#tab-cordoba" role="tab" aria-controls="tab-cordoba" aria-selected="false">Cordoba</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="saville-tab" data-bs-toggle="tab" href="#tab-saville" role="tab" aria-controls="tab-saville" aria-selected="false">Saville</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="velencia-tab" data-bs-toggle="tab" href="#tab-velencia" role="tab" aria-controls="tab-velencia" aria-selected="false">Velencia</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="badajoz-tab" data-bs-toggle="tab" href="#tab-badajoz" role="tab" aria-controls="tab-badajoz" aria-selected="false">Badajoz</a>
-            </li>
-        </ul>
-    </div>
-</div>
-<section class="tab-content pt-0" id="myTabContent">
-    <div class="tab-pane overflow-x-hidden fade show active" id="tab-barcelona" role="tabpanel" aria-labelledby="barcelona-tab">
-        <?= $this->include('fronts/user/components/Home-hotel-swiper') ?>
-    </div>
-    <div class="tab-pane overflow-x-hidden fade" id="tab-granada" role="tabpanel" aria-labelledby="granada-tab">
-        <?= $this->include('fronts/user/components/Home-hotel-swiper') ?>
-    </div>
-    <div class="tab-pane overflow-x-hidden fade" id="tab-cordoba" role="tabpanel" aria-labelledby="cordoba-tab">
-        <?= $this->include('fronts/user/components/Home-hotel-swiper') ?>
-    </div>
-    <div class="tab-pane overflow-x-hidden fade" id="tab-saville" role="tabpanel" aria-labelledby="saville-tab">
-        <?= $this->include('fronts/user/components/Home-hotel-swiper') ?>
-    </div>
-    <div class="tab-pane overflow-x-hidden fade" id="tab-velencia" role="tabpanel" aria-labelledby="velencia-tab">
-        <?= $this->include('fronts/user/components/Home-hotel-swiper') ?>
-    </div>
-    <div class="tab-pane overflow-x-hidden fade" id="tab-badajoz" role="tabpanel" aria-labelledby="badajoz-tab">
-        <?= $this->include('fronts/user/components/Home-hotel-swiper') ?>
-    </div>
-</section>
-<section class="pb-7 pt-0">
-    <div class="container-medium">
-        <!-- <div class="text-center mb-5">
-            <h3 class="mb-2 text-body-emphasis">Latest photos from tourists</h3>
-            <p class="mb-0 text-body-tertiary">See how our tourists enjoyed their trip from images captured by them with Team Phoenix!</p>
-        </div> -->
-        <div class="row g-3">
-            <div class="col-md-6 col-xl-4">
-                <div class="img-zoom-hover rounded-3 overflow-hidden position-relative">
-                    <a href="#!">
-                        <img class="latest-img w-100 object-fit-cover" src="<?= base_url() ?>assets/img/gallery/51.png" alt="">
-                    </a>
-                    <div class="backdrop-faded">
-                        <a class="fw-semibold mb-0 text-secondary-lighter stretched-link" href="#!">
-                            Weddings and Celebrations
-                        </a>
-                        <h5 class="text-light mb-0">Celebrate your wedding or banquet in style</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-4">
-                <div class="img-zoom-hover rounded-3 overflow-hidden position-relative">
-                    <a href="#!">
-                        <img class="latest-img w-100 object-fit-cover" src="<?= base_url() ?>assets/img/gallery/52.png" alt="">
-                    </a>
-                    <div class="backdrop-faded">
-                        <a class="fw-semibold mb-0 text-secondary-lighter stretched-link" href="#!">
-                            Conventions and events
-                        </a>
-                        <h5 class="text-light mb-0">A wide range of rooms for events</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-4">
-                <div class="img-zoom-hover rounded-3 overflow-hidden position-relative">
-                    <a href="#!">
-                        <img class="latest-img w-100 object-fit-cover" src="<?= base_url() ?>assets/img/gallery/53.png" alt="">
-                    </a>
-                    <div class="backdrop-faded">
-                        <a class="fw-semibold mb-0 text-secondary-lighter stretched-link" href="#!">
-                            Dining
-                        </a>
-                        <h5 class="text-light mb-0">Creative and innovative cuisine</h5>
 
+<?php
+
+use App\Libraries\Slug;
+
+if (!empty($locations)): ?>
+    <?php if ($totalHotels <= 2): ?>
+        <section class="py-10">
+            <div class="container-medium">
+                <h3 class="mb-2 text-body-emphasis text-center">Our hotel<?= $totalHotels == 1 ? '' : 's' ?></h3>
+                <?php foreach ($locations as $cityHotel): ?>
+                    <?php foreach ($cityHotel['hotels'] as $hotel): ?>
+                        <div class="row align-items-center">
+                            <div class="col-lg-6 text-center text-lg-start pe-xxl-3">
+                                <h2 class="mb-3 text-body-emphasis lh-base"><?= $hotel['property_name'] ?></h2>
+                                <p class="mb-5"><?= $hotel['description'] ?></p>
+                                <a class="btn btn-lg btn-outline-primary rounded-pill me-2" href="<?= base_url('hotel/' . $hotel['property_name_slug']) ?>" role="button">See Hotel<i class="fa-solid fa-angle-right ms-2"></i></a>
+                            </div>
+                            <div class="col-sm-6 mt-7 text-center text-lg-start">
+                                <div class="hoverbox rounded">
+                                    <a href="<?= base_url('hotel/' . $hotel['property_name_slug']) ?>">
+                                        <!-- <?= $hotel['thumbnail'] ?> -->
+                                        <img class="img-fluid" src="<?= base_url('image/hotel_thumbnail/' . $hotel['id'] . "/" . $hotel['thumbnail']) ?>" alt="<?= $hotel['property_name'] ?> thumbnail" />
+                                        <div class="backdrop-faded">
+                                            <!-- <h3 class="text-underline fs-7 fs-lg-6 text-white fw-bold mb-2">abcd</h3> -->
+                                            <div class="d-sm-flex d-md-block d-lg-flex flex-between-center">
+                                                <h5 class="text-secondary-lighter fw-normal mb-3"><span class="fa-solid fa-map-marker-alt text-primary me-2"></span><?= $cityHotel['city'] ?></h5>
+                                                <div class="d-flex gap-3">
+                                                    <h5 class="text-secondary-lighter fw-normal">
+                                                        <span class="fa-solid fa-star fs-9 me-2"></span><?= $hotel['rating'] ?>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php elseif ($totalHotels <= 3): ?>
+        <section class="py-10">
+            <div class="container-medium">
+                <div class="row g-3">
+                    <h3 class="mb-2 text-body-emphasis text-center text-xl-start">Our hotel<?= $totalHotels == 1 ? '' : 's' ?></h3>
+                    <?php foreach ($locations as $cityHotel): ?>
+                        <?php foreach ($cityHotel['hotels'] as $key => $hotel): ?>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="hoverbox rounded">
+                                    <a href="<?= base_url('hotel/' . $hotel['property_name_slug']) ?>">
+                                        <img class="img-fluid" src="<?= base_url('image/hotel_thumbnail/' . $hotel['id'] . "/" . $hotel['thumbnail']) ?>" alt="<?= $hotel['property_name'] ?> thumbnail" />
+                                        <div class="backdrop-faded">
+                                            <h3 class="text-underline fs-7 fs-lg-6 text-white fw-bold mb-2"><?= $hotel['property_name'] ?></h3>
+                                            <div class="d-sm-flex d-md-block d-lg-flex flex-between-center">
+                                                <h5 class="text-secondary-lighter fw-normal mb-3"><span class="fa-solid fa-map-marker-alt text-primary me-2"></span><?= $cityHotel['city'] ?></h5>
+
+                                                <div class="d-flex gap-3">
+                                                    <h5 class="text-secondary-lighter fw-normal"> <span class="fa-solid fa-star fs-9 me-2"></span><?= $hotel['rating'] ?></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </section>
+    <?php elseif ($totalHotels > 3): ?>
+        <div class="bg-primary-subtle border-y border-translucent py-4">
+            <div class=" container-medium d-flex flex-between-center justify-content-center">
+                <ul class="nav nav-underline fs-9 horizontal-nav" id="myTab" role="tablist">
+                    <?php foreach ($locations as $key => $cityHotel):
+                        $citySlug = Slug::slugify($cityHotel['city']); ?>
+                        <li class="nav-item">
+                            <a class="nav-link px-3 fs-8 <?= $key == 0 ? 'active' : '' ?>" id="<?= $citySlug ?>-tab" data-bs-toggle="tab" href="#tab-<?= $citySlug ?>" role="tab" aria-controls="tab-<?= $citySlug ?>" aria-selected="true"><?= $cityHotel['city'] ?></a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+        <section class="tab-content pt-0" id="myTabContent">
+            <?php foreach ($locations as $key => $cityHotel):
+                $citySlug = Slug::slugify($cityHotel['city']); ?>
+                <div class="tab-pane overflow-x-hidden fade<?= $key == 0 ? 'show active' : '' ?>" id="tab-<?= $citySlug ?>" role="tabpanel" aria-labelledby="<?= $citySlug ?>-tab">
+                    <section class="pt-10 pb-0" id="feature">
+                        <div class="container-small px-lg-7 px-xxl-3">
+                            <div class="position-relative z-2">
+                                <?php foreach ($cityHotel['hotels'] as $hotel): ?>
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-6 text-center text-lg-start pe-xxl-3">
+                                            <h2 class="mb-3 text-body-emphasis lh-base"><?= $hotel['property_name'] ?></h2>
+                                            <p class="mb-5"><?= $hotel['description'] ?></p>
+                                            <a class="btn btn-lg btn-outline-primary rounded-pill me-2" href="<?= base_url('hotel/' . $hotel['property_name_slug']) ?>" role="button">See Hotel<i class="fa-solid fa-angle-right ms-2"></i></a>
+                                        </div>
+                                        <div class="col-sm-6 mt-7 text-center text-lg-start">
+                                            <div class="hoverbox rounded">
+                                                <a href="<?= base_url('hotel/' . $hotel['property_name_slug']) ?>">
+                                                    <img class="img-fluid" src="<?= base_url('image/hotel_thumbnail/' . $hotel['id'] . "/" . $hotel['thumbnail']) ?>" alt="<?= $hotel['property_name'] ?> thumbnail" />
+                                                    <div class="backdrop-faded">
+                                                        <!-- <h3 class="text-underline fs-7 fs-lg-6 text-white fw-bold mb-2">abcd</h3> -->
+                                                        <div class="d-sm-flex d-md-block d-lg-flex flex-between-center">
+                                                            <h5 class="text-secondary-lighter fw-normal mb-3"><span class="fa-solid fa-map-marker-alt text-primary me-2"></span><?= $cityHotel['city'] ?></h5>
+                                                            <div class="d-flex gap-3">
+                                                                <h5 class="text-secondary-lighter fw-normal">
+                                                                    <span class="fa-solid fa-star fs-9 me-2"></span><?= $hotel['rating'] ?>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            <?php endforeach; ?>
+        </section>
+    <?php endif; ?>
+<?php endif; ?>
+
+<section class="py-10">
+    <div class="bg-holder d-none d-xl-block" style="background-image:url(assets/img/bg/bg-left-29.png);background-size:auto;background-position:-15%;"></div>
+    <div class="container-medium position-relative">
+        <h3 class="mb-2 text-body-emphasis text-center text-xl-start">The best of our hotel</h3>
+        <div class="d-xl-flex justify-content-between mb-5 text-center">
+            <p class="mb-0 text-body-tertiary">This list will help you get insights into how much you’ll need to spend to afford accommodation.</p>
+        </div>
+        <div class="row g-0 justify-content-center">
+            <div class="col-sm-11 col-md-8 col-lg-6 col-xl-12">
+                <div class="row gy-5 gx-xl-7 justify-content-between pe-4">
+                    <div class="col-xl-4">
+                        <div class="card card-img-shift border-0 mx-auto">
+                            <div class="rounded-3 overflow-hidden w-100 position-relative z-5"><img class="w-100" src="assets/img/gallery/45.png" alt="" height="250" /><button class="btn btn-wish position-absolute top-0 end-0 mt-3 me-3"><span class="far fa-heart"></span></button></div>
+                            <div class="card-body p-0">
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+                                        <div><span class="badge badge-phoenix px-1 me-2 badge-phoenix-warning">promoted</span><span class="badge badge-phoenix px-1 badge-phoenix-info">Couple package</span></div>
+                                        <h6><span class="fa-solid fa-star text-warning me-1"></span>4.8 (1.4k stay)</h6>
+                                    </div><a class="fw-bold fs-7 text-body-emphasis mb-2 text-primary-hover" href="#!">Royal Mansour Marrakech</a><a class="fw-semibold text-body-tertiary mb-3 d-block" href="#!"><span class="me-1" data-feather="map-pin"></span>Morocco</a>
+                                    <h6 class="fe-semibold text-body-tertiary d-flex align-items-center gap-1 mb-4">From <span class="fw-bolder fs-7 text-body-highlight">$60.00</span>/ per night</h6><button class="btn btn-primary px-5">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="card card-img-shift border-0 mx-auto">
+                            <div class="rounded-3 overflow-hidden w-100 position-relative z-5"><img class="w-100" src="assets/img/gallery/46.png" alt="" height="250" /><button class="btn btn-wish position-absolute top-0 end-0 mt-3 me-3"><span class="far fa-heart"></span></button></div>
+                            <div class="card-body p-0">
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+                                        <div><span class="badge badge-phoenix px-1 me-2 badge-phoenix-warning">promoted</span><span class="badge badge-phoenix px-1 badge-phoenix-info">Couple package</span></div>
+                                        <h6><span class="fa-solid fa-star text-warning me-1"></span>4.8 (1.4k stay)</h6>
+                                    </div><a class="fw-bold fs-7 text-body-emphasis mb-2 text-primary-hover" href="#!">Mandarin Oriental Jumeira</a><a class="fw-semibold text-body-tertiary mb-3 d-block" href="#!"><span class="me-1" data-feather="map-pin"></span>Abu dhabi</a>
+                                    <h6 class="fe-semibold text-body-tertiary d-flex align-items-center gap-1 mb-4">From <span class="fw-bolder fs-7 text-body-highlight">$90.00</span>/ per night</h6><button class="btn btn-primary px-5">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="card card-img-shift border-0 mx-auto">
+                            <div class="rounded-3 overflow-hidden w-100 position-relative z-5"><img class="w-100" src="assets/img/gallery/47.png" alt="" height="250" /><button class="btn btn-wish position-absolute top-0 end-0 mt-3 me-3"><span class="far fa-heart"></span></button></div>
+                            <div class="card-body p-0">
+                                <div class="card-content">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+                                        <div><span class="badge badge-phoenix px-1 me-2 badge-phoenix-warning">promoted</span><span class="badge badge-phoenix px-1 badge-phoenix-info">Couple package</span></div>
+                                        <h6><span class="fa-solid fa-star text-warning me-1"></span>4.8 (1.4k stay)</h6>
+                                    </div><a class="fw-bold fs-7 text-body-emphasis mb-2 text-primary-hover" href="#!">Swissotel Bangkok</a><a class="fw-semibold text-body-tertiary mb-3 d-block" href="#!"><span class="me-1" data-feather="map-pin"></span>Bangkok</a>
+                                    <h6 class="fe-semibold text-body-tertiary d-flex align-items-center gap-1 mb-4">From <span class="fw-bolder fs-7 text-body-highlight">$70.00</span>/ per night</h6><button class="btn btn-primary px-5">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

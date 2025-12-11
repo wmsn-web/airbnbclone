@@ -3,15 +3,12 @@
 namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
-use App\Models\HotelModel;
 use App\Models\HotelLocationModel;
 
-class Home extends BaseController
+class Destinations extends BaseController
 {
-    public function index($limit = null): string
+    public function index()
     {
-        $hotel = new HotelModel();
-        $hotelsByLocation = $hotel->hotelsByLocation($limit);
         $hotelLocation = new HotelLocationModel();
         $places = $hotelLocation
             ->distinct()
@@ -20,13 +17,9 @@ class Home extends BaseController
             ->orderBy('place', 'ASC')
             ->findAll();
         $data = [
-            'pageTitle' => 'Home',
+            'pageTitle' => 'Destinations',
             'places' => $places,
-            'totalHotels' => $hotelsByLocation['total_hotels'],
-            'totalCities' => $hotelsByLocation['total_cities'],
-            'locations' => $hotelsByLocation['locations'],
         ];
-        // dd($data);
-        return view('fronts/user/Home', $data);
+        return view('fronts/user/Destinations', $data);
     }
 }

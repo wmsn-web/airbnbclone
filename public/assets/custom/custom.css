@@ -383,4 +383,8 @@ input.otp-input[type=number] {
             align-items: center;
         }
     }
+    .horizontal-nav{
+        overflow-x: scroll;
+        flex-wrap: nowrap;
+    }
 }

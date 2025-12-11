@@ -36,7 +36,7 @@ class AuthFilter implements FilterInterface
                     // Redirect to login (named route)
                     return redirect()
                         ->to(base_url())
-                        ->with('fail', 'Please log in first.');
+                        ->with('error', 'Please log in first.');
                 }
             }
             if ($arguments[0] === 'auth') {

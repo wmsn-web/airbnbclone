@@ -90,14 +90,6 @@ class FindHotel extends BaseController
                 'rooms'   => $roomsByHotel[$id] ?? []
             ];
         }
-        // $data = [
-        //     $places,
-        //     $location,
-        //     $query,
-        //     $finalHotels
-        // ];
-        // echo "<pre>";
-        // print_r($data);
         return view('fronts/user/Find-hotel-room', [
             'places' => $places,
             'location' => $location,

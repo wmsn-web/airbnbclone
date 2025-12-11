@@ -18,6 +18,11 @@ class CreateHotelsTable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
+            'property_name_slug' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'unique' => true
+            ],
             'description' => [
                 'type' => 'TEXT',
                 'null' => true

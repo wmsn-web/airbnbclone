@@ -24,14 +24,14 @@
         <div class="col-6 col-md">
             <div class="form-icon-container flatpickr-input-container">
                 <input class="form-control datetimepicker form-icon-input border-y-0 border-start-0 border-start-md py-0 shadow-none border-translucent fs-8 rounded-0"
-                    type="text" placeholder="Pick a date" name="date" value="<?= isset($query['date']) ? esc($query['date']) : '' ?>"">
+                    type="text" placeholder="Pick a date" name="date" value="<?= isset($query['date']) ? esc($query['date']) : '' ?>">
                 <span class=" fa-solid fa-calendar form-icon top-0 text-body-tertiary" data-fa-transform="down-2"></span>
             </div>
         </div>
 
         <!-- GUEST DROPDOWN -->
         <div class="col-6 col-md">
-            <button class="btn px-3 fs-8 fw-semibold text-body-tertiary" type="button"
+            <button class="btn px-3 fs-8 fw-semibold text-body-tertiary" id="guestDropdownBtn" type="button"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 data-bs-auto-close="outside">
                 <span class="fa-solid fa-user me-2"></span> Guests

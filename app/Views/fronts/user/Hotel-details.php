@@ -101,52 +101,39 @@
     <div class=" container-medium d-flex flex-between-center justify-content-center">
         <ul class="nav nav-underline fs-9" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link px-3 fs-8 active" id="barcelona-tab" data-bs-toggle="tab" href="#tab-barcelona" role="tab" aria-controls="tab-barcelona" aria-selected="true">Hotel
-                    Barcelona Center</a>
+                <a class="nav-link px-3 fs-8 active" id="about-tab" data-bs-toggle="tab" href="#tab-about" role="tab" aria-controls="tab-about" aria-selected="true"><?= $hotelDetails['property_name'] ?></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="granada-tab" data-bs-toggle="tab" href="#tab-granada" role="tab" aria-controls="tab-granada" aria-selected="false">Rooms</a>
+                <a class="nav-link px-3 fs-8" id="offers-tab" data-bs-toggle="tab" href="#tab-offers" role="tab" aria-controls="tab-offers" aria-selected="false">Offers</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="contact-tab" data-bs-toggle="tab" href="#tab-contact" role="tab" aria-controls="tab-contact" aria-selected="false">Events</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="contact-tab" data-bs-toggle="tab" href="#tab-contact" role="tab" aria-controls="tab-contact" aria-selected="false">Weddings</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="contact-tab" data-bs-toggle="tab" href="#tab-contact" role="tab" aria-controls="tab-contact" aria-selected="false">Gastronomy</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="contact-tab" data-bs-toggle="tab" href="#tab-contact" role="tab" aria-controls="tab-contact" aria-selected="false">Offers</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link px-3 fs-8" id="contact-tab" data-bs-toggle="tab" href="#tab-contact" role="tab" aria-controls="tab-contact" aria-selected="false">Gallery</a>
+                <a class="nav-link px-3 fs-8" id="events-tab" data-bs-toggle="tab" href="#tab-events" role="tab" aria-controls="tab-events" aria-selected="false">Events</a>
             </li>
         </ul>
     </div>
 </div>
 
 <section class="tab-content pt-0" id="myTabContent">
-    <div class="tab-pane overflow-x-hidden fade show active" id="tab-barcelona" role="tabpanel" aria-labelledby="barcelona-tab">
+    <div class="tab-pane overflow-x-hidden fade show active" id="tab-about" role="tabpanel" aria-labelledby="about-tab">
         <div class="py-8 pb-0" id="feature">
             <div class="container-small px-lg-7 px-xxl-3">
                 <div class="position-relative z-2">
                     <div class="row justify-content-center">
                         <div class="col col-md-9 text-center pe-xxl-3">
                             <h4 class="text-primary fw-bolder mb-2">Hotel</h4>
-                            <h2 class="mb-3 text-body-emphasis lh-base">Barcelona Center</h2>
-                            <p class="mb-5">Hotel Barcelona Center, is a <b>4 star</b> category hotel located in the heart of the Eixample district. It combines to perfection its fantastic central location with an <b>accommodation offer of the highest quality, exquisite gastronomy and the most modern technology</b> .</p>
+                            <h2 class="mb-3 text-body-emphasis lh-base"><?= $hotelDetails['property_name'] ?></h2>
+                            <!-- <p class="mb-5"><?= $hotelDetails['description'] ?></p> -->
                         </div>
                     </div>
                     <div class="row align-items-center justify-content-between text-center text-lg-start my-6 mb-lg-0">
                         <div class="col-lg-6">
-                            <img class=" img-fluid mb-9 mb-lg-0 d-dark-none" src="<?= base_url('assets/img/hotels/90.jpg') ?>" alt="" />
+                            <img class=" img-fluid mb-9 mb-lg-0 d-dark-none" src="<?= base_url('image/hotel_thumbnail/' . $hotelDetails['id'] . "/" . $hotelDetails['thumbnail']) ?>" alt="" />
                         </div>
                         <div class="col-lg-6">
                             <!-- <h6 class="text-primary mb-2 ls-2">SIGNAL</h6> -->
                             <!-- <h3 class="fw-bolder mb-3">Recieve the signals instantly</h3> -->
-                            <p class="mb-4 px-md-7 px-lg-0">Hotel Barcelona Center, with 132 rooms, was born with the purpose of becoming a unique reference in its category. Added to its perfect accommodation offer is an excellent offer of rooms to hold events and banquets, all of which with large capacity and with state-of-the-art technology to ensure that every event is a success. Its proximity to the famous Paseo de Gracia and the shopping and financial centre of the city make this hotel an alternative and complementary proposal to Hotel Casa Fuster.</p>
-                            <a class="btn btn-link me-2 p-0 fs-8" href="<?= base_url('hotels/rooms')?>" role="button">See Rooms<i class="fa-solid fa-angle-right ms-2"></i></a>
+                            <p class="mb-4 px-md-7 px-lg-0"><?= $hotelDetails['description'] ?></p>
+                            <a class="btn btn-link me-2 p-0 fs-8" href="<?= base_url('hotel/' . $hotelDetails['property_name_slug'] . '/rooms') ?>" role="button">See Rooms<i class="fa-solid fa-angle-right ms-2"></i></a>
                         </div>
                     </div>
                     <div class="row my-7 g-0">
@@ -293,70 +280,146 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane fade" id="tab-granada" role="tabpanel" aria-labelledby="granada-tab">
-        <div class="py-8 pb-0" id="feature">
-            <div class="container-small px-lg-7 px-xxl-3">
-                <div class="position-relative z-2">
-                    <div class="row justify-content-center">
-                        <div class="col col-md-9 text-center pe-xxl-3">
-                            <h4 class="text-primary fw-bolder mb-2">Hotel Barcelona Center</h4>
-                            <h2 class="mb-3 text-body-emphasis lh-base">Cosy and comfortable rooms</h2>
-                            <p class="mb-5"><b>From 95€ per night - 132 rooms of 10 types.</b></p>
+    <div class="tab-pane fade" id="tab-offers" role="tabpanel" aria-labelledby="offers-tab">Offers Tab</div>
+    <div class="tab-pane fade" id="tab-events" role="tabpanel" aria-labelledby="events-tab">
+        <section class="pt-6 pb-9">
+            <div class="container-medium">
+                <h2 class="mb-5 text-center"><?= $hotelDetails['property_name'] ?>'s Events</h2>
+                Events Tab
+                <?php
+                $photos = json_decode($hotelDetails['photos'], true);
+                $base = base_url('image/hotel_gallery/' . $hotelDetails['id'] . '/');
+
+                function imgAt($photos, $i, $base)
+                {
+                    return isset($photos[$i]) ? $base . $photos[$i] : null;
+                }
+                ?>
+                <div class="row g-2 g-sm-3">
+
+                    <!-- LEFT SECTION (0,1,2) -->
+                    <div class="col-md-6">
+                        <div class="row g-2 g-sm-3">
+
+                            <?php if ($img = imgAt($photos, 0, $base)): ?>
+                                <div class="col-12">
+                                    <a href="<?= $img ?>" data-gallery="default-gallery">
+                                        <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($img = imgAt($photos, 1, $base)): ?>
+                                <div class="col-6">
+                                    <a href="<?= $img ?>" data-gallery="default-gallery">
+                                        <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($img = imgAt($photos, 2, $base)): ?>
+                                <div class="col-6">
+                                    <a href="<?= $img ?>" data-gallery="default-gallery">
+                                        <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
                         </div>
                     </div>
-                    <div class="row mt-5 align-items-center justify-content-between text-center text-lg-start mb-6 mb-lg-0">
-                        <?php
-                        $amenities = [
-                            "Desk",
-                            "Television",
-                            "Telephone",
-                            "Air conditioning",
-                            "Heating",
-                            "Mini-bar (extra cost)",
-                            "Free safe",
-                            "Free Wi-Fi Internet",
-                            "Parquet floor",
-                            "Wake-up service",
-                            "Laundry service (surcharge)",
-                            "Toiletries",
-                            "Pillow menu",
-                            "Bath with shower",
-                            "Bidet",
-                            "Hairdryer",
-                            "Magnifying mirror"
-                        ];
-                        ?>
-                        <ul class="h-ams-list">
-                            <?php foreach ($amenities as $ams): ?>
-                                <li>
-                                    <i class="far fa-star text-info pe-2"></i>
-                                    <?= $ams ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
+
+                    <!-- RIGHT SECTION (3,4,5) -->
+                    <div class="col-md-6">
+                        <div class="row g-2 g-sm-3">
+
+                            <?php if ($img = imgAt($photos, 3, $base)): ?>
+                                <div class="col-6">
+                                    <a href="<?= $img ?>" data-gallery="default-gallery">
+                                        <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($img = imgAt($photos, 4, $base)): ?>
+                                <div class="col-6">
+                                    <a href="<?= $img ?>" data-gallery="default-gallery">
+                                        <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($img = imgAt($photos, 5, $base)): ?>
+                                <div class="col-12">
+                                    <a href="<?= $img ?>" data-gallery="default-gallery">
+                                        <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                        </div>
                     </div>
-                    <div class="row mt-12 align-items-center justify-content-between text-center text-lg-start mb-6 mb-lg-0">
-                        <div class="col-lg-5">
-                            <a href="<?= base_url('assets/img/hotels/26.png') ?>" data-gallery="default-gallery">
-                                <img class="img-fluid rounded-2" src="<?= base_url('assets/img/hotels/26.png') ?>" alt="">
+
+                    <!-- MIDDLE BOTTOM (6,7) -->
+                    <?php if ($img = imgAt($photos, 6, $base)): ?>
+                        <div class="col-sm-6">
+                            <a href="<?= $img ?>" data-gallery="default-gallery">
+                                <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
                             </a>
-                            <!-- <img class="feature-image img-fluid mb-9 mb-lg-0 d-dark-none" src="<?= base_url('assets/img/hotels/26.png') ?>" alt=""> -->
                         </div>
-                        <div class="col-lg-6 room-box">
-                            <a class="text-primary room-title mb-2 ls-2">Standard Room</a>
-                            <ul>
-                                <li>Max. 3 people</li>
-                                <li>Different compositions</li>
-                            </ul>
-                            <p class="mb-4 px-md-7 px-lg-0">Phoenix makes it possible for you to quickly and effectively receive every signal. No need for drawn-out waiting.</p>
-                            <a class="btn btn-primary rounded text-nowrap px-sm-6" href="#!" role="button">More information<i class="fa-solid fa-angle-right ms-2"></i></a>
+                    <?php endif; ?>
+
+                    <?php if ($img = imgAt($photos, 7, $base)): ?>
+                        <div class="col-sm-6">
+                            <a href="<?= $img ?>" data-gallery="default-gallery">
+                                <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- LAST BOTTOM (8,9,10,11) -->
+                    <?php if ($img = imgAt($photos, 8, $base)): ?>
+                        <div class="col-md-6">
+                            <a href="<?= $img ?>" data-gallery="default-gallery">
+                                <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="col-md-6">
+                        <div class="row g-2 g-sm-3">
+
+                            <?php if ($img = imgAt($photos, 9, $base)): ?>
+                                <div class="col-12">
+                                    <a href="<?= $img ?>" data-gallery="default-gallery">
+                                        <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($img = imgAt($photos, 10, $base)): ?>
+                                <div class="col-6">
+                                    <a href="<?= $img ?>" data-gallery="default-gallery">
+                                        <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($img = imgAt($photos, 11, $base)): ?>
+                                <div class="col-6">
+                                    <a href="<?= $img ?>" data-gallery="default-gallery">
+                                        <img class="img-fluid rounded-2 w-100" src="<?= $img ?>" style="height:250px; object-fit:cover;" alt="<?= $hotelDetails['property_name'] ?> gallery">
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
                         </div>
                     </div>
+
                 </div>
-            </div>
-        </div>
+
+            </div><!-- end of .container-->
+        </section>
     </div>
-    <div class="tab-pane fade" id="tab-contact" role="tabpanel" aria-labelledby="contact-tab">Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</div>
 </section>
 
 
