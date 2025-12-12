@@ -104,3 +104,10 @@
 # google.auth_provider_x509_cert_url = "Auth provider"
 # google.client_secret = "Your secret"
 # google.redirect_uri = "https://wmsn.in/web/SG/firebnb/auth/google-callback" 
+
+#--------------------------------------------------------------------
+# Stripe setup
+#--------------------------------------------------------------------
+stripe.key = public key
+stripe.secret = secret key
+

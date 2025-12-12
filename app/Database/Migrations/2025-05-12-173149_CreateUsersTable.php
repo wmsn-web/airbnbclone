@@ -9,7 +9,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         $this->forge->addField([
-            'id'              => ['type' => 'BIGINT', 'auto_increment' => true],
+            'id'              => ['type' => 'INT', 'auto_increment' => true, 'unsigned' => true],
             'email'           => ['type' => 'VARCHAR', 'constraint' => 191, 'unique' => true],
             'name'            => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
             'password_hash'   => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],

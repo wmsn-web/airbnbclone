@@ -194,11 +194,24 @@ class AddProperty extends BaseController
                 'msg'   => $result['message']
             ]);
         }
+        $hotelModel = new HotelModel();
+
+        $property_name_slug = Slug::slugify($formData['property_name']);
+
+        $findSLug = $hotelModel->where('property_name_slug', $property_name_slug)->findAll();
+        if ($findSLug > 0) {
+            return $this->response->setJSON([
+                'error' => true,
+                'type'  => 'validation',
+                'msg'   => 'Property already exist'
+            ]);
+        }
 
         // Prepare data for database
         $formData['thumbnail'] = $result['file_name'];
         $insertableData = [
             'property_name' => $formData['property_name'],
+            'property_name_slug' => Slug::slugify($formData['property_name']),
             'description'   => $formData['description'],
             'rating'        => $formData['rating'],
             'email'         => $formData['email'],
@@ -208,7 +221,6 @@ class AddProperty extends BaseController
         ];
         // dd($insertableData);
         // Save to database
-        $hotelModel = new HotelModel();
 
         try {
             if (is_numeric($hotelId) && $hotelId > 0) {

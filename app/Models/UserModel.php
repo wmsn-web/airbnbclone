@@ -35,4 +35,8 @@ class UserModel extends Model
     {
         return $this->where('email', $data['email'])->first() ?? [];
     }
+    public function getUserById($id)
+    {
+        return $this->find($id);
+    }
 }

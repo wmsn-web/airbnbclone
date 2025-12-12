@@ -2,41 +2,47 @@
 
 namespace App\Controllers\User;
 
-use App\Models\HotelModel;
-
-
 use App\Controllers\BaseController;
+use App\Models\AmenitiesModel;
+use App\Models\HotelModel;
 use App\Models\RoomModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class HotelRoomDetails extends BaseController
 {
-    public function details(): string
+    public function details($slug): string
     {
-
-
+        $hotelM = new HotelModel();
+        $roomM = new RoomModel();
+        $getFullH = $hotelM->getSingleHotel($slug);
+        $roomsByHotel = $roomM->roomsByHotel($getFullH['id']);
         $data = [
             'pageTitle' => 'Hotel Details',
-            'groupHeader' => null,
+            'hotelDetails' => $getFullH,
+            'roomsByHotel' => $roomsByHotel
         ];
+        // dd($data);
         return view('fronts/user/Hotel-details', $data);
     }
-    public function rooms($id = 1): string
+    public function rooms($slug): string
     {
 
-        $model = new HotelModel();
-        $hotel = $model->getSingleHotel($id);
+        $hotelM = new HotelModel();
+        $roomM = new RoomModel();
+        $amModel = new AmenitiesModel();
+        $getFullH = $hotelM->getSingleHotel($slug);
+        $roomsByHotel = $roomM->roomsByHotel($getFullH['id']);
+        $allAms = $amModel->getAmsWithCat();
         // if (empty($hotel)) {
         //     throw PageNotFoundException::forPageNotFound("Hotel not found");
         // }
-        $roomModel = new RoomModel();
-        $rooms = $roomModel->where('hotel_id', $id)->findAll();
         $data = [
             'pageTitle' => 'Hotel Details',
             'groupHeader' => null,
-            'hotel' => $hotel,
-            'rooms' => $rooms
+            'amenities'=> $allAms, 
+            'hotel' => $getFullH,
+            'rooms' => $roomsByHotel
         ];
-        return view('fronts/user/Hotel-Room-Details', $data);
+        return view('fronts/user/Hotel-room-details', $data);
     }
 }

@@ -162,11 +162,11 @@ class AuthController extends BaseController
                     'samesite' => 'Lax'
                 ]);
             }
-
+            $redirect = session('redirect_url') ;
             return $this->response->setJSON([
                 'status' => 'success',
                 'message' => 'Welcome back, ' . esc($user['email']) . '!',
-                'redirect' => base_url()
+                'redirect' => $redirect
             ]);
         }
 
@@ -235,10 +235,15 @@ class AuthController extends BaseController
         // Initialize with runtime config
         $email->initialize($config);
         // Compose and send
+        $data = [
+            'otp'  => $otp,
+            'to'   => $to
+        ];
+        $messageView = view('fronts/email-templates/EmailOtpVerification', $data);
         $email->setFrom($config['fromEmail'], $config['fromName']);
         $email->setTo($to);
         $email->setSubject('Your OTP Code');
-        $email->setMessage("Your login code is: <b>{$otp}</b>");
+        $email->setMessage($messageView ?: "Your login code is: <b>{$otp}</b>");
 
         if (!$email->send()) {
             log_message('error', 'Mailtrap send failed: ' . print_r($email->printDebugger(['headers']), true));
@@ -319,7 +324,7 @@ class AuthController extends BaseController
             // Optional: cleanup any expired ones
             $verifyModel->cleanOldRecords($user['id']);
 
-            $redirect = session('redirect_url') ?? base_url();
+            $redirect = session('redirect_url');
             session()->remove('redirect_url');
 
             return $this->response->setJSON([
@@ -427,10 +432,10 @@ class AuthController extends BaseController
         } else {
             $userId = $user['id'];
         }
-
+        $redirect = session('redirect_url') ?? base_url();
         session()->set(['user_id' => $userId]);
 
-        return redirect()->to(base_url())->with('success', 'Welcome, ' . $name);
+        return redirect()->to($redirect)->with('success', 'Welcome, ' . $name);
     }
 
     public function forgotPassword()
@@ -542,7 +547,7 @@ class AuthController extends BaseController
                 'message' => 'Password has been reset successfully! Please log in again.'
             ]);
         }
-        
+
         return redirect()->back();
     }
 
@@ -566,6 +571,6 @@ class AuthController extends BaseController
         session()->destroy();
 
         // Redirect to home or login page
-        return redirect()->to(base_url())->with('success', 'You have been logged out successfully.');
+        return redirect()->back()->with('success', 'You have been logged out successfully.');
     }
 }

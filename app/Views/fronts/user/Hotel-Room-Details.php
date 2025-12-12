@@ -48,79 +48,95 @@ function timeConvert($dbTime)
 ?>
 <section class="pt-4 pb-9">
     <div class="container-medium">
-
-        <h2 class="mb-4">Hotel Details</h2>
-        <div class="row g-4 flex-between-end mb-5">
-            <div class="col-md-8 col-lg-9">
-                <h1 class="mb-2 fw-semibold"><?= $hotel['property_name'] ?></h1>
-                <div class="mb-1">
-                    <a class="text-body-tertiary" href="#!">
-                        <span class="fa-solid fa-map-marker-alt me-2 text-body"></span>
-                        <?= $fullAddress; ?>
-                    </a>
-                </div>
-                <?php if ($hotel['phone']): ?>
-                    <div class="mb-1">
-                        <a class="text-body-tertiary" href="tel:+910123456789">
-                            <span class="fa-solid fa-phone me-2 text-body"></span>
-                            <?= $hotel['phone']; ?>
-                        </a>
-                    </div>
-                <?php endif; ?>
-                <?php if ($hotel['email']): ?>
-                    <div class="mb-1">
-                        <a class="text-body-tertiary" href="mailto:sales.dhaka@radisson.com">
-                            <span class="fa-solid fa-envelope me-2 text-body" data-fa-transform="down-1"></span>
-                            <?= $hotel['email']; ?>
-                        </a>
-                    </div>
-                <?php endif; ?>
-            </div>
-
-            <div class="col-md-4 col-lg-3">
-                <div class="d-flex flex-md-column align-items-center align-items-md-end gap-3">
-                    <h5 class="mb-0 text-nowrap">
-                        <span class="text-body-tertiary me-2 fw-normal">Rated</span>
-                        <span class="<?= $ratingColor; ?> me-2"><?= $label; ?></span>
-                        <span class="badge <?= $ratingBgColor; ?>"><?= $hotel['rating']; ?></span>
-                    </h5>
-                    <a class="btn btn-phoenix-primary px-5 px-lg-8 w-100 w-md-auto" href="#!">
-                        <span class="fa-solid fa-map me-2"></span>Show in map</a>
-                </div>
-            </div>
-        </div>
-
         <div class="row g-3">
             <div class="col-12">
-                <div class="row g-3 mb-3">
+                <div class="row g-3 mb-3 align-items-center">
                     <!-- 1st col and if 2 hphoto then same as this-->
                     <div class="col-md-6">
-                        <a href="<?= base_url('assets/img/hotels/25.png') ?>" data-gallery="hotel-details-gallery">
-                            <img class="img-fluid rounded-2" src="<?= base_url() ?>assets/img/hotels/25_2.png" alt="" />
-                        </a>
-                    </div>
-                    <!-- if 3 hphoto then 1st col and next two-->
-                    <div class="col-6 d-none d-md-block">
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <a href="<?= base_url() ?>assets/img/hotels/26.png" data-gallery="hotel-details-gallery">
-                                    <img class="img-fluid rounded-2" src="<?= base_url() ?>assets/img/hotels/26_2.png" alt="" />
+                        <h1 class="mb-2 fw-semibold"><?= $hotel['property_name'] ?></h1>
+                        <h5 class="mb-2 text-nowrap">
+                            <span class="text-body-tertiary me-2 fw-normal">Rated</span>
+                            <span class="<?= $ratingColor; ?> me-2"><?= $label; ?></span>
+                            <span class="badge <?= $ratingBgColor; ?>"><?= $hotel['rating']; ?></span>
+                        </h5>
+                        <div class="mb-2">
+                            <a class="text-body-tertiary" href="#!">
+                                <span class="fa-solid fa-map-marker-alt me-2 text-body"></span>
+                                <?= $fullAddress; ?>
+                            </a>
+                        </div>
+                        <?php if ($hotel['phone']): ?>
+                            <div class="mb-1">
+                                <a class="text-body-tertiary" href="tel:+910123456789">
+                                    <span class="fa-solid fa-phone me-2 text-body"></span>
+                                    <?= $hotel['phone']; ?>
                                 </a>
                             </div>
-                            <div class="col-6">
-                                <a href="<?= base_url() ?>assets/img/hotels/27.png" data-gallery="hotel-details-gallery"> <img class="img-fluid rounded-2" src="<?= base_url() ?>assets/img/hotels/27_2.png" alt="" /></a>
+                        <?php endif; ?>
+                        <?php if ($hotel['email']): ?>
+                            <div class="mb-1">
+                                <a class="text-body-tertiary" href="mailto:sales.dhaka@radisson.com">
+                                    <span class="fa-solid fa-envelope me-2 text-body" data-fa-transform="down-1"></span>
+                                    <?= $hotel['email']; ?>
+                                </a>
                             </div>
-                            <!-- if 4 and more than 4  -->
-                            <div class="col-6">
-                                <div class="position-relative rounded-2 overflow-hidden">
-                                    <a href="<?= base_url() ?>assets/img/hotels/32.png" data-gallery="hotel-details-gallery"> <img class="w-100 h-md-100 object-fit-cover" src="<?= base_url() ?>assets/img/hotels/32_2.png" alt="" height="43" /></a>
-                                    <div class="position-absolute w-100 h-100 left-0 top-0 d-flex flex-center bg-black bg-opacity-50">
-                                        <a class="text-white stretched-link" href="<?= base_url('hotels/gallery') ?>">Show all</a>
-                                    </div>
-                                </div>
-                            </div>
+                        <?php endif; ?>
+                        <div class="">
+                            <a class="btn btn-phoenix-primary px-5 px-lg-8 w-100 w-md-auto" href="#!">
+                                <span class="fa-solid fa-map me-2"></span>Show in map</a>
                         </div>
                     </div>
+                    <?php
+                    $photos = !empty($hotel['photos']) ? json_decode($hotel['photos'], true) : [];
+                    $total = count($photos);
+                    $imgUrl = base_url('image/hotel_gallery/' . $hotel['id'] . '/');
+                    ?>
+                    <div class="col-6 d-none d-md-block">
+                        <div class="row g-3">
+
+                            <?php if ($total >= 1): ?>
+                                <!-- First Photo -->
+                                <div class="col-12">
+                                    <a href="<?= $imgUrl . $photos[0] ?>" data-gallery="hotel-details-gallery">
+                                        <img class="w-100 object-fit-cover rounded-2" src="<?= $imgUrl . $photos[0] ?>" alt="" height="200" />
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($total >= 2): ?>
+                                <!-- Second Photo -->
+                                <div class="col-6">
+                                    <a href="<?= $imgUrl . $photos[1] ?>" data-gallery="hotel-details-gallery">
+                                        <img class="img-fluid rounded-2" src="<?= $imgUrl . $photos[1] ?>" alt="" />
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($total == 3): ?>
+                                <!-- Third Photo -->
+                                <div class="col-6">
+                                    <a href="<?= $imgUrl . $photos[2] ?>" data-gallery="hotel-details-gallery">
+                                        <img class="img-fluid rounded-2" src="<?= $imgUrl . $photos[2] ?>" alt="" />
+                                    </a>
+                                </div>
+
+                            <?php elseif ($total > 3): ?>
+                                <!-- Third Photo but shaded with "Show All" -->
+                                <div class="col-6">
+                                    <div class="position-relative rounded-2 overflow-hidden">
+                                        <a href="<?= $imgUrl . $photos[2] ?>" data-gallery="hotel-details-gallery">
+                                            <img class="w-100 h-md-100 object-fit-cover" src="<?= $imgUrl . $photos[2] ?>" alt="" />
+                                        </a>
+                                        <div class="position-absolute w-100 h-100 left-0 top-0 d-flex flex-center bg-black bg-opacity-50">
+                                            <a class="text-white stretched-link" href="<?= base_url('hotel/gallery/' . $hotel['id']) ?>">Show all</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
+                        </div>
+                    </div>
+
                 </div>
                 <div class="scrollbar mt-5 mb-3 pb-3">
                     <ul class="nav nav-pills flex-nowrap" data-tab-map-container="data-tab-map-container" role="tablist">
@@ -228,9 +244,23 @@ function timeConvert($dbTime)
                                                 <a class="fw-bold fs-9" href="#!">Show other amenities </a>
                                             </div>
                                         </div>
-                                        <button class="btn btn-outline-primary w-100 mt-3 add-room-btn" data-room-id="<?= $room['id']; ?>"
-                                            data-room-name="<?= esc($room['room_name']); ?>"
-                                            data-room-price="<?= $room['price']; ?>">Add room</button>
+                                        <div class="d-flex gap-3">
+                                            <button class="btn btn-outline-primary w-100 mt-3 book-room"
+                                                data-hotel-name="<?= esc($hotel['property_name_slug']); ?>"
+                                                data-room-id="<?= $room['id']; ?>"
+                                                data-room-name="<?= esc($room['room_slug']); ?>"
+                                                data-room-price="<?= esc($room['price']); ?>"
+
+                                                data-hotel-id="<?= esc($hotel['id']); ?>"
+                                                data-room-id="<?= $room['id']; ?>"
+                                                data-room-price="<?= esc($room['price']); ?>"
+                                                data-room-in="<?= esc($startDate ?? ''); ?>"
+                                                data-room-out="<?= esc($endDate ?? ''); ?>"
+                                                data-room-adults="<?= esc($query['adults'] ?? ''); ?>"
+                                                data-room-infants="<?= esc($query['infants'] ?? ''); ?>"
+                                                data-room-children="<?= esc($query['children'] ?? ''); ?>">Book room</button>
+                                            <a class="btn btn-primary w-100 mt-3 add-to-cart" href="<?= base_url('cart/addroom/' . $room['id']) ?>">Add to cart</a>
+                                        </div>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -244,22 +274,24 @@ function timeConvert($dbTime)
                             </p>
                         <?php endif; ?>
                         <div class="p-3 border bg-body-highlight border-translucent rounded-2 d-flex flex-between-center flex-wrap gap-3">
-                            <h5 class="mb-0"><span class="text-body-tertiary fw-normal">Number of rooms : </span>70</h5>
-                            <h5 class="mb-0"><span class="text-body-tertiary fw-normal">Number of floors : </span>14</h5>
-                            <h5 class="mb-0"><span class="text-body-tertiary fw-normal">Construction year : </span>2018</h5>
+                            <h5 class="mb-0"><span class="text-body-tertiary fw-normal">Number of rooms : </span><?= count($rooms) ?></h5>
+                            <!-- <h5 class="mb-0"><span class="text-body-tertiary fw-normal">Number of floors : </span>14</h5>
+                            <h5 class="mb-0"><span class="text-body-tertiary fw-normal">Construction year : </span>2018</h5> -->
                         </div>
-                        <div class="card bg-body mt-5">
-                            <div class="card-body">
-                                <div class="mapbox-container rounded-2 border border-translucent mb-4">
-                                    <div id="mapbox" data-mapbox='{"attributionControl":false,"center":[-74.0020158,40.7228022],"zoom":14,"scrollZoom":false}' style="height: 300px; width: 100%;"></div>
+                        <?php if ($hotel['longitude'] && $hotel['latitude']): ?>
+                            <div class="card bg-body mt-5">
+                                <div class="card-body">
+                                    <div class="mapbox-container rounded-2 border border-translucent mb-4">
+                                        <div id="mapbox" data-mapbox='{"attributionControl":false,"center":[<?= $hotel['longitude'] ?>,<?= $hotel['latitude'] ?>],"zoom":14,"scrollZoom":false}' style="height: 300px; width: 100%;"></div>
+                                    </div>
+                                    <!-- <p class="mb-2 text-body-tertiary text-uppercase"><span class="fa-solid fa-map-marker-alt text-body-emphasis me-2"></span>Museum</p>
+                                    <h5>1.5 km <span class="text-body-tertiary fw-normal">from </span>Museum of Liberation War, Dhaka</h5>
+                                    <hr class="my-4" />
+                                    <p class="mb-2 text-body-tertiary text-uppercase"><span class="fa-solid fa-map-marker-alt text-body-emphasis me-2"></span>Historical monument</p>
+                                    <h5>3.5 km <span class="text-body-tertiary fw-normal">from </span>Lalbagh Kella</h5> -->
                                 </div>
-                                <p class="mb-2 text-body-tertiary text-uppercase"><span class="fa-solid fa-map-marker-alt text-body-emphasis me-2"></span>Museum</p>
-                                <h5>1.5 km <span class="text-body-tertiary fw-normal">from </span>Museum of Liberation War, Dhaka</h5>
-                                <hr class="my-4" />
-                                <p class="mb-2 text-body-tertiary text-uppercase"><span class="fa-solid fa-map-marker-alt text-body-emphasis me-2"></span>Historical monument</p>
-                                <h5>3.5 km <span class="text-body-tertiary fw-normal">from </span>Lalbagh Kella</h5>
                             </div>
-                        </div>
+                        <?php endif; ?>
                     </div>
                     <div class="tab-pane fade" id="pills-policy" role="tabpanel" aria-labelledby="pills-policy-tab" tabindex="0">
                         <h3 class="mb-5">Policy</h3>
@@ -285,46 +317,48 @@ function timeConvert($dbTime)
                                 </div>
                             </div>
                         <?php endif; ?>
-
-                        <div class="card bg-body-highlight mb-3">
-                            <div class="card-body">
-                                <div class="row g-3">
-                                    <div class="col-sm-3">
-                                        <h5 class="mb-0"><span class="fa-solid fa-clock fs-9 me-1" data-fa-transform="up-1"></span>Check out</h5>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <div class="progress overflow-visible" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
-                                            <div class="progress-bar position-relative overflow-visible rounded" style="width: 100%;"></div>
+                        <?php if ($hotel['co_before']): ?>
+                            <div class="card bg-body-highlight mb-3">
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-sm-3">
+                                            <h5 class="mb-0"><span class="fa-solid fa-clock fs-9 me-1" data-fa-transform="up-1"></span>Check out</h5>
                                         </div>
-                                        <div class="d-flex flex-between-center w-100">
-                                            <span class="text-info text-body fs-10 mt-1">6 am </span>
-                                            <span class="text-info text-body fs-10 mt-1">6 pm</span>
+                                        <div class="col-sm-9">
+                                            <div class="progress overflow-visible" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
+                                                <div class="progress-bar position-relative overflow-visible rounded" style="width: 100%;"></div>
+                                            </div>
+                                            <div class="d-flex flex-between-center w-100">
+                                                <span class="text-info text-body fs-10 mt-1"><?= timeConvert($hotel['co_before']); ?></span>
+                                                <span class="text-info text-body fs-10 mt-1"><?= timeConvert($hotel['co_before']); ?></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card bg-body-highlight mb-3">
-                            <div class="card-body">
-                                <div class="row g-3">
-                                    <div class="col-sm-3">
-                                        <h5 class="mb-0"><span class="fa-solid fa-baby fs-9 me-1" data-fa-transform="up-1"></span>Baby policy</h5>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <!-- <?php if ($hotel['pet_policy_type'] > 0) : ?>
-                                            <h5 class="mb-0 text-warning">Not Allowed</h5>
-                                            <?php else: ?>
-                                                <h5 class="mb-0 text-success">Allowed</h5>
-                                        <?php endif; ?> -->
-                                        <h5 class="mb-2 text-success">Allowed</h5>
-                                        <p class="mb-0 text-body">
-                                            Children under the age of five can stay in the same room as their parents and receive complimentary breakfast. Children from 5 to 10 years old will be charged $1,500 for extra bed and breakfast. Extra
-                                            Breakfast Charge: $400 NET per night (for adults). Extra Breakfast Charge $200 NET Per Night (Above 5 to 11 Years)
-                                        </p>
+                        <?php endif; ?>
+                        <?php if (!empty($hotel['age_segments'])):
+                            $ageSeg = json_decode($hotel['age_segments'], true);
+                        ?>
+                            <div class="card bg-body-highlight mb-3">
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-sm-3">
+                                            <h5 class="mb-0"><span class="fa-solid fa-baby fs-9 me-1" data-fa-transform="up-1"></span>Baby policy</h5>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <h5 class="mb-2 text-success">Allowed</h5>
+                                            <p class="mb-0 text-body">
+                                                Allowed
+                                                <?php foreach ($ageSeg as $seg): ?>
+                                                    Allowed child age <?= $seg['from'] ?> to <?= $seg['to'] ?> - <?= $seg['policy'] . ' price' ?? '' ?><br>
+                                                <?php endforeach; ?>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endif; ?>
                         <div class="card bg-body-highlight mb-3">
                             <div class="card-body">
                                 <div class="row g-3 align-items-center">
@@ -336,6 +370,11 @@ function timeConvert($dbTime)
                                             <h5 class="mb-0 text-success">Allowed</h5>
                                         <?php else: ?>
                                             <h5 class="mb-0 text-warning">Not Allowed</h5>
+                                        <?php endif; ?>
+                                        <?php if ($hotel['pet_additional_charges'] > 0) : ?>
+                                            <p class="mb-0 text-body">
+                                                Additional charges applicable
+                                            </p>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -351,11 +390,11 @@ function timeConvert($dbTime)
                                         <?php if ($hotel['card_payment']): ?>
                                             <img class="me-3" src="<?= base_url('assets/img/logos/mastercard.png') ?>" alt="" />
                                             <img class="me-3" src="<?= base_url('assets/img/logos/american_express.png') ?>" alt="" />
-                                            <img src="<?= base_url('assets/img/logos/visa.png') ?>" alt="" />
+                                            <img class="me-3" src="<?= base_url('assets/img/logos/visa.png') ?>" alt="" />
                                         <?php endif; ?>
 
                                         <?php if ($hotel['online_payment']): ?>
-                                            <img src="<?= base_url('assets/img/logos/upi-icon.png') ?>" alt="" />
+                                            <img class="me-3" src="<?= base_url('assets/img/logos/upi-icon.png') ?>" alt="" />
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -363,178 +402,122 @@ function timeConvert($dbTime)
                         </div>
                     </div>
                     <div class="tab-pane fade" id="pills-facilities" role="tabpanel" aria-labelledby="pills-facilities-tab" tabindex="0">
+                        <?php
+                        /**
+                         * Facilities Tab – Optimized Full Version
+                         */
+
+                        // Decode hotel amenities
+                        $hotelAmenities = json_decode($hotel['amenities'], true);
+
+                        // ICON MAP (extend as needed)
+                        $iconMap = [
+                            'wifi' => 'fa-wifi',
+                            'parking' => 'fa-square-parking',
+                            'breakfast' => 'fa-utensils',
+                            'restaurant' => 'fa-utensils',
+                            'room_service' => 'fa-bell-concierge',
+                            'airport_shuttle' => 'fa-car',
+                            'pet_friendly' => 'fa-dog',
+                            'bar' => 'fa-wine-glass',
+                            'beach_front' => 'fa-umbrella-beach',
+                            'disabled_facilities' => 'fa-wheelchair',
+                        ];
+
+                        // FINAL processed array
+                        $finalAmenities = [];
+
+                        foreach ($amenities as $catData) {
+
+                            $categoryName = $catData['category'];
+
+                            // Structure
+                            $finalAmenities[$categoryName] = [
+                                'free' => [],
+                                'paid' => [],
+                            ];
+
+                            foreach ($catData['amenities'] as $am) {
+
+                                $slug = $am->am_slug;
+
+                                if (isset($hotelAmenities[$slug])) {
+
+                                    $type = $hotelAmenities[$slug]['type'];
+
+                                    if ($type === 'free') {
+                                        $finalAmenities[$categoryName]['free'][] = [
+                                            'name' => $am->am_name,
+                                            'slug' => $slug
+                                        ];
+                                    }
+
+                                    if ($type === 'paid') {
+                                        $finalAmenities[$categoryName]['paid'][] = [
+                                            'name' => $am->am_name,
+                                            'slug' => $slug
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                        ?>
+
                         <h3 class="mb-5 fw-bold">Facilities</h3>
+
+                        <!-- ====================== FREE AMENITIES (GRID) ====================== -->
                         <h5 class="mb-3">Most popular</h5>
+
                         <div class="row g-0">
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border">
-                                    <span class="fs-9 text-warning fa-solid fa-car"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Airport shuttle</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-bottom border-top-sm border-end border-start border-start-sm-0">
-                                    <span class="fs-9 text-warning fa-solid fa-wifi"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Free wifi</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-end border-start border-start-md-0 border-top-md border-bottom">
-                                    <span class="fs-9 text-warning fa-solid fa-utensils"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Restaurant</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-end border-start border-start-sm-0 border-start-md border-bottom">
-                                    <span class="fs-9 text-warning fa-solid fa-smoking"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Smoking zone</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-bottom border-end border-start border-start-md-0">
-                                    <span class="fs-9 text-warning fa-solid fa-user"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Room service</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-bottom border-end border-start border-start-sm-0">
-                                    <span class="fs-9 text-warning fa-solid fa-dog"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Pet-Friendly</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-x border-bottom">
-                                    <span class="fs-9 text-warning fa-solid fa-square-parking"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Free parking</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-bottom border-end border-start border-start-sm-0">
-                                    <span class="fs-9 text-warning fa-solid fa-umbrella-beach"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Beach-front</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-bottom border-end border-start border-start-md-0">
-                                    <span class="fs-9 text-warning fa-solid fa-wheelchair"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Facilities for disabled guests</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-x border-bottom border-start border-start-sm-0 border-start-md">
-                                    <span class="fs-9 text-warning fa-solid fa-wine-glass"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Bar</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-bottom border-end border-start border-start-md-0">
-                                    <span class="fs-9 text-warning fa-solid fa-utensils"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">Free Breakfast</h5>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border-bottom border-end border-start border-start-sm-0">
-                                    <span class="fs-9 text-warning fa-solid fa-bell-concierge"></span>
-                                    <h5 class="text-body-tertiary mb-0 fw-normal">24-hour front desk</h5>
-                                </div>
-                            </div>
+                            <?php foreach ($finalAmenities as $cat => $types): ?>
+                                <?php foreach ($types['free'] as $am): ?>
+                                    <?php
+                                    $slug = $am['slug'];
+                                    $icon = $iconMap[$slug] ?? 'fa-check';
+                                    ?>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="d-flex align-items-center gap-2 px-4 py-3 h-100 border-translucent border">
+                                            <span class="fs-9 text-warning fa-solid <?= $icon ?>"></span>
+                                            <h5 class="text-body-tertiary mb-0 fw-normal"><?= esc($am['name']) ?></h5>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
                         </div>
-                        <h6 class="text-warning text-uppercase fw-normal my-5"><span class="me-2">*</span>ADDITIONAL CHARGES</h6>
+
+                        <!-- ====================== PAID AMENITIES ====================== -->
+                        <h6 class="text-warning text-uppercase fw-normal my-5">
+                            <span class="me-2">*</span>ADDITIONAL CHARGES
+                        </h6>
+
                         <div class="row g-3">
-                            <div class="col-auto col-md-4">
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-bath"></span>Washroom</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Toilet</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Bath</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-tree"></span>Outdoors</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Beachfront</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>BBQ facilities</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Garden</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-bicycle"></span>Activities</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Bicycle rental</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Beach</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Water sport facilities</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Horse riding</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Wind surfing</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-utensils"></span>Food &amp; Drink</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Fruits</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Kid meals</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Snack bar</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Bar</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Restaurant</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-wifi"></span>Internet</h5>
-                                <ul class="list-unstyled mb-sm-0">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>WiFi</li>
-                                </ul>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-square-parking"></span>Parking</h5>
-                                <p class="mb-2 fs-9 text-body-tertiary">On-site, free private parking is possible (reservations are not needed).</p>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Street Parking</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-bell-concierge"></span>Reception Service</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Luggage storage</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Tour desk</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>24-hour front desk</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-broom"></span>Cleaning service</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Daily housekeeping</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Trouser press</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Ironing service</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Dry cleaning</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Laundry</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-briefcase"></span>Business facilities</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Fax / photocopying</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Business centre</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Meeting / banquet facilities</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-briefcase"></span>Safety and security</h5>
-                                <ul class="list-unstyled mb-sm-0">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>CCTV outside property</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>key card access</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Safety deposit box</li>
-                                </ul>
-                            </div>
-                            <div class="col-auto col-md-4">
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-info-circle"></span>General</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Minimarket on site</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Shared lounge / TV area</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Designated smoking area</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Air conditioning</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Car hire</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Lift</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Barber / beauty shop</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Airport shuttle</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Non-smoking rooms</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Room service</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-wheelchair"></span>Accessibility</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Elevator access</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-earth"></span>Languages spoken</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Bangla</li>
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>English</li>
-                                </ul>
-                                <h5 class="mb-3"><span class="fs-9 me-2 fa-solid fa-ghost"></span>Ghosts haunting</h5>
-                                <ul class="list-unstyled mb-5">
-                                    <li class="text-body-highlight"><span class="fa-solid fa-check fs-9 text-success me-2"></span>Not that much</li>
-                                </ul>
-                            </div>
+
+                            <?php foreach ($finalAmenities as $category => $types): ?>
+                                <?php if (empty($types['paid'])) continue; ?>
+
+                                <div class="col-auto col-md-4">
+
+                                    <h5 class="mb-3">
+                                        <?php
+                                        $catSlug = strtolower(str_replace(' ', '_', $category));
+                                        $categoryIcon = $iconMap[$catSlug] ?? 'fa-circle-info';
+                                        ?>
+                                        <span class="fs-9 me-2 fa-solid <?= $categoryIcon ?>"></span>
+                                        <?= esc($category) ?>
+                                    </h5>
+
+                                    <ul class="list-unstyled mb-5">
+                                        <?php foreach ($types['paid'] as $am): ?>
+                                            <li class="text-body-highlight">
+                                                <span class="fa-solid fa-check fs-9 text-success me-2"></span>
+                                                <?= esc($am['name']) ?>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+
+                                </div>
+
+                            <?php endforeach; ?>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab" tabindex="0">
@@ -759,60 +742,80 @@ function timeConvert($dbTime)
             monthSelectorType: "static",
             yearSelectorType: "static"
         });
-        document.addEventListener("click", async function(e) {
-            const btn = e.target.closest(".add-room-btn");
+        const addToCartBtns = document.querySelectorAll('.add-to-cart');
+        if (addToCartBtns) {
+            addToCartBtns.forEach(btn => {
+                btn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+
+                    const dataToSend = {
+                        startDate: "<?= $startDate ?? '' ?>",
+                        endDate: "<?= $endDate ?? '' ?>",
+                        adults: "<?= $query['adults'] ?? 0 ?>",
+                        infants: "<?= $query['infants'] ?? 0 ?>",
+                        children: "<?= $query['children'] ?? 0 ?>",
+                    };
+
+                    const addToSession = await fetch(btn.getAttribute('href'), {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(dataToSend)
+                    });
+
+                    const resp = await addToSession.json();
+
+
+                    if (resp.success) {
+                        notyf.open({
+                            type: 'success',
+                            message: "Room added to cart!"
+                        });
+                    } else {
+                        notyf.open({
+                            type: 'error',
+                            message: "Failed to add room to cart!"
+                        });
+                    }
+                });
+            });
+        }
+
+        function getRoomPayload(btn) {
+            // prefer dataset, fallback to page-level inputs (if available)
+            const hotelId = btn.dataset.hotelId;
+            const roomId = btn.dataset.roomId;
+            const roomPrice = btn.dataset.roomPrice;
+            const checkIn = btn.dataset.roomIn;
+            const checkOut = btn.dataset.roomOut;
+            const adults = btn.dataset.roomAdults;
+            const infants = btn.dataset.roomInfants;
+            const children = btn.dataset.roomChildren;
+
+            return {
+                hotelId,
+                roomId,
+                roomPrice,
+                checkIn,
+                checkOut,
+                adults,
+                infants,
+                children,
+            };
+        }
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.book-room');
             if (!btn) return;
 
-            // Read room properties
-            const roomId = btn.dataset.roomId;
-            const roomName = btn.dataset.roomName;
-            const roomPrice = btn.dataset.roomPrice;
+            const payload = getRoomPayload(btn);
 
-            // Read current selected availability
-            const startDate = document.getElementById("checkIn").value;
-            const endDate = document.getElementById("checkOut").value;
-            const adults = document.getElementById("adult").value;
+            const qs = new URLSearchParams(payload).toString();
 
-            // Validate
-            if (!startDate || !endDate) {
-                notyf.open({
-                    type: 'error',
-                    message: "Please select check-in and check-out date."
-                });
-                return;
-            }
+            // correct URL format
+            const url = `<?= base_url('hotel') ?>/${payload.roomId}/checkout?${qs}`;
 
-            // Send to cart
-            const response = await fetch("<?= base_url('cart/addRoom'); ?>", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: new URLSearchParams({
-                    id: roomId,
-                    name: roomName,
-                    price: roomPrice,
-                    startDate: startDate,
-                    endDate: endDate,
-                    adults: adults
-                })
-            });
-
-            const data = await response.json();
-
-            // Optional: show success
-            // alert("Room added to cart!");
-            if (data.status == 'success' && data.rooms) {
-                notyf.open({
-                    type: 'success',
-                    message: "Room added to cart!"
-                });
-            } else {
-                notyf.open({
-                    type: 'error',
-                    message: "Failed room added to cart !"
-                });
-            }
+            location.href = url;
         });
     });
 </script>

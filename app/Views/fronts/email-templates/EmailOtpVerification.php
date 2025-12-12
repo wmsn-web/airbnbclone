@@ -57,18 +57,8 @@
                                                 Your otp is <span style="font-weight: 600;"><?= $otp ?>
                                                 </span><br>
                                             <?php endif; ?>
-                                            Or verify this email address by clicking button below.
                                         </p>
-                                        <a href="<?= $link ?>" target="_blank"
-                                            style="background:#3874ff;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:10px;">Verify email</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="height:80px;">
-                                        <p style="color:#797979; font-size:12px; margin:20px 0 0 0;">
-                                            Or copy and paste link into your browser <br>
-                                            <span style="color: #89aaf8;"><?= $link ?></span>
-                                        </p>
+                                        
                                     </td>
                                 </tr>
                             </table>

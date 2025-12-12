@@ -30,4 +30,23 @@ class RoomModel extends Model
     protected $validationMessages = [];
 
     protected $skipValidation     = false;
+
+    public function hotelByRooms($roomId = null)
+    {
+        return $this->select('rooms.*, hotels.*')
+            ->join('hotels', 'hotels.id = rooms.hotel_id', 'left')
+            ->where('rooms.id', $roomId)
+            ->first();
+    }
+    public function roomsByHotel($id)
+    {
+        return $this->select()->where('hotel_id', $id)->findAll();
+    }
+    public function exactRoom($slug, $id)
+    {
+        return $this->select()->where(['room_slug' => $slug, 'id' => $id])->first();
+    }
+    public function roomByIds($roomId, $hotelId){
+        return $this->select()->where(['id' => $roomId, 'hotel_id' => $hotelId])->first();
+    }
 }

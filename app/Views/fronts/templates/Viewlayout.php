@@ -36,8 +36,7 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="<?= base_url('assets/css/theme-rtl.min.css'); ?>" type="text/css" rel="stylesheet" id="style-rtl">
     <link href="<?= base_url('assets/css/theme.min.css'); ?>" type="text/css" rel="stylesheet" id="style-default">
-    <link href="<?= base_url('assets/css/user-rtl.min.css'); ?>" type="text/css" rel="stylesheet" id="user-style-rtl">
-    <link href="<?= base_url('assets/css/user.min.css'); ?>" type="text/css" rel="stylesheet" id="user-style-default">
+
 
     <link rel="stylesheet" href="<?= base_url('vendors/notyf@3/notyf.min.css') ?>">
 
@@ -53,7 +52,9 @@
             var linkRTL = document.getElementById('style-rtl');
             var userLinkRTL = document.getElementById('user-style-rtl');
             linkRTL.setAttribute('disabled', true);
-            userLinkRTL.setAttribute('disabled', true);
+            if (userLinkRTL) {
+                userLinkRTL.setAttribute('disabled', true);
+            }
         }
     </script>
 
@@ -98,29 +99,48 @@
     <main class="main" id="top">
         <div class="bg-primary-subtle py-2">
             <div class="container-medium d-flex align-items-center justify-content-between">
-                <a class="btn btn-link p-0 text-body d-none d-md-block" href="<?= base_url() ?>">
+                <a class="btn btn-link p-0 text-body d-none d-md-flex text-decoration-none" href="<?= base_url() ?>">
                     <img src="<?= base_url('assets/img/icons/logo.png'); ?>" alt="phoenix" width="27" />
+                    <h5 class="logo-text ms-2">Firebnb</h5>
                 </a>
-                <div class="dropdown">
-                    <button class="btn btn-sm p-0 d-md-none fs-8" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                        <span class="fas fa-ellipsis-h"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" style="z-index: 9999">
-                        <li><a class="dropdown-item" href="#!"><span class="fa-brands fa-whatsapp me-2"></span>+01 123 456 7890</a></li>
-                        <li><a class="dropdown-item" href="#!"><span class="fa fa-phone me-2"></span>+01 123 456 7890</a></li>
-                        <li><a class="dropdown-item" href="#!">Contact</a></li>
-                    </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="dropdown">
+                        <button class="btn btn-sm p-0 d-md-none fs-8" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                            <span class="fas fa-ellipsis-h"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" style="z-index: 9999">
+                            <li><a class="dropdown-item" href="#!"><span class="fa-brands fa-whatsapp me-2"></span>+01 123 456 7890</a></li>
+                            <li><a class="dropdown-item" href="#!"><span class="fa fa-phone me-2"></span>+01 123 456 7890</a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('contact') ?>">Contact</a></li>
+                        </ul>
+                    </div>
+                    <a class="d-flex d-md-none lh-1 text-body-tertiary fw-semibold fs-8" href="<?= base_url('cart') ?>" title="cart">
+                        <i class="fas fa-bookmark"></i>
+                    </a>
                 </div>
                 <ul class="d-none d-md-flex align-items-center gap-5 list-unstyled mb-0">
-                    <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+01123581321"> <span class="fa-brands fa-whatsapp me-2"></span>+01 123 456 7890</a></li>
-                    <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+01123581321"> <span class="fa fa-phone me-2"></span>+01 123 456 7890</a></li>
-                    <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="<?= base_url('contact') ?>">Contact</a></li>
+                    <li>
+                        <a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+01123581321">
+                            <span class="fa-brands fa-whatsapp me-2"></span>+01 123 456 7890
+                        </a>
+                    </li>
+                    <li>
+                        <a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+01123581321">
+                            <span class="fa fa-phone me-2"></span>+01 123 456 7890
+                        </a>
+                    </li>
+                    <li>
+                        <a class="lh-1 text-body-tertiary fw-semibold fs-9" href="<?= base_url('contact') ?>">Contact</a>
+                    </li>
+                    <li>
+                        <a class="lh-1 text-body-tertiary fw-semibold fs-8" href="<?= base_url('cart') ?>" title="cart">
+                            <i class="fas fa-bookmark"></i>
+                        </a>
+                    </li>
                     <?php if (session()->has('user_id')): ?>
                         <?php
-                        $userModel = new \App\Models\UserModel();
-                        $user = $userModel->find(session('user_id'));
+                        $user = currentUser();
                         ?>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <div class="avatar avatar-l ">
@@ -139,8 +159,17 @@
                                     </div>
                                     <div class="overflow-auto scrollbar" style="height: 10rem;">
                                         <ul class="nav d-flex flex-column mb-2 pb-1">
-                                            <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span class="me-2 text-body align-bottom" data-feather="user"></span><span>Profile</span></a></li>
-                                            <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span class="me-2 text-body align-bottom" data-feather="pie-chart"></span>Bookings</a></li>
+                                            <li class="nav-item">
+                                                <a class="nav-link px-3 d-block" href="#!">
+                                                    <span class="me-2 text-body align-bottom" data-feather="user"></span>
+                                                    <span>Profile</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link px-3 d-block" href="<?= base_url('bookings') ?>">
+                                                    <span class="me-2 text-body align-bottom" data-feather="pie-chart"></span>Bookings
+                                                </a>
+                                            </li>
                                             <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span class="me-2 text-body align-bottom" data-feather="lock"></span>Posts &amp; Activity</a></li>
                                             <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Settings &amp; Privacy </a></li>
                                             <li class="nav-item"><a class="nav-link px-3 d-block" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#forgotpwdmodal"> <span class="me-2 text-body align-bottom" data-feather="key"></span>Forgot password</a></li>
@@ -150,7 +179,7 @@
                                     </div>
                                     <div class="card-footer p-0 border-top border-translucent">
                                         <div class="px-3 mt-2">
-                                            <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= base_url('logout') ?>"> <span class="me-2" data-feather="log-out"> </span>Sign out</a>
+                                            <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= base_url('logout') ?>"><i class="me-2 fas fa-sign-out-alt"></i>Sign out</a>
                                         </div>
                                         <div class="my-2 text-center fw-bold fs-10 text-body-quaternary">
                                             <a class="text-body-quaternary me-1" href="#!">Privacy policy</a>&bull;<a class="text-body-quaternary mx-1" href="#!">Terms</a>&bull;<a class="text-body-quaternary ms-1" href="#!">Cookies</a>
@@ -194,7 +223,7 @@
                                 </div>
                                 <div class="card-footer p-0 border-top border-translucent">
                                     <div class="px-3 mt-2">
-                                        <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= base_url('logout') ?> <span class=" me-2" data-feather="log-out"> </span>Sign out</a>
+                                        <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="<?= base_url('logout') ?>"><i class="me-2 fas fa-sign-out-alt"></i>Sign out</a>
                                     </div>
                                     <div class="my-2 text-center fw-bold fs-10 text-body-quaternary">
                                         <a class="text-body-quaternary me-1" href="#!">Privacy policy</a>&bull;<a class="text-body-quaternary mx-1" href="#!">Terms</a>&bull;<a class="text-body-quaternary ms-1" href="#!">Cookies</a>
@@ -223,7 +252,7 @@
                 <div class="d-flex d-md-none align-items-center gap-2 gap-sm-3 gap-md-4 my-2 order-lg-1">
                     <div class="d-flex align-items-center">
                         <img src="<?= base_url('assets/img/icons/logo.png'); ?>" alt="phoenix" width="27" />
-                        <h5 class="logo-text ms-2">Hotel Barcelona</h5>
+                        <h5 class="logo-text ms-2">Firebnb</h5>
                     </div>
                 </div>
                 <button class="navbar-toggler fs-8 ps-1 ps-sm-3 pe-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -232,16 +261,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mt-3 mt-lg-0">
                         <li class="nav-item border-bottom border-translucent border-bottom-lg-0">
-                            <a class="nav-link <?= $current == '' ? 'text-primary' : '' ?>" href="#">Hotels</a>
+                            <a class="nav-link <?= $current == '' ? 'text-primary' : '' ?>" href="<?= base_url() ?>">Hotels</a>
                         </li>
                         <li class="nav-item border-bottom border-translucent border-bottom-lg-0">
-                            <a class="nav-link" href="#">Destinations</a>
+                            <a class="nav-link <?= $current == 'destinations' ? 'text-primary' : '' ?>" href="<?= base_url('destinations') ?>">Destinations</a>
                         </li>
                         <li class="nav-item border-bottom border-translucent border-bottom-lg-0">
-                            <a class="nav-link" href="#">Events</a>
+                            <a class="nav-link <?= $current == 'events' ? 'text-primary' : '' ?>" href="<?= base_url('events') ?>">Events</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Offers</a>
+                            <a class="nav-link <?= $current == 'offers' ? 'text-primary' : '' ?>" href="<?= base_url('offers') ?>">Offers</a>
                         </li>
                     </ul>
                 </div>
@@ -291,10 +320,12 @@
                         <p class="mb-5 text-secondary-lighter">Sign up and get notified<br />about best deals immediately
                         </p>
                         <div class="d-flex gap-2">
-                            <div class="form-icon-container flex-1"><input class="form-control form-icon-input" type="text"
+                            <div class="form-icon-container flex-1">
+                                <input class="form-control form-icon-input" type="text"
                                     placeholder="Your email address" /><span
                                     class="fa-solid fa-envelope form-icon text-body fs-9" data-fa-transform="up-2"></span>
-                            </div><button class="btn btn-primary rounded">Sign up</button>
+                            </div>
+                            <button class="btn btn-primary rounded">Sign up</button>
                         </div>
                     </div>
                 </div>
@@ -310,25 +341,15 @@
                     <h5 class="logo-text ms-2">firebnb</h5>
                 </div>
             </a>
-            <div class="dropdown"><button class="btn btn-sm p-0 d-md-none fs-8" type="button" data-bs-toggle="dropdown"
-                    data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span
-                        class="fas fa-ellipsis-h"></span></button>
-                <ul class="dropdown-menu dropdown-menu-end" style="z-index: 9999">
-                    <li><a class="dropdown-item" href="#!">Become a Host</a></li>
-                    <li><a class="dropdown-item" href="#!">Blog</a></li>
-                    <li><a class="dropdown-item" href="#!">Career</a></li>
-                    <li><a class="dropdown-item" href="#!">Support</a></li>
-                    <li><a class="dropdown-item" href="#!">+01 123 581321</a></li>
-                </ul>
-            </div>
             <ul class="d-none d-md-flex gap-5 list-unstyled mb-0">
-                <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="#!">Become a Host</a></li>
-                <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="#!">Blog</a></li>
-                <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="#!">Career</a></li>
-                <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="mailto:example@gmail.com"> <span
-                            class="fa-regular fa-envelope me-2" data-fa-transform="down-1"></span>Support</a></li>
-                <li><a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+911234567890"> <span
-                            class="fa-brands fa-whatsapp me-2"></span>+91 123 456 7890</a></li>
+                <li>
+                    <a class="lh-1 text-body-tertiary fw-semibold fs-9" href="mailto:example@gmail.com"> <span class="fa-regular fa-envelope me-2" data-fa-transform="down-1"></span>Support</a>
+                </li>
+                <li>
+                    <a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+911234567890">
+                        <span class="fa-brands fa-whatsapp me-2"></span>+91 123 456 7890
+                    </a>
+                </li>
             </ul>
         </div>
         <footer class="footer position-relative px-0">
@@ -342,7 +363,7 @@
                     </p>
                 </div>
                 <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 text-body-tertiary text-opacity-85">v1.0.0</p>
+                    <p class="mb-0 text-body-tertiary text-opacity-85">v2.3.5</p>
                 </div>
             </div>
         </footer>

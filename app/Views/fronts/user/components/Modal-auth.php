@@ -46,7 +46,7 @@
                         <h3 class="mb-2 text-body">Enter the 6-digit code sent to your email</h3>
                         <p class="mb-4 fs-9" id="timer">Time remaining: 03:00</p>
 
-                        <form action="<?= base_url('user/forgot/verify') ?>" method="post" id="verifyotp">
+                        <form action="<?= base_url('verify-otp') ?>" method="post" id="verifyotp">
                             <?= csrf_field(); ?>
                             <input type="hidden" name="email" value="<?= esc($email ?? '') ?>">
                             <div id="otp" class="otp-inputs d-flex flex-row justify-content-center mt-2">
@@ -154,8 +154,7 @@
                                     <div class="form-icon-container">
                                         <?php if (session()->has('user_id')): ?>
                                             <?php
-                                            $userModel = new \App\Models\UserModel();
-                                            $user = $userModel->find(session('user_id'));
+                                            $user = currentUser();
                                             ?>
                                             <input class="form-control form-icon-input" name="email" id="femail" type="email" placeholder="name@example.com" value="<?= $user['email'] ? $user['email'] : '' ?> " <?= $user['email'] ? 'readonly ' : '' ?>>
                                         <?php else: ?>
