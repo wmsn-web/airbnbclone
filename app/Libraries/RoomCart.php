@@ -4,39 +4,75 @@ namespace App\Libraries;
 
 class RoomCart
 {
-    protected $session;
-    protected $key = 'room_cart';
+    protected string $key = 'room_cart';
 
-    public function __construct()
+    protected function cart(): array
     {
-        $this->session = session();
+        return session()->get($this->key) ?? [];
     }
 
-    public function all()
+    protected function save(array $cart): void
     {
-        return $this->session->get($this->key) ?? [];
+        session()->set($this->key, $cart);
     }
 
-    public function add($room)
+    public function all(): array
     {
-        $cart = $this->all();
-        $cart[$room['id']] = $room;
-        $this->session->set($this->key, $cart);
-        return $cart;
+        return $this->cart();
     }
 
-    public function remove($id)
+    public function clear(): void
     {
-        $cart = $this->all();
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
+        session()->remove($this->key);
+    }
+
+    public function add(array $room): array
+    {
+        $cart = $this->cart();
+
+        /** 
+         * Rule:
+         * If cart exists AND hotel_id differs → reset cart
+         */
+        if (!empty($cart) && isset($cart['hotel_id']) && $cart['hotel_id'] !== $room['hotel_id']) {
+            $cart = [];
         }
-        $this->session->set($this->key, $cart);
+
+        // Initialize cart
+        $currency = setting('currency_method');
+        if (empty($cart)) {
+            $cart = [
+                'hotel_id' => $room['hotel_id'],
+                'rooms' => [],
+                'meta' => [
+                    'currency' => $currency['currency'],
+                    'created_at' => time()
+                ]
+            ];
+        }
+
+        // Add / overwrite room
+        $cart['rooms'][$room['room_id']] = $room;
+
+        $this->save($cart);
         return $cart;
     }
 
-    public function clear()
+    public function remove(int $roomId): array
     {
-        $this->session->remove($this->key);
+        $cart = $this->cart();
+
+        if (isset($cart['rooms'][$roomId])) {
+            unset($cart['rooms'][$roomId]);
+        }
+
+        // If no rooms left → clear cart
+        if (empty($cart['rooms'])) {
+            $this->clear();
+            return [];
+        }
+
+        $this->save($cart);
+        return $cart;
     }
 }

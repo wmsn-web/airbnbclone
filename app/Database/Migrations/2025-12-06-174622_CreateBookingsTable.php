@@ -11,58 +11,81 @@ class CreateBookingsTable extends Migration
         $this->forge->addField([
             'id' => [
                 'type'           => 'INT',
-                'constraint'     => 11,
                 'unsigned'       => true,
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
 
             'pnr_no' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 50,
-                'null'       => true
             ],
 
             'user_id' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
-                'null'       => true,
+                'type'     => 'INT',
+                'unsigned' => true,
+                'null'     => true,
             ],
 
             'hotel_id' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
+                'type'     => 'INT',
+                'unsigned' => true,
             ],
 
-            'room_id' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
+            /**
+             * ✅ ROOMS + GUEST SNAPSHOT
+             */
+            'rooms' => [
+                'type' => 'JSON',
+                'null' => false,
+                'comment' => 'Rooms with guests snapshot'
             ],
 
+            /**
+             * Booker / Contact Person
+             */
             'name' => [
-                'type' => 'VARCHAR',
+                'type'       => 'VARCHAR',
                 'constraint' => 150,
-            ],
-            'email' => [
-                'type' => 'VARCHAR',
-                'constraint' => 150,
-            ],
-            'phone' => [
-                'type' => 'VARCHAR',
-                'constraint' => 50,
-                'null' => true
             ],
 
-            'check_in' => ['type' => 'DATE'],
+            'email' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 150,
+            ],
+
+            'phone' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 50,
+                'null'       => true,
+            ],
+
+            /**
+             * Primary date range (earliest / latest)
+             */
+            'check_in'  => ['type' => 'DATE'],
             'check_out' => ['type' => 'DATE'],
 
-            'adults' => ['type' => 'INT', 'constraint' => 3, 'default' => 1],
-            'children' => ['type' => 'INT', 'constraint' => 3, 'default' => 0],
-            'infants' => ['type' => 'INT', 'constraint' => 3, 'default' => 0],
+            /**
+             * Totals (derived from rooms JSON)
+             * Kept for reporting & backward compatibility
+             */
+            'adults'   => ['type' => 'INT', 'default' => 1],
+            'children' => ['type' => 'INT', 'default' => 0],
+            'infants'  => ['type' => 'INT', 'default' => 0],
 
-            'amount' => ['type' => 'DECIMAL', 'constraint' => '10,2'],
+            /**
+             * ✅ VERIFIED PAYMENT AMOUNT
+             */
+            'amount' => [
+                'type' => 'DECIMAL',
+                'constraint' => '10,2'
+            ],
+
+            'currency' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 5,
+                'default'    => 'INR'
+            ],
 
             'payment_status' => [
                 'type'       => 'ENUM',
@@ -73,19 +96,19 @@ class CreateBookingsTable extends Migration
             'payment_method' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 50,
-                'null'       => true
+                'null'       => true,
             ],
 
             'payment_id' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
-                'null'       => true
+                'null'       => true,
             ],
 
             'transaction_id' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
-                'null'       => true
+                'null'       => true,
             ],
 
             'booking_status' => [
@@ -99,11 +122,15 @@ class CreateBookingsTable extends Migration
         ]);
 
         $this->forge->addKey('id', true);
+        $this->forge->addUniqueKey('pnr_no');
+        $this->forge->addKey('user_id');
+        $this->forge->addKey('payment_id');
+
         $this->forge->createTable('bookings');
     }
 
     public function down()
     {
-        //
+        $this->forge->dropTable('bookings');
     }
 }

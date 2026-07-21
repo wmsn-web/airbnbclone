@@ -5,7 +5,7 @@
 
         const flatpickrOptions = {
             mode: "range",
-            dateFormat: "d/m/Y",
+            dateFormat: "Y/m/d",
             disableMobile: true,
 
             // Restrict date to today → +60 days
@@ -108,8 +108,3 @@
 
     });
 </script>
-<!-- data-options='{
-"mode":"range",
-"dateFormat":"d/m/Y",
-"disableMobile":true,
-}' -->

@@ -27,23 +27,28 @@ class AuthFilter implements FilterInterface
     {
         $session = session();
 
-        if ($arguments && isset($arguments[0])) {
-            if ($arguments[0] === 'user') {
-                if (!$session->has('user_id')) {
-                    // Store intended URL
-                    $session->set('redirect_url', current_url());
+        // --------------------
+        // Login required
+        // AuthFilter:user
+        // --------------------
+        if (in_array('user', $arguments ?? [])) {
+            if (!$session->has('user_id')) {
+                $session->set([
+                    'user_redirect_url' => current_url(),
+                    'show_login_modal' => true
+                ]);
 
-                    // Redirect to login (named route)
-                    return redirect()
-                        ->to(base_url())
-                        ->with('error', 'Please log in first.');
-                }
+                return redirect()->to(current_url());
             }
-            if ($arguments[0] === 'auth') {
-                // Guest mode: user must NOT be logged in
-                if (session()->has('user_id')) {
-                    return redirect()->to(base_url());
-                }
+        }
+
+        // --------------------
+        // Guest-only routes
+        // AuthFilter:guest
+        // --------------------
+        if (in_array('guest', $arguments ?? [])) {
+            if ($session->has('user_id')) {
+                return redirect()->to('/');
             }
         }
 

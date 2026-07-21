@@ -61,7 +61,7 @@ class AdminFilter implements FilterInterface
         // ---------------------------
         if (in_array('login', $arguments ?? [])) {
             if (!$isLoggedIn) {
-                $session->set('redirect_url', current_url());
+                $session->set('admin_redirect_url', current_url());
                 return redirect()->to('admin');
             }
             return $request;

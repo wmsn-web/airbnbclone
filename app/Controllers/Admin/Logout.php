@@ -23,6 +23,6 @@ class Logout extends BaseController
         }
         // echo 'logout';
         CiAdmin::forget();
-        return redirect()->route('admin.login')->with('success', 'You are logged out!')->withInput();
+        return redirect()->to(base_url('admin'))->with('success', 'You are logged out!')->withInput();
     }
 }
