@@ -10,7 +10,7 @@ use CodeIgniter\Exceptions\PageNotFoundException;
 
 class HotelRoomDetails extends BaseController
 {
-    public function details($slug): string
+    public function details($slug)
     {
         $hotelM = new HotelModel();
         $roomM = new RoomModel();
@@ -24,7 +24,7 @@ class HotelRoomDetails extends BaseController
         // dd($data);
         return view('fronts/user/Hotel-details', $data);
     }
-    public function rooms($slug): string
+    public function rooms($slug)
     {
 
         $hotelM = new HotelModel();

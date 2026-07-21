@@ -8,16 +8,18 @@ class BookingModel extends Model
 {
     protected $table            = 'bookings';
     protected $primaryKey       = 'id';
-
-    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useAutoIncrement = true;
+
+    protected $useTimestamps = true;
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
 
     protected $allowedFields = [
         'pnr_no',
         'user_id',
         'hotel_id',
-        'room_id',
+        'rooms',
         'name',
         'email',
         'phone',
@@ -27,6 +29,7 @@ class BookingModel extends Model
         'children',
         'infants',
         'amount',
+        'currency',
         'payment_status',
         'payment_method',
         'payment_id',
@@ -34,58 +37,40 @@ class BookingModel extends Model
         'booking_status',
     ];
 
-    protected $useTimestamps = true;
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-
-    /**
-     * Validation Rules
-     */
     protected $validationRules = [
-        'hotel_id' => 'required|integer',
-        'room_id'  => 'required|integer',
-        'check_in' => 'required|valid_date',
+        'hotel_id'  => 'required|integer',
+        'rooms'     => 'required',
+        'check_in'  => 'required|valid_date',
         'check_out' => 'required|valid_date',
-        'amount'   => 'required'
+        'amount'    => 'required|decimal',
     ];
 
     protected $validationMessages = [
-        'hotel_id' => [
-            'required' => 'Hotel is required.'
+        'rooms' => [
+            'required' => 'At least one room is required.',
         ],
-        'room_id' => [
-            'required' => 'Room is required.'
-        ]
     ];
 
-    /**
-     * Generate internal transaction ID
-     * Example: BOOK-20251204-XY12AB
-     */
-    public function generateTransactionId()
+    /* ---------------- HELPERS ---------------- */
+
+    public function generatePnr(): string
+    {
+        return 'PNR' . strtoupper(substr(md5(uniqid('', true)), 0, 8));
+    }
+
+    public function generateTransactionId(): string
     {
         return 'BOOK-' . date('Ymd') . '-' . strtoupper(bin2hex(random_bytes(3)));
     }
 
-    public function generatePnr()
-    {
-        return 'PNR' . strtoupper(substr(md5(time() . random_bytes(2)), 0, 8));
-    }
-    
-    /**
-     * Get all bookings for a specific user
-     */
-    public function getBookingsByUser($userId)
+    public function getBookingsByUser(int $userId): array
     {
         return $this->where('user_id', $userId)
             ->orderBy('created_at', 'DESC')
             ->findAll();
     }
 
-    /**
-     * Mark booking as paid
-     */
-    public function markPaid($bookingId, $paymentId, $method = 'stripe')
+    public function markPaid(int $bookingId, string $paymentId, string $method = 'stripe')
     {
         return $this->update($bookingId, [
             'payment_status' => 'paid',
@@ -95,25 +80,27 @@ class BookingModel extends Model
         ]);
     }
 
-    /**
-     * Mark booking as failed
-     */
-    public function markFailed($bookingId)
+    public function markFailed(int $bookingId)
     {
         return $this->update($bookingId, [
             'payment_status' => 'failed',
-            'booking_status' => 'cancelled'
+            'booking_status' => 'cancelled',
+        ]);
+    }
+
+    public function markRefunded(int $bookingId)
+    {
+        return $this->update($bookingId, [
+            'payment_status' => 'refunded',
+            'booking_status' => 'cancelled',
         ]);
     }
 
     /**
-     * Mark booking as refunded
+     * Decode rooms JSON safely
      */
-    public function markRefunded($bookingId)
+    public function getRooms(array $booking): array
     {
-        return $this->update($bookingId, [
-            'payment_status' => 'refunded',
-            'booking_status' => 'cancelled'
-        ]);
+        return json_decode($booking['rooms'], true) ?? [];
     }
 }

@@ -46,7 +46,7 @@ class RoomModel extends Model
     {
         return $this->select()->where(['room_slug' => $slug, 'id' => $id])->first();
     }
-    public function roomByIds($roomId, $hotelId){
-        return $this->select()->where(['id' => $roomId, 'hotel_id' => $hotelId])->first();
+    public function roomByIds($roomSlug, $hotelId){
+        return $this->select()->where(['room_slug' => $roomSlug, 'hotel_id' => $hotelId])->first();
     }
 }

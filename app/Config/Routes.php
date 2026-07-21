@@ -28,7 +28,7 @@ $routes->get('image/hotel_thumbnail/(:num)/(:segment)', 'User\ImageController::h
 $routes->get('image/hotel_gallery/(:num)/(:segment)', 'User\ImageController::hotelGallery/$1/$2');
 
 // Guest-only: login/register/forgot
-$routes->group('', ['filter' => 'AuthFilter:auth'], function ($routes) {
+$routes->group('', ['filter' => 'AuthFilter:guest'], function ($routes) {
 
     // Google Login
     $routes->get('auth/google', 'AuthController::redirectToGoogle');
@@ -45,28 +45,46 @@ $routes->group('', ['filter' => 'AuthFilter:auth'], function ($routes) {
     // Magic link
     $routes->get('auth/verify-magic', 'AuthController::verifyMagicLink');
 });
+// ===============================
+// Stripe Webhook (PUBLIC – NO AUTH)
+// ===============================
+$routes->post('stripe/webhook', 'User\StripeWebhookController::handle');
 
+// ===============================
 // User-only protected routes
+// ===============================
+$routes->get('hotel/(:segment)/checkout', 'User\Hotelcheckout::checkout/$1');
+$routes->get('rooms/checkout', 'User\Hotelcheckout::checkoutCart');
 $routes->group('', ['filter' => 'AuthFilter:user'], function ($routes) {
 
-    // User Checkout Process
-    $routes->get('hotel/(:segment)/checkout', 'User\Hotelcheckout::checkout/$1');
     $routes->get('hotel/(:segment)/payment', 'User\Hotelcheckout::payment/$1');
 
-    // Stripe Payment
-    $routes->post('create-intent', 'User\PaymentController::crateIntent');
-    $routes->match(['GET', 'POST'], 'confirm-payment', 'User\PaymentController::confirmPayment');
+    $routes->post('create-intent', 'User\PaymentController::createIntent');
+    $routes->post('confirm-payment', 'User\PaymentController::confirmPayment');
 
-    // Booking pages
+    // Payment processing & confirmation
+    $routes->get('payment-processing/(:any)', 'User\PaymentController::processing/$1');
     $routes->get('booking-confirmation/(:any)', 'User\PaymentController::confirmation/$1');
+
     $routes->get('download-invoice/(:any)', 'User\PaymentController::invoicePDF/$1');
 
-    // Contact form (only logged in users)
-    $routes->post('contact/post', 'User\Contact::getContact');
-
-    // Logout
     $routes->get('logout', 'AuthController::logout');
 });
+
+// ===============================
+// Guest handling routes 
+// ===============================
+
+$routes->group('api/travellers', function ($routes) {
+    $routes->get('/', 'User\TravellerController::index');
+    $routes->post('create', 'User\TravellerController::create');
+    $routes->post('update/(:num)', 'User\TravellerController::update/$1');
+    $routes->delete('delete/(:num)', 'User\TravellerController::delete/$1');
+});
+
+
+
+
 // Cart
 $routes->get('cart', 'User\Cart::index');
 $routes->post('cart/addRoom', 'User\Cart::addRoom');
@@ -131,6 +149,8 @@ $routes->group('admin', ['filter' => 'AdminFilter:login'], static function ($rou
 
     // Super Admin Only
     $routes->group('', ['filter' => 'AdminFilter:superadmin'], static function ($routes) {
+        $routes->get('settings', 'Admin\SiteSettings::index');
+        $routes->post('settings/save', 'Admin\SiteSettings::save');
         $routes->get('add_admin', 'Admin\Addadmin::index', ['as' => 'admin.addadmin']);
         $routes->post('add_admin', 'Admin\Addadmin::registerHandler', ['as' => 'admin.addadmin.handler']);
         $routes->get('forgot_password', 'Admin\Forgotpassword::index', ['as' => 'admin.forgot.password']);

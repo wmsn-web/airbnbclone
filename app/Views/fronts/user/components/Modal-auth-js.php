@@ -84,6 +84,48 @@
             if (e.key === 'Enter') e.preventDefault();
         }
 
+        // ======= OTP MODAL LOCK =======
+        let otpLocked = false;
+
+        function lockModal(modalId) {
+            const modalEl = document.getElementById(modalId);
+            if (!modalEl) return;
+
+            otpLocked = true;
+
+            modalEl.setAttribute('data-bs-backdrop', 'static');
+            modalEl.setAttribute('data-bs-keyboard', 'false');
+
+            // Hide all close buttons
+            modalEl.querySelectorAll('[data-bs-dismiss="modal"]').forEach(btn => {
+                btn.classList.add('d-none');
+            });
+        }
+
+        function unlockModal(modalId) {
+            const modalEl = document.getElementById(modalId);
+            if (!modalEl) return;
+
+            otpLocked = false;
+
+            modalEl.setAttribute('data-bs-backdrop', 'true');
+            modalEl.setAttribute('data-bs-keyboard', 'true');
+
+            modalEl.querySelectorAll('[data-bs-dismiss="modal"]').forEach(btn => {
+                btn.classList.remove('d-none');
+            });
+        }
+
+        ['registerModal', 'forgotpwdmodal'].forEach(id => {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+
+            modal.addEventListener('hide.bs.modal', function(e) {
+                if (otpLocked) {
+                    e.preventDefault();
+                }
+            });
+        });
         // ======= LOGIN FORM =======
         if (loginForm) {
             loginForm.addEventListener('keydown', preventEnterSubmit);
@@ -128,6 +170,7 @@
                     document.querySelector('#verifyotp input[name="email"]').value =
                         registerForm.querySelector('input[name="email"]').value;
                     startTimer(timerDisplay, resendBtn);
+                    lockModal('registerModal');
                 } else {
                     notyfError(data.message);
                 }
@@ -215,6 +258,7 @@
                     fOtpForm.querySelector('input[name="email"]').value =
                         forgotPwdForm.querySelector('input[name="email"]').value;
                     startTimer(fpTimer, fResendBtn);
+                    lockModal('forgotpwdmodal');
                 } else {
                     notyfError(data.message);
                 }
@@ -243,6 +287,7 @@
 
                 if (data.status === 'success') {
                     notyfSuccess(data.message || 'OTP verified!');
+                    unlockModal('forgotpwdmodal');
                     forgotOtpStep.classList.add('d-none');
                     newPwdStep.classList.remove('d-none');
                     document.querySelector('#newpwd input[name="email"]')?.setAttribute('value', formData.get('email'));

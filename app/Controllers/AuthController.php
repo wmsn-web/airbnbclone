@@ -162,7 +162,7 @@ class AuthController extends BaseController
                     'samesite' => 'Lax'
                 ]);
             }
-            $redirect = session('redirect_url') ;
+            $redirect = session('user_redirect_url') ;
             return $this->response->setJSON([
                 'status' => 'success',
                 'message' => 'Welcome back, ' . esc($user['email']) . '!',
@@ -324,8 +324,8 @@ class AuthController extends BaseController
             // Optional: cleanup any expired ones
             $verifyModel->cleanOldRecords($user['id']);
 
-            $redirect = session('redirect_url');
-            session()->remove('redirect_url');
+            $redirect = session('user_redirect_url');
+            session()->remove('user_redirect_url');
 
             return $this->response->setJSON([
                 'status' => 'success',
@@ -375,8 +375,8 @@ class AuthController extends BaseController
         session()->set('user_id', $user['id']);
 
         // Redirect to target page
-        $redirect = session('redirect_url') ?? base_url();
-        session()->remove('redirect_url');
+        $redirect = session('user_redirect_url') ?? base_url();
+        session()->remove('user_redirect_url');
 
         return redirect()->to($redirect)->with('success', 'Email verified successfully!');
     }
@@ -432,7 +432,7 @@ class AuthController extends BaseController
         } else {
             $userId = $user['id'];
         }
-        $redirect = session('redirect_url') ?? base_url();
+        $redirect = session('user_redirect_url') ?? base_url();
         session()->set(['user_id' => $userId]);
 
         return redirect()->to($redirect)->with('success', 'Welcome, ' . $name);
