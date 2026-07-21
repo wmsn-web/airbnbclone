@@ -33,8 +33,7 @@
                 <div class="mb-3 text-start">
                     <label class="form-label" for="password">Password</label>
                     <div class="form-icon-container" data-password="data-password">
-                        <input class="form-control form-icon-input pe-6" id="password" type="password" name="password"
-                            placeholder="Password" data-password-input="data-password-input">
+                        <input class="form-control form-icon-input pe-6" id="password" type="password" name="password" placeholder="Password" data-password-input="data-password-input">
                         <span class="fas fa-key text-body fs-9 form-icon"></span>
                         <button type="button" class="btn px-3 py-0 position-absolute top-50 end-0 translate-middle-y fs-9 text-body-tertiary"
                             data-password-toggle="data-password-toggle">

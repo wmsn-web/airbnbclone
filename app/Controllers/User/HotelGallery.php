@@ -7,7 +7,7 @@ use App\Models\HotelGalleryModel;
 
 class HotelGallery extends BaseController
 {
-    public function index($id): string
+    public function index($id)
     {
         $hgM = new HotelGalleryModel();
         $gallery = $hgM->select('photos')->where('hotel_id', $id)->first();

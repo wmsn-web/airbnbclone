@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 28, 2025 at 07:03 PM
+-- Generation Time: Jul 21, 2026 at 06:54 AM
 -- Server version: 8.3.0
--- PHP Version: 8.2.18
+-- PHP Version: 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,12 +30,12 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `admins`;
 CREATE TABLE IF NOT EXISTS `admins` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `full_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `role` enum('superadmin','admin','editor') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'admin',
-  `remember_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `full_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('superadmin','admin','editor') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'admin',
+  `remember_token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS `admins` (
 --
 
 INSERT INTO `admins` (`id`, `full_name`, `username`, `email`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'admin', 'admin@booking.com', '$2y$10$JQclgbiSLUdfVpk1aRv2x.wwii0ccyM6pi2qSgrvZZODcgHq2Pmj6', 'superadmin', NULL, '2025-11-16 18:14:27', '2025-11-28 00:17:24'),
-(2, 'Admin', 'admin2', 'admin@admin.com', '$2y$10$OC1jPf/EFqOFSmXBW3tIjuEaUtgpi2h2V07dsy.MZAFFUfumOXIDG', 'admin', NULL, '2025-11-16 18:14:27', '2025-11-26 12:42:10');
+(1, 'Super Admin', 'admin', 'admin@booking.com', '$2y$10$dFcWFFgIU8UZKSbhy0qmH.PJ.RauR.uz9jLkg/wHzEmJHTm17QbgG', 'superadmin', NULL, '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(2, 'Admin', 'admin2', 'admin@admin.com', '$2y$10$dFcWFFgIU8UZKSbhy0qmH.PJ.RauR.uz9jLkg/wHzEmJHTm17QbgG', 'admin', NULL, '2025-12-29 23:53:18', '2025-12-29 23:53:18');
 
 -- --------------------------------------------------------
 
@@ -59,10 +59,10 @@ INSERT INTO `admins` (`id`, `full_name`, `username`, `email`, `password`, `role`
 DROP TABLE IF EXISTS `amenities`;
 CREATE TABLE IF NOT EXISTS `amenities` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `cat` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `am_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cat_slug` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `am_slug` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cat` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `am_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `cat_slug` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `am_slug` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -111,49 +111,77 @@ INSERT INTO `amenities` (`id`, `cat`, `am_name`, `cat_slug`, `am_slug`, `created
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bookings`
+--
+
+DROP TABLE IF EXISTS `bookings`;
+CREATE TABLE IF NOT EXISTS `bookings` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pnr_no` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` int UNSIGNED DEFAULT NULL,
+  `hotel_id` int UNSIGNED NOT NULL,
+  `rooms` json NOT NULL COMMENT 'Rooms with guests snapshot',
+  `name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `check_in` date NOT NULL,
+  `check_out` date NOT NULL,
+  `adults` int NOT NULL DEFAULT '1',
+  `children` int NOT NULL DEFAULT '0',
+  `infants` int NOT NULL DEFAULT '0',
+  `amount` decimal(10,2) NOT NULL,
+  `currency` varchar(5) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'INR',
+  `payment_status` enum('pending','paid','failed','refunded') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'pending',
+  `payment_method` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `payment_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `transaction_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `booking_status` enum('pending','confirmed','cancelled','completed') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'pending',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `pnr_no` (`pnr_no`),
+  KEY `user_id` (`user_id`),
+  KEY `payment_id` (`payment_id`(250))
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `hotels`
 --
 
 DROP TABLE IF EXISTS `hotels`;
 CREATE TABLE IF NOT EXISTS `hotels` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `property_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `property_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `property_name_slug` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text COLLATE utf8mb4_general_ci,
   `rating` int NOT NULL DEFAULT '5',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `chain_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `thumbnail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `chain_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `thumbnail` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `property_name_slug` (`property_name_slug`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hotels`
 --
 
-INSERT INTO `hotels` (`id`, `property_name`, `description`, `rating`, `email`, `phone`, `chain_name`, `thumbnail`, `created_at`, `updated_at`) VALUES
-(1, 'Taj Palace Hotel', 'A luxury 5-star hotel located in the heart of New Delhi.', 5, 'contact@tajpalacedelhi.com', '+91 11 23456789', 'Taj Hotels', 'taj.webp', NULL, NULL),
-(2, 'The Oberoi Mumbai', 'Premium sea-facing hotel located at Marine Drive.', 5, 'reservations@oberoimumbai.com', '+91 22 66326060', 'Oberoi Hotels', 'oberoi.webp', NULL, NULL),
-(3, 'Bengaluru Grand Residency', 'Business friendly hotel near MG Road.', 4, 'info@grandblr.com', '+91 80 22446688', 'Grand Hotels', 'blr.webp', NULL, NULL),
-(4, 'Hyderabad Pearl Inn', 'Mid-range hotel near Hitech City.', 4, 'contact@pearlhyderabad.com', '+91 40 22551199', 'Pearl Group', 'hyd.webp', NULL, NULL),
-(5, 'Chennai Seaside Resort', 'Beachside property with calm ambience.', 4, 'info@chennairest.com', '+91 44 33445566', 'Seaside Group', 'che.webp', NULL, NULL),
-(6, 'Kolkata Heritage Suites', 'Colonial style lodging near Park Street.', 3, 'contact@kolheritage.com', '+91 33 22118855', 'Heritage Hotels', 'kol.webp', NULL, NULL),
-(7, 'Pune Urban Stay', 'Modern hotel near Koregaon Park.', 4, 'support@punestay.com', '+91 20 24241122', 'Urban Hotels', 'pune.webp', NULL, NULL),
-(8, 'Jaipur Royal Inn', 'Traditional Rajasthani themed property.', 4, 'info@jaipurroyal.com', '+91 141 2323232', 'Royal Group', 'jai.webp', NULL, NULL),
-(9, 'Ahmedabad Comfort Hotel', 'Family-friendly hotel near SG Highway.', 3, 'contact@ahdcomfort.com', '+91 79 44556677', 'Comfort Hotels', 'amd.webp', NULL, NULL),
-(10, 'Goa Beach Paradise', 'Resort located on Calangute Beach.', 4, 'contact@goaparadise.com', '+91 832 2244556', 'Paradise Resorts', 'goa.webp', NULL, NULL),
-(11, 'Hilton Times Square', 'Hotel located in Times Square, New York.', 5, 'contact@hiltontimessq.com', '+1 212-555-7812', 'Hilton Hotels', 'nyc.webp', NULL, NULL),
-(12, 'Los Angeles Grand Suites', 'Elegantly designed suites near Hollywood.', 4, 'info@lagrandsuites.com', '+1 310-555-2299', 'Grand Suites', 'la.webp', NULL, NULL),
-(13, 'Chicago Lakeview Hotel', '4-star hotel with stunning lake views.', 4, 'support@lakeviewchicago.com', '+1 312-555-4477', 'Lakeview Hotels', 'chi.webp', NULL, NULL),
-(14, 'Miami Beach Resort', 'Beachfront resort with pool and spa.', 5, 'contact@miamiresort.com', '+1 305-555-8844', 'Beach Resorts', 'miami.webp', NULL, NULL),
-(15, 'Las Vegas Strip Hotel', 'Casino hotel located directly on Las Vegas Strip.', 4, 'info@vegasstrip.com', '+1 702-555-9911', 'Strip Hotels', 'lv.webp', NULL, NULL),
-(16, 'Houston Comfort Stay', 'Comfortable family hotel in uptown Houston.', 3, 'support@houstoncomfort.com', '+1 713-555-6611', 'Comfort Chain', 'hou.webp', NULL, NULL),
-(17, 'San Francisco Bayview Hotel', 'Hotel offering panoramic views of the bay.', 5, 'info@sf-bayview.com', '+1 415-555-2334', 'Bayview Hotels', 'sf.webp', NULL, NULL),
-(18, 'Seattle Skyview Inn', 'Comfortable rooms near Space Needle.', 4, 'contact@seattleskyinn.com', '+1 206-555-8821', 'Skyview Hotels', 'sea.webp', NULL, NULL),
-(19, 'Boston Harbor Hotel', 'Classic waterfront luxury property.', 5, 'reservations@bostonharbor.com', '+1 617-555-1220', 'Harbor Group', 'bos.webp', NULL, NULL),
-(20, 'Denver Mountain Retreat', 'Nature-themed retreat near the Rockies.', 4, 'info@denverretreat.com', '+1 720-555-3390', 'Retreat Hotels', 'den.webp', NULL, NULL);
+INSERT INTO `hotels` (`id`, `property_name`, `property_name_slug`, `description`, `rating`, `email`, `phone`, `chain_name`, `thumbnail`, `created_at`, `updated_at`) VALUES
+(1, 'Taj Palace Hotel', 'taj-Palace-Hotel', 'A luxury 5-star hotel located in the heart of New Delhi.', 5, 'contact@tajpalacedelhi.com', '+91 11 23456789', 'Taj Hotels', '84.jpg', NULL, NULL),
+(2, 'The Oberoi Mumbai', 'the-oberoi-mumbai', 'Premium sea-facing hotel located at Marine Drive.', 5, 'reservations@oberoimumbai.com', '+91 22 66326060', 'Oberoi Hotels', '84.jpg', NULL, NULL),
+(3, 'Bengaluru Grand Residency', 'bengaluru-grand-residency', 'Business friendly hotel near MG Road.', 4, 'info@grandblr.com', '+91 80 22446688', 'Grand Hotels', '84.jpg', NULL, NULL),
+(4, 'Hyderabad Pearl Inn', 'hyderabad-pearl-inn', 'Mid-range hotel near Hitech City.', 4, 'contact@pearlhyderabad.com', '+91 40 22551199', 'Pearl Group', '84.jpg', NULL, NULL),
+(5, 'Chennai Seaside Resort', 'chennai-seaside-resort', 'Beachside property with calm ambience.', 4, 'info@chennairest.com', '+91 44 33445566', 'Seaside Group', '84.jpg', NULL, NULL),
+(6, 'Kolkata Heritage Suites', 'kolkata-heritage-suites', 'Colonial style lodging near Park Street.', 3, 'contact@kolheritage.com', '+91 33 22118855', 'Heritage Hotels', '84.jpg', NULL, NULL),
+(7, 'Pune Urban Stay', 'pune-urban-stay', 'Modern hotel near Koregaon Park.', 4, 'support@punestay.com', '+91 20 24241122', 'Urban Hotels', '84.jpg', NULL, NULL),
+(8, 'Jaipur Royal Inn', 'jaipur-royal-inn', 'Traditional Rajasthani themed property.', 4, 'info@jaipurroyal.com', '+91 141 2323232', 'Royal Group', '84.jpg', NULL, NULL),
+(9, 'Ahmedabad Comfort Hotel', 'ahmedabad-comfort-hotel', 'Family-friendly hotel near SG Highway.', 3, 'contact@ahdcomfort.com', '+91 79 44556677', 'Comfort Hotels', '84.jpg', NULL, NULL),
+(10, 'Goa Beach Paradise', 'goa-beach-paradise', 'Resort located on Calangute Beach.', 4, 'contact@goaparadise.com', '+91 832 2244556', 'Paradise Resorts', '84.jpg', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -170,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `hotel_amenities` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `hotel_amenities_hotel_id_foreign` (`hotel_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hotel_amenities`
@@ -186,17 +214,7 @@ INSERT INTO `hotel_amenities` (`id`, `hotel_id`, `amenities`, `created_at`, `upd
 (7, 7, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
 (8, 8, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
 (9, 9, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(10, 10, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(11, 11, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(12, 12, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(13, 13, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(14, 14, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(15, 15, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(16, 16, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(17, 17, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(18, 18, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(19, 19, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL),
-(20, 20, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL);
+(10, 10, '{\"wifi\": {\"type\": \"free\"}, \"parking\": {\"type\": \"paid\"}, \"breakfast\": {\"type\": \"paid\"}}', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -215,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `hotel_finance` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `hotel_finance_hotel_id_foreign` (`hotel_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hotel_finance`
@@ -231,17 +249,7 @@ INSERT INTO `hotel_finance` (`id`, `hotel_id`, `cash_payment`, `card_payment`, `
 (7, 7, 1, 1, 1, NULL, NULL),
 (8, 8, 1, 1, 1, NULL, NULL),
 (9, 9, 1, 1, 1, NULL, NULL),
-(10, 10, 1, 1, 1, NULL, NULL),
-(11, 11, 1, 1, 1, NULL, NULL),
-(12, 12, 1, 1, 1, NULL, NULL),
-(13, 13, 1, 1, 1, NULL, NULL),
-(14, 14, 1, 1, 1, NULL, NULL),
-(15, 15, 1, 1, 1, NULL, NULL),
-(16, 16, 1, 1, 1, NULL, NULL),
-(17, 17, 1, 1, 1, NULL, NULL),
-(18, 18, 1, 1, 1, NULL, NULL),
-(19, 19, 1, 1, 1, NULL, NULL),
-(20, 20, 1, 1, 1, NULL, NULL);
+(10, 10, 1, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -258,33 +266,23 @@ CREATE TABLE IF NOT EXISTS `hotel_gallery` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `hotel_gallery_hotel_id_foreign` (`hotel_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hotel_gallery`
 --
 
 INSERT INTO `hotel_gallery` (`id`, `hotel_id`, `photos`, `created_at`, `updated_at`) VALUES
-(1, 1, '[\"hotel1_1.jpg\", \"hotel1_2.jpg\", \"hotel1_3.jpg\"]', NULL, NULL),
-(2, 2, '[\"hotel2_1.jpg\", \"hotel2_2.jpg\", \"hotel2_3.jpg\"]', NULL, NULL),
-(3, 3, '[\"hotel3_1.jpg\", \"hotel3_2.jpg\", \"hotel3_3.jpg\"]', NULL, NULL),
-(4, 4, '[\"hotel4_1.jpg\", \"hotel4_2.jpg\", \"hotel4_3.jpg\"]', NULL, NULL),
-(5, 5, '[\"hotel5_1.jpg\", \"hotel5_2.jpg\", \"hotel5_3.jpg\"]', NULL, NULL),
-(6, 6, '[\"hotel6_1.jpg\", \"hotel6_2.jpg\", \"hotel6_3.jpg\"]', NULL, NULL),
-(7, 7, '[\"hotel7_1.jpg\", \"hotel7_2.jpg\", \"hotel7_3.jpg\"]', NULL, NULL),
-(8, 8, '[\"hotel8_1.jpg\", \"hotel8_2.jpg\", \"hotel8_3.jpg\"]', NULL, NULL),
-(9, 9, '[\"hotel9_1.jpg\", \"hotel9_2.jpg\", \"hotel9_3.jpg\"]', NULL, NULL),
-(10, 10, '[\"hotel10_1.jpg\", \"hotel10_2.jpg\", \"hotel10_3.jpg\"]', NULL, NULL),
-(11, 11, '[\"hotel11_1.jpg\", \"hotel11_2.jpg\", \"hotel11_3.jpg\"]', NULL, NULL),
-(12, 12, '[\"hotel12_1.jpg\", \"hotel12_2.jpg\", \"hotel12_3.jpg\"]', NULL, NULL),
-(13, 13, '[\"hotel13_1.jpg\", \"hotel13_2.jpg\", \"hotel13_3.jpg\"]', NULL, NULL),
-(14, 14, '[\"hotel14_1.jpg\", \"hotel14_2.jpg\", \"hotel14_3.jpg\"]', NULL, NULL),
-(15, 15, '[\"hotel15_1.jpg\", \"hotel15_2.jpg\", \"hotel15_3.jpg\"]', NULL, NULL),
-(16, 16, '[\"hotel16_1.jpg\", \"hotel16_2.jpg\", \"hotel16_3.jpg\"]', NULL, NULL),
-(17, 17, '[\"hotel17_1.jpg\", \"hotel17_2.jpg\", \"hotel17_3.jpg\"]', NULL, NULL),
-(18, 18, '[\"hotel18_1.jpg\", \"hotel18_2.jpg\", \"hotel18_3.jpg\"]', NULL, NULL),
-(19, 19, '[\"hotel19_1.jpg\", \"hotel19_2.jpg\", \"hotel19_3.jpg\"]', NULL, NULL),
-(20, 20, '[\"hotel20_1.jpg\", \"hotel20_2.jpg\", \"hotel20_3.jpg\"]', NULL, NULL);
+(1, 1, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL),
+(2, 2, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL),
+(3, 3, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL),
+(4, 4, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL),
+(5, 5, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL),
+(6, 6, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL),
+(7, 7, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL),
+(8, 8, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL),
+(9, 9, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL),
+(10, 10, '[\"40.png\", \"51.png\", \"52.png\"]', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -296,18 +294,18 @@ DROP TABLE IF EXISTS `hotel_locations`;
 CREATE TABLE IF NOT EXISTS `hotel_locations` (
   `id` int NOT NULL AUTO_INCREMENT,
   `hotel_id` int NOT NULL,
-  `street_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `city` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `state` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `zip_code` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `country_or_region` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `street_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `city` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `state` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `zip_code` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `country_or_region` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `latitude` decimal(10,7) DEFAULT NULL,
   `longitude` decimal(10,7) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `hotel_locations_hotel_id_foreign` (`hotel_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hotel_locations`
@@ -323,17 +321,7 @@ INSERT INTO `hotel_locations` (`id`, `hotel_id`, `street_name`, `city`, `state`,
 (7, 7, 'Koregaon Park', 'Pune', 'Maharashtra', '411001', 'India', 18.5362000, 73.8938000, NULL, NULL),
 (8, 8, 'MI Road', 'Jaipur', 'Rajasthan', '302001', 'India', 26.9124000, 75.7873000, NULL, NULL),
 (9, 9, 'SG Highway', 'Ahmedabad', 'Gujarat', '380054', 'India', 23.0225000, 72.5714000, NULL, NULL),
-(10, 10, 'Calangute Beach Road', 'Calangute', 'Goa', '403516', 'India', 15.5439000, 73.7553000, NULL, NULL),
-(11, 11, '7th Avenue', 'New York', 'NY', '10036', 'USA', 40.7580000, -73.9855000, NULL, NULL),
-(12, 12, 'Hollywood Blvd', 'Los Angeles', 'CA', '90028', 'USA', 34.1015000, -118.3269000, NULL, NULL),
-(13, 13, 'Lake Shore Drive', 'Chicago', 'IL', '60611', 'USA', 41.8924000, -87.6130000, NULL, NULL),
-(14, 14, 'Collins Ave', 'Miami', 'FL', '33139', 'USA', 25.7907000, -80.1300000, NULL, NULL),
-(15, 15, 'Las Vegas Blvd', 'Las Vegas', 'NV', '89109', 'USA', 36.1147000, -115.1728000, NULL, NULL),
-(16, 16, 'Post Oak Blvd', 'Houston', 'TX', '77056', 'USA', 29.7485000, -95.4613000, NULL, NULL),
-(17, 17, 'Embarcadero', 'San Francisco', 'CA', '94111', 'USA', 37.7993000, -122.3977000, NULL, NULL),
-(18, 18, 'Broad Street', 'Seattle', 'WA', '98109', 'USA', 47.6205000, -122.3493000, NULL, NULL),
-(19, 19, 'Rowes Wharf', 'Boston', 'MA', '02110', 'USA', 42.3565000, -71.0491000, NULL, NULL),
-(20, 20, 'Rocky Road', 'Denver', 'CO', '80202', 'USA', 39.7486000, -104.9956000, NULL, NULL);
+(10, 10, 'Calangute Beach Road', 'Calangute', 'Goa', '403516', 'India', 15.5439000, 73.7553000, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -355,7 +343,7 @@ CREATE TABLE IF NOT EXISTS `hotel_policies` (
   `co_before` time DEFAULT NULL,
   `flexible_co_status` tinyint(1) NOT NULL DEFAULT '0',
   `flexible_co_type` tinyint(1) NOT NULL DEFAULT '0',
-  `flexible_co_condition` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `flexible_co_condition` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `refund_policy_type` tinyint(1) NOT NULL DEFAULT '0',
   `full_refund_allowed` tinyint(1) NOT NULL DEFAULT '0',
   `partial_refund_allowed` tinyint(1) NOT NULL DEFAULT '0',
@@ -366,53 +354,43 @@ CREATE TABLE IF NOT EXISTS `hotel_policies` (
   `child_doc_requirement` tinyint(1) NOT NULL DEFAULT '0',
   `vat_included` tinyint(1) NOT NULL DEFAULT '0',
   `vat_radio` tinyint(1) NOT NULL DEFAULT '0',
-  `vat_condition` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `vat_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `gst_included` tinyint(1) NOT NULL DEFAULT '0',
   `gst_radio` tinyint(1) NOT NULL DEFAULT '0',
-  `gst_condition` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `gst_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `hotel_tax_included` tinyint(1) NOT NULL DEFAULT '0',
   `hotel_tax_radio` tinyint(1) NOT NULL DEFAULT '0',
-  `hotel_tax_condition` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `hotel_tax_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `city_dist_tax_included` tinyint(1) NOT NULL DEFAULT '0',
   `regional_location_tax_radio` tinyint(1) NOT NULL DEFAULT '0',
-  `cdt_condition` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cdt_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `tourist_tax_included` tinyint(1) NOT NULL DEFAULT '0',
   `tourist_tax_radio` tinyint(1) NOT NULL DEFAULT '0',
-  `tourist_tax_condition` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `property_registration_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `business_registration_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `taxpayer_identification_no` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tourist_tax_condition` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `property_registration_no` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `business_registration_no` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `taxpayer_identification_no` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `hotel_id` (`hotel_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hotel_policies`
 --
 
 INSERT INTO `hotel_policies` (`id`, `hotel_id`, `ci_type`, `ci_start_time`, `ci_end_time`, `late_ci`, `age_restriction`, `deposit_at_ci`, `doc_at_ci`, `co_before`, `flexible_co_status`, `flexible_co_type`, `flexible_co_condition`, `refund_policy_type`, `full_refund_allowed`, `partial_refund_allowed`, `pet_policy_type`, `pet_restricted_zones`, `pet_additional_charges`, `age_segments`, `child_doc_requirement`, `vat_included`, `vat_radio`, `vat_condition`, `gst_included`, `gst_radio`, `gst_condition`, `hotel_tax_included`, `hotel_tax_radio`, `hotel_tax_condition`, `city_dist_tax_included`, `regional_location_tax_radio`, `cdt_condition`, `tourist_tax_included`, `tourist_tax_radio`, `tourist_tax_condition`, `property_registration_no`, `business_registration_no`, `taxpayer_identification_no`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP98330', 'BUSS89151', 'TAX18876', NULL, NULL),
-(2, 2, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP28195', 'BUSS60531', 'TAX22270', NULL, NULL),
-(3, 3, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP93908', 'BUSS23848', 'TAX14782', NULL, NULL),
-(4, 4, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP32137', 'BUSS86259', 'TAX84029', NULL, NULL),
-(5, 5, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP95315', 'BUSS14203', 'TAX95819', NULL, NULL),
-(6, 6, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP68257', 'BUSS42778', 'TAX63938', NULL, NULL),
-(7, 7, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP49270', 'BUSS59133', 'TAX97070', NULL, NULL),
-(8, 8, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP92322', 'BUSS17300', 'TAX89449', NULL, NULL),
-(9, 9, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP41253', 'BUSS91404', 'TAX15373', NULL, NULL),
-(10, 10, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP65728', 'BUSS54588', 'TAX57773', NULL, NULL),
-(11, 11, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP83744', 'BUSS46777', 'TAX90286', NULL, NULL),
-(12, 12, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP34951', 'BUSS14330', 'TAX67403', NULL, NULL),
-(13, 13, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP73966', 'BUSS27654', 'TAX62211', NULL, NULL),
-(14, 14, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP89552', 'BUSS35569', 'TAX35245', NULL, NULL),
-(15, 15, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP61883', 'BUSS60579', 'TAX32393', NULL, NULL),
-(16, 16, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP30754', 'BUSS50137', 'TAX12033', NULL, NULL),
-(17, 17, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP76654', 'BUSS66104', 'TAX71531', NULL, NULL),
-(18, 18, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP80192', 'BUSS45130', 'TAX78048', NULL, NULL),
-(19, 19, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP28570', 'BUSS77169', 'TAX35511', NULL, NULL),
-(20, 20, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP92497', 'BUSS96975', 'TAX60416', NULL, NULL);
+(1, 1, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP51476', 'BUSS87536', 'TAX24532', NULL, NULL),
+(2, 2, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP35834', 'BUSS38490', 'TAX22895', NULL, NULL),
+(3, 3, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP51346', 'BUSS26631', 'TAX37276', NULL, NULL),
+(4, 4, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP26730', 'BUSS40728', 'TAX64988', NULL, NULL),
+(5, 5, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP70797', 'BUSS91308', 'TAX91813', NULL, NULL),
+(6, 6, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP76539', 'BUSS32801', 'TAX70557', NULL, NULL),
+(7, 7, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP86431', 'BUSS86119', 'TAX75636', NULL, NULL),
+(8, 8, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP27902', 'BUSS17180', 'TAX10832', NULL, NULL),
+(9, 9, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP41882', 'BUSS95645', 'TAX57053', NULL, NULL),
+(10, 10, 1, '12:00:00', '14:00:00', 0, 0, 0, 1, '11:00:00', 1, 1, '0', 1, 1, 1, 0, 0, 0, '[{\"to\": 5, \"from\": 0, \"policy\": \"free\"}, {\"to\": 12, \"from\": 6, \"policy\": \"half\"}]', 0, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 1, 0, NULL, 0, 0, NULL, 'PROP50425', 'BUSS51075', 'TAX74963', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -423,32 +401,35 @@ INSERT INTO `hotel_policies` (`id`, `hotel_id`, `ci_type`, `ci_start_time`, `ci_
 DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `version` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `class` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `namespace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `version` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `class` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `group` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `namespace` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `time` int NOT NULL,
   `batch` int UNSIGNED NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`, `batch`) VALUES
-(1, '2025-05-12-173149', 'App\\Database\\Migrations\\CreateUsersTable', 'default', 'App', 1763296767, 1),
-(2, '2025-05-12-195708', 'App\\Database\\Migrations\\CreateAdminsTable', 'default', 'App', 1763296767, 1),
-(3, '2025-05-23-175323', 'App\\Database\\Migrations\\CreateHotelsTable', 'default', 'App', 1763296767, 1),
-(4, '2025-05-29-193413', 'App\\Database\\Migrations\\CreateHotelsLocationTable', 'default', 'App', 1763296767, 1),
-(5, '2025-05-31-192232', 'App\\Database\\Migrations\\CreateAmenitiesTable', 'default', 'App', 1763296767, 1),
-(6, '2025-06-03-073005', 'App\\Database\\Migrations\\CreateHotelAmenitiesTable', 'default', 'App', 1763296767, 1),
-(7, '2025-06-05-171422', 'App\\Database\\Migrations\\CreateHotelGalleyTable', 'default', 'App', 1763296767, 1),
-(8, '2025-06-09-162122', 'App\\Database\\Migrations\\CreateHotelFinanceTable', 'default', 'App', 1763296767, 1),
-(9, '2025-06-10-161901', 'App\\Database\\Migrations\\CreateHotelPoliciesTable', 'default', 'App', 1763296767, 1),
-(10, '2025-11-06-103912', 'App\\Database\\Migrations\\CreateUserEmailVerificationsTable', 'default', 'App', 1763296767, 1),
-(11, '2025-11-25-170223', 'App\\Database\\Migrations\\CreateRoomsTable', 'default', 'App', 1764092222, 2),
-(12, '2025-11-27-081428', 'App\\Database\\Migrations\\CreateRoomsCatagoryTable', 'default', 'App', 1764233271, 3);
+(1, '2025-05-12-173149', 'App\\Database\\Migrations\\CreateUsersTable', 'default', 'App', 1767032570, 1),
+(2, '2025-05-12-195708', 'App\\Database\\Migrations\\CreateAdminsTable', 'default', 'App', 1767032570, 1),
+(3, '2025-05-23-175323', 'App\\Database\\Migrations\\CreateHotelsTable', 'default', 'App', 1767032570, 1),
+(4, '2025-05-29-193413', 'App\\Database\\Migrations\\CreateHotelsLocationTable', 'default', 'App', 1767032570, 1),
+(5, '2025-05-31-192232', 'App\\Database\\Migrations\\CreateAmenitiesTable', 'default', 'App', 1767032570, 1),
+(6, '2025-06-03-073005', 'App\\Database\\Migrations\\CreateHotelAmenitiesTable', 'default', 'App', 1767032571, 1),
+(7, '2025-06-05-171422', 'App\\Database\\Migrations\\CreateHotelGalleyTable', 'default', 'App', 1767032571, 1),
+(8, '2025-06-09-162122', 'App\\Database\\Migrations\\CreateHotelFinanceTable', 'default', 'App', 1767032571, 1),
+(9, '2025-06-10-161901', 'App\\Database\\Migrations\\CreateHotelPoliciesTable', 'default', 'App', 1767032571, 1),
+(10, '2025-11-06-103912', 'App\\Database\\Migrations\\CreateUserEmailVerificationsTable', 'default', 'App', 1767032571, 1),
+(11, '2025-11-25-170223', 'App\\Database\\Migrations\\CreateRoomsTable', 'default', 'App', 1767032571, 1),
+(12, '2025-11-27-081428', 'App\\Database\\Migrations\\CreateRoomsCatagoryTable', 'default', 'App', 1767032571, 1),
+(13, '2025-12-06-174622', 'App\\Database\\Migrations\\CreateBookingsTable', 'default', 'App', 1767032571, 1),
+(14, '2025-12-13-171501', 'App\\Database\\Migrations\\CreateSiteSettingsTable', 'default', 'App', 1767032571, 1),
+(16, '2025-12-29-172148', 'App\\Database\\Migrations\\CreateTravellersTable', 'default', 'App', 1767266359, 2);
 
 -- --------------------------------------------------------
 
@@ -458,65 +439,53 @@ INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`
 
 DROP TABLE IF EXISTS `rooms`;
 CREATE TABLE IF NOT EXISTS `rooms` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `room_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `room_slug` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `price` int NOT NULL,
-  `hotel_id` int NOT NULL,
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT 'Per night cost for allowed guest.',
+  `hotel_id` int UNSIGNED NOT NULL,
   `amenities` json DEFAULT NULL,
   `description` text COLLATE utf8mb4_general_ci,
+  `min_adult` int UNSIGNED NOT NULL DEFAULT '1' COMMENT 'Minimum allowed adult.',
+  `max_adult` int UNSIGNED DEFAULT NULL COMMENT 'Maximum allowed adult.',
+  `min_infants` int UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Minimum allowed infants.',
+  `max_infants` int UNSIGNED DEFAULT NULL COMMENT 'Maximum allowed infants.',
+  `min_children` int UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Minimum allowed children.',
+  `max_children` int UNSIGNED DEFAULT NULL COMMENT 'Maximum allowed children.',
+  `max_occupancy` int UNSIGNED DEFAULT NULL COMMENT 'Total max guests allowed',
+  `status` enum('active','inactive') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'active',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `rooms_hotel_id_foreign` (`hotel_id`),
-  KEY `room_slug` (`room_slug`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `hotel_id_room_slug` (`hotel_id`,`room_slug`),
+  KEY `hotel_id` (`hotel_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `room_name`, `room_slug`, `price`, `hotel_id`, `amenities`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Standard Room', 'standard-room-h1', 5861, 1, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(2, 'Deluxe Room', 'deluxe-room-h1', 6549, 1, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(3, 'Standard Room', 'standard-room-h2', 4812, 2, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(4, 'Deluxe Room', 'deluxe-room-h2', 8230, 2, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(5, 'Standard Room', 'standard-room-h3', 3749, 3, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(6, 'Deluxe Room', 'deluxe-room-h3', 7340, 3, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(7, 'Standard Room', 'standard-room-h4', 3599, 4, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(8, 'Deluxe Room', 'deluxe-room-h4', 9518, 4, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(9, 'Standard Room', 'standard-room-h5', 4931, 5, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(10, 'Deluxe Room', 'deluxe-room-h5', 11585, 5, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(11, 'Standard Room', 'standard-room-h6', 5539, 6, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(12, 'Deluxe Room', 'deluxe-room-h6', 11548, 6, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(13, 'Standard Room', 'standard-room-h7', 4760, 7, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(14, 'Deluxe Room', 'deluxe-room-h7', 7510, 7, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(15, 'Standard Room', 'standard-room-h8', 5607, 8, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(16, 'Deluxe Room', 'deluxe-room-h8', 5835, 8, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(17, 'Standard Room', 'standard-room-h9', 4791, 9, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(18, 'Deluxe Room', 'deluxe-room-h9', 9633, 9, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(19, 'Standard Room', 'standard-room-h10', 4129, 10, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(20, 'Deluxe Room', 'deluxe-room-h10', 7277, 10, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(21, 'Standard Room', 'standard-room-h11', 4433, 11, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(22, 'Deluxe Room', 'deluxe-room-h11', 6190, 11, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(23, 'Standard Room', 'standard-room-h12', 4025, 12, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(24, 'Deluxe Room', 'deluxe-room-h12', 7877, 12, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(25, 'Standard Room', 'standard-room-h13', 3627, 13, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(26, 'Deluxe Room', 'deluxe-room-h13', 11370, 13, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(27, 'Standard Room', 'standard-room-h14', 3683, 14, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(28, 'Deluxe Room', 'deluxe-room-h14', 9666, 14, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(29, 'Standard Room', 'standard-room-h15', 4157, 15, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(30, 'Deluxe Room', 'deluxe-room-h15', 8837, 15, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(31, 'Standard Room', 'standard-room-h16', 3366, 16, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(32, 'Deluxe Room', 'deluxe-room-h16', 11948, 16, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(33, 'Standard Room', 'standard-room-h17', 4601, 17, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(34, 'Deluxe Room', 'deluxe-room-h17', 8155, 17, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(35, 'Standard Room', 'standard-room-h18', 4224, 18, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(36, 'Deluxe Room', 'deluxe-room-h18', 10475, 18, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(37, 'Standard Room', 'standard-room-h19', 3515, 19, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(38, 'Deluxe Room', 'deluxe-room-h19', 10260, 19, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(39, 'Standard Room', 'standard-room-h20', 3904, 20, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', '2025-11-29 00:30:12', '2025-11-29 00:30:12'),
-(40, 'Deluxe Room', 'deluxe-room-h20', 7610, 20, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', '2025-11-29 00:30:12', '2025-11-29 00:30:12');
+INSERT INTO `rooms` (`id`, `room_name`, `room_slug`, `price`, `hotel_id`, `amenities`, `description`, `min_adult`, `max_adult`, `min_infants`, `max_infants`, `min_children`, `max_children`, `max_occupancy`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'King room', 'king-room', 4946.00, 1, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(2, 'Twin room', 'twin-room', 6556.00, 1, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(3, 'King room', 'king-room', 3784.00, 2, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(4, 'Twin room', 'twin-room', 10440.00, 2, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(5, 'King room', 'king-room', 5295.00, 3, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(6, 'Twin room', 'twin-room', 10170.00, 3, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(7, 'King room', 'king-room', 4147.00, 4, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(8, 'Twin room', 'twin-room', 9089.00, 4, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(9, 'King room', 'king-room', 4215.00, 5, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(10, 'Twin room', 'twin-room', 10141.00, 5, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(11, 'King room', 'king-room', 3782.00, 6, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(12, 'Twin room', 'twin-room', 5576.00, 6, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(13, 'King room', 'king-room', 4403.00, 7, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(14, 'Twin room', 'twin-room', 9282.00, 7, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(15, 'King room', 'king-room', 3811.00, 8, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(16, 'Twin room', 'twin-room', 11167.00, 8, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(17, 'King room', 'king-room', 2616.00, 9, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(18, 'Twin room', 'twin-room', 5209.00, 9, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(19, 'King room', 'king-room', 2570.00, 10, '[\"Air Conditioning\", \"Free Wi-Fi\", \"Television\", \"Work Desk\"]', 'A comfortable standard room with essential amenities.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18'),
+(20, 'Twin room', 'twin-room', 10647.00, 10, '[\"Mini Bar\", \"Room Heater\", \"Premium Bedding\", \"City View\"]', 'Spacious deluxe room with premium features.', 1, NULL, 0, NULL, 0, NULL, NULL, 'active', '2025-12-29 23:53:18', '2025-12-29 23:53:18');
 
 -- --------------------------------------------------------
 
@@ -539,22 +508,88 @@ CREATE TABLE IF NOT EXISTS `rooms_catagory` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `site_settings`
+--
+
+DROP TABLE IF EXISTS `site_settings`;
+CREATE TABLE IF NOT EXISTS `site_settings` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `setting_key` varchar(150) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Setting identifier (ex: site_name)',
+  `value` text COLLATE utf8mb4_general_ci,
+  `type` enum('string','text','number','boolean','json') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'string',
+  `setting_group` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'general',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `setting_key` (`setting_key`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `site_settings`
+--
+
+INSERT INTO `site_settings` (`id`, `setting_key`, `value`, `type`, `setting_group`, `created_at`, `updated_at`) VALUES
+(1, 'site_name', 'FireBnB', 'string', 'general', NULL, NULL),
+(2, 'site_version', '2.5.0', 'string', 'general', NULL, NULL),
+(3, 'site_email', 'support@firebnb.com', 'string', 'email', NULL, NULL),
+(4, 'site_phone', '+1234567890', 'string', 'phone', NULL, NULL),
+(5, 'site_whatsapp', '+1234567890', 'string', 'whatsapp', NULL, NULL),
+(6, 'currency_method', '{\"currency\":\"usd\",\"symbol\":\"$\"}', 'json', 'payment', NULL, NULL),
+(7, 'stripe_keys', '{\"key\":\"key\",\"secret\":\"secret\"}', 'json', 'payment', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `travellers`
+--
+
+DROP TABLE IF EXISTS `travellers`;
+CREATE TABLE IF NOT EXISTS `travellers` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int UNSIGNED DEFAULT NULL,
+  `full_name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `age` tinyint UNSIGNED DEFAULT NULL COMMENT 'Age in years (0–100)',
+  `type` enum('adult','child','infant') COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id_full_name_type` (`user_id`,`full_name`,`type`),
+  KEY `user_id_type` (`user_id`,`type`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `travellers`
+--
+
+INSERT INTO `travellers` (`id`, `user_id`, `full_name`, `age`, `type`, `created_at`, `updated_at`) VALUES
+(1, 1, 'lipika halder', 24, 'adult', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `email` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `remember_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `email` varchar(191) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password_hash` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remember_token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `is_verified` tinyint(1) DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `name`, `password_hash`, `remember_token`, `is_verified`, `created_at`, `updated_at`) VALUES
+(1, 'admin@test.com', 'admin', '$2y$10$9lwK0HlSNO.puMECc9CKMObnyQ2BhDGEmf/jJ2dfp.tPYtuNCTiia', NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -566,22 +601,15 @@ DROP TABLE IF EXISTS `user_email_verifications`;
 CREATE TABLE IF NOT EXISTS `user_email_verifications` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `otp_code` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `otp_code` varchar(6) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `expires_at` datetime NOT NULL,
-  `type` enum('otp','magic_link','mix') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `type` enum('otp','magic_link','mix') COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_email_verifications_user_id_foreign` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user_email_verifications`
---
-
-INSERT INTO `user_email_verifications` (`id`, `user_id`, `token`, `otp_code`, `expires_at`, `type`, `created_at`, `updated_at`) VALUES
-(2, 2, '390ab060a67141c9a0613b47368f2e2222d3b23e9093165a84e84732437c2dd5', '287748', '2025-11-27 01:09:56', 'mix', '2025-11-27 01:04:56', '2025-11-27 01:04:56');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

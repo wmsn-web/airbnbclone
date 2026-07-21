@@ -164,26 +164,57 @@ function timeConvert($dbTime)
                                     <div class="col-sm-6 col-lg-3">
                                         <label class="fw-bold text-body-tertiary mb-1" for="checkIn">Check in</label>
                                         <div class="form-icon-container flatpickr-input-container">
-                                            <input class="form-control form-icon-input datetimepicker" id="checkIn" type="text" name="startDate" placeholder="<?= date('d/m/Y') ?>" />
+                                            <input class="form-control form-icon-input datetimepicker" id="checkIn" type="text" name="checkIn" placeholder="<?= date('Y/m/d') ?>" value="<?= date('Y/m/d') ?>" />
                                             <span class="fa-solid fa-calendar text-body fs-9 form-icon"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-lg-3">
                                         <label class="fw-bold text-body-tertiary mb-1" for="checkOut">Check out</label>
                                         <div class="form-icon-container flatpickr-input-container">
-                                            <input class="form-control form-icon-input datetimepicker" id="checkOut" type="text" name="endDate" placeholder="<?= date('d/m/Y') ?>" />
+                                            <input class="form-control form-icon-input datetimepicker" id="checkOut" type="text" name="checkOut" placeholder="<?= date('Y/m/d') ?>" value="<?= date('Y/m/d') ?>" />
                                             <span class="fa-solid fa-calendar text-body fs-9 form-icon"></span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 col-lg-3">
+                                    <div class="col-sm-3 col-lg-2">
                                         <label class="fw-bold text-body-tertiary mb-1">Adults</label>
                                         <div class="input-group gap-2" data-quantity="data-quantity">
-                                            <button class="btn btn-phoenix-primary rounded px-3" data-type="minus"><span class="fa-solid fa-minus"></span></button>
-                                            <input class="form-control border-translucent input-spin-none text-center rounded" id="adult" type="number" value="2" />
-                                            <button class="btn btn-phoenix-primary rounded px-3" data-type="plus"><span class="fa-solid fa-plus"></span></button>
+                                            <button class="btn btn-phoenix-primary rounded px-3" data-type="minus">
+                                                <span class="fa-solid fa-minus"></span>
+                                            </button>
+                                            <input class="form-control border-translucent input-spin-none text-center rounded" id="adult" type="number" value="2" min="1" />
+                                            <button class="btn btn-phoenix-primary rounded px-3" data-type="plus">
+                                                <span class="fa-solid fa-plus"></span>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="col-sm-auto ms-auto align-self-end"><button class="btn btn-primary w-100">Update Results</button></div>
+                                    <div class="col-sm-3 col-lg-2">
+                                        <label class="fw-bold text-body-tertiary mb-1">Infants</label>
+                                        <div class="input-group gap-2" data-quantity="data-quantity">
+                                            <button class="btn btn-phoenix-primary rounded px-3" data-type="minus">
+                                                <span class="fa-solid fa-minus"></span>
+                                            </button>
+                                            <input class="form-control border-translucent input-spin-none text-center rounded" id="infants" type="number" value="0" min="0" />
+                                            <button class="btn btn-phoenix-primary rounded px-3" data-type="plus">
+                                                <span class="fa-solid fa-plus"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-lg-2">
+                                        <label class="fw-bold text-body-tertiary mb-1">Children</label>
+                                        <div class="input-group gap-2" data-quantity="data-quantity">
+                                            <button class="btn btn-phoenix-primary rounded px-3" data-type="minus">
+                                                <span class="fa-solid fa-minus"></span>
+                                            </button>
+                                            <input class="form-control border-translucent input-spin-none text-center rounded" id="children" type="number" value="0" min="0" />
+                                            <button class="btn btn-phoenix-primary rounded px-3" data-type="plus">
+                                                <span class="fa-solid fa-plus"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-none col-sm-auto ms-auto align-self-end ">
+                                        <button class="btn btn-primary w-100">Update Results</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -210,8 +241,11 @@ function timeConvert($dbTime)
                                         <p class="mb-0"><?= $room['description'] ?></p>
                                     </div>
                                     <div class="col-lg-4 col-xxl-5">
-                                        <h3 class="mb-2 d-flex align-items-center justify-content-lg-end gap-2"><span class="fs-9 text-body-quaternary fw-normal text-decoration-line-through">$1,456.65</span>$<?= $room['price'] ?></h3>
-                                        <h5 class="text-body text-lg-end fw-normal">+$123 for tax and fees</h5>
+                                        <?php
+                                        $cm = setting('currency_method');
+                                        $symbol = $cm['symbol'] ?>
+                                        <h3 class="mb-2 d-flex align-items-center justify-content-lg-end gap-2"><span class="fs-9 text-body-quaternary fw-normal text-decoration-line-through"><?= $symbol ?>1,456.65</span><?= $symbol ?><?= $room['price'] ?></h3>
+                                        <h5 class="text-body text-lg-end fw-normal">+<?= $symbol ?>123 for tax and fees</h5>
                                     </div>
                                 </div>
                                 <div class="row g-3">
@@ -248,17 +282,12 @@ function timeConvert($dbTime)
                                             <button class="btn btn-outline-primary w-100 mt-3 book-room"
                                                 data-hotel-name="<?= esc($hotel['property_name_slug']); ?>"
                                                 data-room-id="<?= $room['id']; ?>"
-                                                data-room-name="<?= esc($room['room_slug']); ?>"
+                                                data-room-slug="<?= esc($room['room_slug']); ?>"
                                                 data-room-price="<?= esc($room['price']); ?>"
 
                                                 data-hotel-id="<?= esc($hotel['id']); ?>"
                                                 data-room-id="<?= $room['id']; ?>"
-                                                data-room-price="<?= esc($room['price']); ?>"
-                                                data-room-in="<?= esc($startDate ?? ''); ?>"
-                                                data-room-out="<?= esc($endDate ?? ''); ?>"
-                                                data-room-adults="<?= esc($query['adults'] ?? ''); ?>"
-                                                data-room-infants="<?= esc($query['infants'] ?? ''); ?>"
-                                                data-room-children="<?= esc($query['children'] ?? ''); ?>">Book room</button>
+                                                data-room-price="<?= esc($room['price']); ?>">Book room</button>
                                             <a class="btn btn-primary w-100 mt-3 add-to-cart" href="<?= base_url('cart/addroom/' . $room['id']) ?>">Add to cart</a>
                                         </div>
                                     </div>
@@ -735,7 +764,7 @@ function timeConvert($dbTime)
     document.addEventListener("DOMContentLoaded", () => {
         flatpickr('.datetimepicker', {
             mode: "single",
-            dateFormat: "d/m/Y",
+            dateFormat: "Y/m/d",
             disableMobile: true,
             minDate: "today",
             maxDate: new Date().fp_incr(180),
@@ -743,59 +772,82 @@ function timeConvert($dbTime)
             yearSelectorType: "static"
         });
         const addToCartBtns = document.querySelectorAll('.add-to-cart');
-        if (addToCartBtns) {
-            addToCartBtns.forEach(btn => {
-                btn.addEventListener('click', async function(e) {
-                    e.preventDefault();
 
-                    const dataToSend = {
-                        startDate: "<?= $startDate ?? '' ?>",
-                        endDate: "<?= $endDate ?? '' ?>",
-                        adults: "<?= $query['adults'] ?? 0 ?>",
-                        infants: "<?= $query['infants'] ?? 0 ?>",
-                        children: "<?= $query['children'] ?? 0 ?>",
-                    };
+        if (!addToCartBtns.length) return;
 
-                    const addToSession = await fetch(btn.getAttribute('href'), {
+        const getValue = (id, fallback = '') =>
+            document.getElementById(id)?.value || fallback;
+
+        addToCartBtns.forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+
+                const payload = {
+                    check_in: getValue('checkIn'),
+                    check_out: getValue('checkOut'),
+                    adults: getValue('adult') || parseInt(getValue('adult', 1), 10),
+                    children: getValue('children') || parseInt("<?= $query['children'] ?? 0 ?>", 10),
+                    infants: getValue('infants') || parseInt("<?= $query['infants'] ?? 0 ?>", 10),
+                };
+                console.log(payload);
+
+                // Basic validation
+                if (!payload.check_in || !payload.check_out) {
+                    notyf.open({
+                        type: 'error',
+                        message: 'Please select check-in and check-out dates'
+                    });
+                    return;
+                }
+
+                try {
+                    const response = await fetch(btn.href, {
                         method: 'POST',
                         headers: {
-                            "Content-Type": "application/json",
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
                         },
-                        body: JSON.stringify(dataToSend)
+                        body: JSON.stringify(payload),
                     });
 
-                    const resp = await addToSession.json();
+                    const result = await response.json();
 
-
-                    if (resp.success) {
+                    if (result.success) {
                         notyf.open({
                             type: 'success',
-                            message: "Room added to cart!"
+                            message: result.message || 'Room added to cart!'
                         });
                     } else {
-                        notyf.open({
-                            type: 'error',
-                            message: "Failed to add room to cart!"
-                        });
+                        throw new Error(result.message || 'Add to cart failed');
                     }
-                });
+                } catch (error) {
+                    console.error(error);
+                    notyf.open({
+                        type: 'error',
+                        message: error.message || 'Something went wrong'
+                    });
+                }
             });
-        }
+        });
 
         function getRoomPayload(btn) {
             // prefer dataset, fallback to page-level inputs (if available)
             const hotelId = btn.dataset.hotelId;
             const roomId = btn.dataset.roomId;
+            const roomSlug = btn.dataset.roomSlug;
             const roomPrice = btn.dataset.roomPrice;
-            const checkIn = btn.dataset.roomIn;
-            const checkOut = btn.dataset.roomOut;
-            const adults = btn.dataset.roomAdults;
-            const infants = btn.dataset.roomInfants;
-            const children = btn.dataset.roomChildren;
+            const checkIn = getValue('checkIn');
+            const checkOut = getValue('checkOut');
+            const adults = getValue('adult');
+            const infants = getValue('infants');
+            const children = getValue('children');
+
+
 
             return {
                 hotelId,
                 roomId,
+                roomSlug,
                 roomPrice,
                 checkIn,
                 checkOut,
@@ -809,11 +861,17 @@ function timeConvert($dbTime)
             if (!btn) return;
 
             const payload = getRoomPayload(btn);
-
+            if (!payload.checkIn || !payload.checkOut) {
+                notyf.open({
+                    type: 'error',
+                    message: 'Please select check-in and check-out dates'
+                });
+                return;
+            }
             const qs = new URLSearchParams(payload).toString();
 
             // correct URL format
-            const url = `<?= base_url('hotel') ?>/${payload.roomId}/checkout?${qs}`;
+            const url = `<?= base_url('hotel') ?>/${payload.roomSlug}/checkout?${qs}`;
 
             location.href = url;
         });

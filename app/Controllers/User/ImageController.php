@@ -32,7 +32,7 @@ class ImageController extends Controller
         return $this->serveImage($filePath);
     }
 
-    protected function serveImage(string $filePath)
+    protected function serveImage($filePath)
     {
         if (!is_file($filePath)) {
             throw PageNotFoundException::forPageNotFound();

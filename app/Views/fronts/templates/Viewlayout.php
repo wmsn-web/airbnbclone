@@ -85,7 +85,7 @@
     </style>
     <?= $this->renderSection('head') ?>
     <link href="<?= base_url('vendors/swiper/swiper-bundle.min.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/custom/custom.css') . '?v=' . env('style.hard.reload'); ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/custom/custom.css') . '?v=' . setting('site_version', env('style.hard.reload')) ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -101,7 +101,7 @@
             <div class="container-medium d-flex align-items-center justify-content-between">
                 <a class="btn btn-link p-0 text-body d-none d-md-flex text-decoration-none" href="<?= base_url() ?>">
                     <img src="<?= base_url('assets/img/icons/logo.png'); ?>" alt="phoenix" width="27" />
-                    <h5 class="logo-text ms-2">Firebnb</h5>
+                    <h5 class="logo-text ms-2"><?= setting('site_name', 'Firebnb') ?></h5>
                 </a>
                 <div class="d-flex align-items-center gap-2">
                     <div class="dropdown">
@@ -109,24 +109,24 @@
                             <span class="fas fa-ellipsis-h"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" style="z-index: 9999">
-                            <li><a class="dropdown-item" href="#!"><span class="fa-brands fa-whatsapp me-2"></span>+01 123 456 7890</a></li>
-                            <li><a class="dropdown-item" href="#!"><span class="fa fa-phone me-2"></span>+01 123 456 7890</a></li>
+                            <li><a class="dropdown-item" href="#!"><span class="fa-brands fa-whatsapp me-2"></span><?= setting('site_whatsapp', '+01123581321') ?></a></li>
+                            <li><a class="dropdown-item" href="tel:<?= setting('site_phone', '+01123581321') ?>"><span class="fa fa-phone me-2"></span><?= setting('site_phone', '+01123581321') ?></a></li>
                             <li><a class="dropdown-item" href="<?= base_url('contact') ?>">Contact</a></li>
                         </ul>
                     </div>
                     <a class="d-flex d-md-none lh-1 text-body-tertiary fw-semibold fs-8" href="<?= base_url('cart') ?>" title="cart">
-                        <i class="fas fa-bookmark"></i>
+                        <i class="fa fa-shopping-cart"></i>
                     </a>
                 </div>
                 <ul class="d-none d-md-flex align-items-center gap-5 list-unstyled mb-0">
                     <li>
-                        <a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+01123581321">
-                            <span class="fa-brands fa-whatsapp me-2"></span>+01 123 456 7890
+                        <a class="lh-1 text-body-tertiary fw-semibold fs-9" href="#!">
+                            <span class="fa-brands fa-whatsapp me-2"></span><?= setting('site_whatsapp', '+01123581321') ?>
                         </a>
                     </li>
                     <li>
-                        <a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:+01123581321">
-                            <span class="fa fa-phone me-2"></span>+01 123 456 7890
+                        <a class="lh-1 text-body-tertiary fw-semibold fs-9" href="tel:<?= setting('site_phone', '+01123581321') ?>">
+                            <span class="fa fa-phone me-2"></span><?= setting('site_phone', '+01123581321') ?>
                         </a>
                     </li>
                     <li>
@@ -134,7 +134,7 @@
                     </li>
                     <li>
                         <a class="lh-1 text-body-tertiary fw-semibold fs-8" href="<?= base_url('cart') ?>" title="cart">
-                            <i class="fas fa-bookmark"></i>
+                            <i class="fa fa-shopping-cart"></i>
                         </a>
                     </li>
                     <?php if (session()->has('user_id')): ?>
@@ -252,7 +252,7 @@
                 <div class="d-flex d-md-none align-items-center gap-2 gap-sm-3 gap-md-4 my-2 order-lg-1">
                     <div class="d-flex align-items-center">
                         <img src="<?= base_url('assets/img/icons/logo.png'); ?>" alt="phoenix" width="27" />
-                        <h5 class="logo-text ms-2">Firebnb</h5>
+                        <h5 class="logo-text ms-2"><?= setting('site_name', 'Firebnb') ?></h5>
                     </div>
                 </div>
                 <button class="navbar-toggler fs-8 ps-1 ps-sm-3 pe-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -338,7 +338,7 @@
                 href="">
                 <div class="d-flex align-items-center"><img src="<?= base_url() ?>assets/img/icons/logo.png" alt="phoenix"
                         width="27" />
-                    <h5 class="logo-text ms-2">firebnb</h5>
+                    <h5 class="logo-text ms-2"><?= setting('site_name', 'Firebnb') ?></h5>
                 </div>
             </a>
             <ul class="d-none d-md-flex gap-5 list-unstyled mb-0">
@@ -356,14 +356,14 @@
             <div class="row g-0 justify-content-between align-items-center h-100">
                 <div class="col-12 col-sm-auto text-center">
                     <p class="mb-0 mt-2 mt-sm-0 text-body">
-                        <br class="d-sm-none" />&copy; <?= date('Y') ?> <a class="mx-1" href="<?= base_url('admin') ?>">Firebnb</a>
+                        <br class="d-sm-none" />&copy; <?= date('Y') ?> <a class="mx-1" href="<?= base_url('admin') ?>"><?= setting('site_name', 'Firebnb') ?></a>
                         <!-- <span class="d-none d-sm-inline-block"></span>
                     <span class="d-none d-sm-inline-block mx-1">|</span> -->
                         All Rights Reserved.
                     </p>
                 </div>
                 <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 text-body-tertiary text-opacity-85">v2.3.5</p>
+                    <p class="mb-0 text-body-tertiary text-opacity-85">V<?= setting('site_version', env('style.hard.reload')) ?></p>
                 </div>
             </div>
         </footer>
@@ -477,6 +477,18 @@
         </script>
     <?php endif; ?>
     <?= $this->include('fronts/user/components/Modal-auth-js'); ?>
+    <?php if (session()->get('force_login_modal')): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const loginModalEl = document.getElementById('loginModel');
+                if (loginModalEl) {
+                    const modal = new bootstrap.Modal(loginModalEl);
+                    modal.show();
+                }
+            });
+        </script>
+        <?php session()->remove('force_login_modal'); ?>
+    <?php endif; ?>
     <?= $this->renderSection('script') ?>
 </body>
 

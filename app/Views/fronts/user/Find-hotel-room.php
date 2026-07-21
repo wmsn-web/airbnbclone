@@ -63,9 +63,12 @@
                                         <p class="mb-0"><?= $room['description'] ?></p>
                                     </div>
                                     <div class="col-lg-4 col-xxl-5">
+                                        <?php
+                                        $cm = setting('currency_method');
+                                        $symbol = $cm['symbol'] ?>
                                         <h3 class="mb-2 d-flex align-items-center justify-content-lg-end gap-2">
                                             <!-- <span class="fs-9 text-body-quaternary fw-normal text-decoration-line-through">$1,456.65</span> -->
-                                            <?= $room['price'] ?>
+                                            <?= $cm['symbol'] ?><?= $room['price'] ?> / Night
                                         </h3>
                                         <!-- <h5 class="text-body text-lg-end fw-normal">+$123 for tax and fees</h5> -->
                                     </div>
@@ -108,14 +111,19 @@
                                         <div class="d-flex gap-1">
                                             <button class="btn btn-outline-primary w-100 mt-3 book-room" type="submit"
                                                 data-hotel-id="<?= esc($hotel['id']); ?>"
-                                                data-room-id="<?= $room['id']; ?>"
+                                                data-room-slug="<?= $room['room_slug']; ?>"
                                                 data-room-price="<?= esc($room['price']); ?>"
                                                 data-room-in="<?= esc($startDate); ?>"
                                                 data-room-out="<?= esc($endDate); ?>"
                                                 data-room-adults="<?= esc($query['adults']); ?>"
                                                 data-room-infants="<?= esc($query['infants']); ?>"
                                                 data-room-children="<?= esc($query['children']); ?>">Book now</button>
-                                            <a class="btn btn-primary w-100 mt-3 add-to-cart" href="<?= base_url('cart/addroom/' . $room['id']) ?>">Add to cart</a>
+                                            <a class="btn btn-primary w-100 mt-3 add-to-cart" href="<?= base_url('cart/addroom/' . $room['id']) ?>"
+                                                data-room-in="<?= esc($startDate) ?>"
+                                                data-room-out="<?= esc($endDate) ?>"
+                                                data-room-adults="<?= esc($query['adults'] ?? 1) ?>"
+                                                data-room-infants="<?= esc($query['infants'] ?? 0) ?>"
+                                                data-room-children="<?= esc($query['children'] ?? 0) ?>">Add to cart</a>
                                         </div>
                                     </div>
                                 </div>
@@ -158,8 +166,8 @@
                     e.preventDefault();
 
                     const dataToSend = {
-                        startDate: "<?= $startDate ?? '' ?>",
-                        endDate: "<?= $endDate ?? '' ?>",
+                        check_in: "<?= $startDate ?? '' ?>",
+                        check_out: "<?= $endDate ?? '' ?>",
                         adults: "<?= $query['adults'] ?? 0 ?>",
                         infants: "<?= $query['infants'] ?? 0 ?>",
                         children: "<?= $query['children'] ?? 0 ?>",
@@ -194,7 +202,7 @@
         function getRoomPayload(btn) {
             // prefer dataset, fallback to page-level inputs (if available)
             const hotelId = btn.dataset.hotelId;
-            const roomId = btn.dataset.roomId;
+            const roomSlug = btn.dataset.roomSlug;
             const roomPrice = btn.dataset.roomPrice;
             const checkIn = btn.dataset.roomIn;
             const checkOut = btn.dataset.roomOut;
@@ -204,7 +212,7 @@
 
             return {
                 hotelId,
-                roomId,
+                roomSlug,
                 roomPrice,
                 checkIn,
                 checkOut,
@@ -222,7 +230,7 @@
             const qs = new URLSearchParams(payload).toString();
 
             // correct URL format
-            const url = `<?= base_url('hotel') ?>/${payload.roomId}/checkout?${qs}`;
+            const url = `<?= base_url('hotel') ?>/${payload.roomSlug}/checkout?${qs}`;
 
             location.href = url;
         });
